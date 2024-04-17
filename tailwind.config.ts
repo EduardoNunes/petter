@@ -22,7 +22,7 @@ const config: Config = {
       },
       colors: {
         "azulPalido": "#AED9E0",
-        "amarelo": "#FDD56A",
+        "amareloPadrao": "#FDD56A",
         "verdePastel": "#B5EAD7",
         "rosaClaro": "#F9B3C1",
         
