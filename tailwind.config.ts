@@ -40,6 +40,9 @@ const config: Config = {
         "rosaForteSombra": "#D38CB4",
         "brancoSombra": "#BEE6F2",
       },
+      dropShadow: {
+        "sombra": "0px 10px 1px rgba(116, 147, 100, 1)"
+      },
     },
   },
   plugins: [],

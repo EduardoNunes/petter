@@ -1,0 +1,41 @@
+@keyframes yourAnimation{
+    0% {
+        transform:  translate(0,0);
+    }
+    25% {
+        transform:  translate(0,-20px) rotate(5deg);
+    }
+    50% {
+        transform:  translate(0,-5px);
+    }
+    75% {
+        transform:  translate(0,-15px) rotate(-5deg);
+    }
+    100% {
+        transform:  translate(0,0);
+    }
+}
+
+.animation1 {
+    animation: yourAnimation 3s ease-in-out 0s infinite normal none;
+}
+
+.animation2 {
+    animation: yourAnimation 3s ease-in-out .3s infinite normal none;
+}
+
+.animation3 {
+    animation: yourAnimation 3s ease-in-out .6s infinite normal none;
+}
+
+.animation4 {
+    animation: yourAnimation 3s ease-in-out .9s infinite normal none;
+}
+
+.animation5 {
+    animation: yourAnimation 3s ease-in-out 1.2s infinite normal none;
+}
+
+.animation6 {
+    animation: yourAnimation 3s ease-in-out 1.5s infinite normal none;
+}
