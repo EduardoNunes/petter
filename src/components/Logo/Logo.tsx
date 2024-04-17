@@ -10,7 +10,7 @@ export default function Logo() {
           <span className="text-extraLarge text-rosaForteSombra">T</span>
           <span className="text-extraLarge text-azulEscuro">T</span>
           <span className="text-extraLarge text-amareloPadrao">e</span>
-          <span className="text-extraLarge text-verdeForteSombra">R</span>
+          <span className="text-extraLarge text-rosaForte">R</span>
         </div>
         <Image className="absolute top-10" src="/images/logo.png" width={200} height={200} alt="Logo" />
       </div>
