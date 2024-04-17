@@ -8,10 +8,37 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      fontFamily: {
+        secondary: [],
+      },
+      fontSize: {
+        smaller: "0.875rem",
+        small: "1rem",
+        medium: "1.25rem",
+        big: "1.5rem",
+        bigger: "1.75rem",
+        large: "2rem",
+        extraLarge: "3.5rem",
+      },
+      colors: {
+        "azulPalido": "#AED9E0",
+        "amarelo": "#FDD56A",
+        "verdePastel": "#B5EAD7",
+        "rosaClaro": "#F9B3C1",
+        
+        "azulEscuro": "#0098BA",
+        "amareloForte": "#FDF2A2",
+        "verdeForte": "#D7F677",
+        "azulForte": "#69E5FD",
+        "rosaForte": "#FBB4D4",
+        "branco": "#FDFEFF",
+
+        "azulEscuroSombra": "#077493",
+        "amareloForteSombra": "#FDF2A2",
+        "verdeForteSombra": "#A0BD3F",
+        "azulForteSombra": "#51BAD0",
+        "rosaForteSombra": "#D38CB4",
+        "brancoSombra": "#BEE6F2",
       },
     },
   },
