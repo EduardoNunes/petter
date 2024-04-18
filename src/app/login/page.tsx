@@ -5,27 +5,35 @@ import FormLogin from "./FormLogin";
 
 export default function Login() {
   return (
-    <div className="w-[90%] h-full">
-      <div className="">
+    <div className="flex flex-col justify-center w-[90%] h-[90%]">
+      <div className="flex flex-col items-center mb-8">
         <Petter />
+
+        <p className="font-secondary font-bold text-medium text-center mt-6 mb-8">
+          Vamos nos conectar?
+        </p>
+
+        <div className="w-full mb-3">
+          <Button text="Entrar com o Google" type="externalButton">
+            <Image
+              src="/images/google.png"
+              height={24}
+              width={24}
+              alt="icone Google"
+            />
+          </Button>
+        </div>
+
+        <Button text="Entrar com o Facebook" type="externalButton">
+          <Image
+            src="/images/facebook.png"
+            height={24}
+            width={24}
+            alt="icone Facebook"
+          />
+        </Button>
       </div>
-      <p className="font-secondary text-small">Vamos nos conectar?</p>
-      <Button text="Cadastrar com o Google" type="externalButton">
-        <Image
-          src="/images/google.png"
-          height={24}
-          width={24}
-          alt="icone Google"
-        />
-      </Button>
-      <Button text="Cadastrar com o Facebook" type="externalButton">
-        <Image
-          src="/images/facebook.png"
-          height={24}
-          width={24}
-          alt="icone Facebook"
-        />
-      </Button>
+
       <FormLogin />
     </div>
   );

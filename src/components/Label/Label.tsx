@@ -7,8 +7,10 @@ type LabelProps = {
 
 export const Label = ({ labelHtmlFor, children }: LabelProps) => {
   return (
-    <label htmlFor={labelHtmlFor} className="font-secondary">
-      {children}
-    </label>
+    <div className="font-bold">
+      <label htmlFor={labelHtmlFor} className="font-secondary">
+        {children}
+      </label>
+    </div>
   );
 };
