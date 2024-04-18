@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer/Footer";
-import Header from "@/components/Header/Header";
 import "./globals.css";
 
 export default function RootLayout({
@@ -9,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body>{children}</body>
+      <body className="flex justify-center items-center h-[100vh]">{children}</body>
     </html>
   );
 }

@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        secondary: [],
+        secondary: ["Arial"],
       },
       fontSize: {
         smaller: "0.875rem",
