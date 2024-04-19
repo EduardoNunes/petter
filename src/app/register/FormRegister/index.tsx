@@ -10,7 +10,7 @@ export default function FormRegister() {
         style={{ height: "calc(100% - 120px)" }}
       >
         <div className="mb-3">
-          <Label labelHtmlFor="text">Nome do Petter</Label>
+          <Label labelHtmlFor="nome">Nome do Petter</Label>
           <Input
             text="Digite o nome do Petter."
             type="text"
@@ -37,7 +37,7 @@ export default function FormRegister() {
           />
         </div>
         <div>
-          <Label labelHtmlFor="password">Confirmar senha</Label>
+          <Label labelHtmlFor="passwordRepeat">Confirmar senha</Label>
           <Input
             text="Repita a senha."
             type="password"

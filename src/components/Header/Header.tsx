@@ -1,5 +1,7 @@
 export default function Header() {
-    return(
-        <><h1>Header</h1></>
-    )
+  return (
+    <>
+      <h1 className="font-secondary">Header</h1>
+    </>
+  );
 }
