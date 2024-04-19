@@ -49,9 +49,9 @@ export default function FormRegister() {
       <div className="absolute bottom-[4vh] w-[90%]">
         <Button text="Entrar" type="internalButton" />
         <p className="mt-4 text-center font-secondary">
-          Não tem conta?{" "}
+          Já ppssui conta?{" "}
           <span className="text-azulEscuro font-secondary font-bold">
-            Cadastre-se!
+            Entrar!
           </span>
         </p>
       </div>

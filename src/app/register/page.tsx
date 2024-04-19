@@ -8,7 +8,7 @@ export default function Register() {
   return (
     <div className="flex flex-col justify-center w-[90%] h-[90%]">
       <div className="text-center">
-        <Header />
+        <Header text="Cadastro"/>
       </div>
       <div className="flex flex-col items-center mb-[6%]">
         <Petter />
