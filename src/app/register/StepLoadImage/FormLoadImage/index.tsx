@@ -37,7 +37,7 @@ export default function LoadImages() {
           capture="user"
         />
       </label>
-      <div className="flex flex-wrap justify-center max-h-[70%] gap-3 overflow-auto">
+      <div className="flex flex-wrap justify-center w-full max-h-[70%] gap-3 overflow-auto">
         {images.map((imageUrl, index) => (
           <div key={index} className="w-[140px] h-[100px] bg-slate-500">
             <img
