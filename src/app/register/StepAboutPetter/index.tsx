@@ -7,13 +7,16 @@ export default function AboutPetter() {
   return (
     <>
       <>
-        <p className="font-secondary pl-4 mb-4">
-          Nos conte sobre seu Petter. <br />
-          O que ele gosta de fazer? <br />
-          O que gosta de comer? <br />
-          Tem alguma profissão? <br />
-          Tem Peterzinhos? <br />
-        </p>
+        <div className="flex flex-col items-center font-secondary mb-10">
+          <p className="font-secondary">
+            Agora é hora de nos contar sobre seu Petter.
+          </p>
+          <p className="font-secondary">O que ele gosta de fazer? </p>
+          <p className="font-secondary">O que gosta de comer? </p>
+          <p className="font-secondary">Tem alguma profissão? </p>
+          <p className="font-secondary">Tem Peterzinhos? </p>
+          <p className="font-secondary">Seja criativo!</p>
+        </div>
       </>
       <TextArea />
       <div className="absolute w-[90%] bottom-[3%]">
