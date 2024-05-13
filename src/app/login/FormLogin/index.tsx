@@ -1,6 +1,7 @@
 import { Label } from "@/components/Label/Label";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
+import Link from "next/link";
 
 export default function FormLogin() {
   return (
@@ -29,8 +30,13 @@ export default function FormLogin() {
       <div className="absolute bottom-[4vh] w-[90%]">
         <Button text="Entrar" type="internalButton" />
         <p className="mt-4 text-center font-secondary">
-          Não tem conta?{" "}
-          <span className="text-azulEscuro font-secondary font-bold">Cadastre-se!</span>
+          Não tem conta?{" "}         
+            <Link
+              href="/register"
+              className="text-azulEscuro font-secondary font-bold"
+            >
+              Cadastre-se!
+            </Link>
         </p>
       </div>
     </form>
