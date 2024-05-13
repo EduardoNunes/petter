@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button/Button";
 import { useState } from "react";
 
 export default function LoadImages() {
@@ -17,15 +18,26 @@ export default function LoadImages() {
   };
 
   return (
-    <form>
-      <input
-        className="font-secondary"
-        type="file"
-        name="images"
-        onChange={uploadImage}
-        multiple
-      />
-      <div className="flex flex-wrap justify-center">
+    <form className="flex flex-col justify-center h-full">
+      <label
+        htmlFor="fileInput"
+        className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-[6%]"
+      >
+        <span className="flex items-center h-10 font-secondary font-bold">
+          Selecionar fotos
+        </span>
+        <input
+          id="fileInput"
+          type="file"
+          className="absolute inset-0 opacity-0 cursor-pointer block w-full h-10 font-secondary"
+          name="images"
+          onChange={uploadImage}
+          multiple
+          accept=".jpg, .jpeg"
+          capture="user"
+        />
+      </label>
+      <div className="flex flex-wrap justify-center h-[100%] bg-verdePastel overflow-auto">
         {images.map((imageUrl, index) => (
           <div key={index} className="w-[150px] h-[100px] m-3">
             <img
@@ -35,6 +47,9 @@ export default function LoadImages() {
             />
           </div>
         ))}
+      </div>
+      <div className="mt-[6%]">
+        <Button text="Continuar" type="internalButton" />
       </div>
     </form>
   );
