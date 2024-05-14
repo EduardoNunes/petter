@@ -1,0 +1,19 @@
+.colorful {
+  background: rgb(253, 213, 106);
+  background: linear-gradient(
+    90deg,
+    rgba(253, 213, 106, 1) 0%,
+    rgba(105, 229, 253, 1) 10%,
+    rgba(251, 180, 212, 1) 20%,
+    rgba(7, 116, 147, 1) 30%,
+    rgba(253, 242, 162, 1) 43%,
+    rgba(160, 189, 63, 1) 50%,
+    rgba(81, 186, 208, 1) 60%,
+    rgba(122, 144, 78, 1) 70%,
+    rgba(73, 166, 198, 1) 80%,
+    rgba(211, 140, 180, 1) 90%,
+    rgba(190, 230, 242, 1) 100%
+  );
+  color: transparent;
+  background-clip: text;
+}

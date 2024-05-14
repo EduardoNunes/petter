@@ -1,3 +1,4 @@
+import { useStepContext } from "@/context/useStepContext";
 import Image from "next/image";
 
 interface InputProps {
@@ -5,9 +6,14 @@ interface InputProps {
 }
 
 export default function Header({ text }: InputProps) {
+  const { handleToDecreaseCurrentStep } = useStepContext();
+
   return (
-    <div className="flex justify-between">
-      <div className="pl-5">
+    <div className="absolute flex justify-between top-5 w-[90%] h-10 bg-red">
+      <div
+        className="pl-2 cursor-pointer"
+        onClick={handleToDecreaseCurrentStep}
+      >
         <Image
           src="/images/arrowLeft.svg"
           width={12}
@@ -16,7 +22,7 @@ export default function Header({ text }: InputProps) {
         />
       </div>
       <h1 className="font-secondary font-bold text-center">{text}</h1>
-      <div className="pl-8"></div>
+      <div className="w-[20px]"></div>
     </div>
   );
 }

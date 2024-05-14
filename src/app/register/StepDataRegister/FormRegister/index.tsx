@@ -1,11 +1,14 @@
-import { Label } from "@/components/Label/Label";
-import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
+import Input from "@/components/Input/Input";
+import { Label } from "@/components/Label/Label";
+import { useStepContext } from "@/context/useStepContext";
 import Link from "next/link";
 
 export default function FormRegister() {
+  const { handleToAddCurrentStep } = useStepContext();
+
   return (
-    <form className="h-full">
+    <form className="h-full" onSubmit={handleToAddCurrentStep}>
       <div className="overflow-y-auto" style={{ height: "calc(100% - 120px)" }}>
         <div className="mb-3">
           <Label labelHtmlFor="nome">Nome do Petter</Label>
@@ -47,7 +50,7 @@ export default function FormRegister() {
       <div className="absolute bottom-[4vh] w-[90%]">
         <Button text="Entrar" type="internalButton" />
         <p className="mt-4 text-center font-secondary">
-          Já ppssui conta?{" "}
+          Já possui conta?{" "}
           <Link
             href="/login"
             className="text-azulEscuro font-secondary font-bold"

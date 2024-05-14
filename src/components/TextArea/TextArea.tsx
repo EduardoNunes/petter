@@ -17,7 +17,7 @@ export default function TextArea() {
       value={textValue}
       onChange={handleTextChange}
       placeholder="Fale sobre seu petter"
-      className="h-[200px] p-5 pt-2 pb-2 rounded-3xl border border-black border-solid font-secondary"
+      className="h-[200px] w-full p-5 pt-2 pb-2 rounded-3xl border border-black border-solid font-secondary"
     />
   );
 }

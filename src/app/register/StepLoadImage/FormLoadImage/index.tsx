@@ -1,10 +1,12 @@
 "use client";
 
 import Button from "@/components/Button/Button";
+import { useStepContext } from "@/context/useStepContext";
 import { useState } from "react";
 
 export default function LoadImages() {
   const [images, setImages] = useState<string[]>([]);
+  const { handleToAddCurrentStep } = useStepContext();
 
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -18,18 +20,24 @@ export default function LoadImages() {
   };
 
   return (
-    <form className="flex flex-col items-start h-[72%]">
+    <form
+      onSubmit={handleToAddCurrentStep}
+      className="flex flex-col items-start h-[72%]"
+    >
       <label
         htmlFor="fileInput"
         className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-[6%]"
       >
-        <span className="flex items-center h-10 font-secondary font-bold">
+        <span
+          className="flex items-center h-10 font-secondary font-bold"
+          onChange={uploadImage}
+        >
           Selecionar fotos
         </span>
         <input
           id="fileInput"
           type="file"
-          className="absolute inset-0 opacity-0 cursor-pointer block w-full h-10 font-secondary"
+          className="block w-0 h-0 font-secondary"
           name="images"
           onChange={uploadImage}
           multiple
@@ -37,7 +45,7 @@ export default function LoadImages() {
           capture="user"
         />
       </label>
-      <div className="flex flex-wrap justify-center w-full max-h-[70%] gap-3 overflow-auto">
+      <div className="flex flex-wrap justify-center w-full max-h-[75%] gap-3 overflow-auto">
         {images.map((imageUrl, index) => (
           <div key={index} className="w-[140px] h-[100px] bg-slate-500">
             <img
