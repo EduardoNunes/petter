@@ -47,7 +47,7 @@ export default function LoadImages() {
       </label>
       <div className="flex flex-wrap justify-center w-full max-h-[75%] gap-3 overflow-auto">
         {images.map((imageUrl, index) => (
-          <div key={index} className="w-[140px] h-[100px] bg-slate-500">
+          <div key={index} className="w-[140px] h-[100px]">
             <img
               src={imageUrl}
               alt={`Imagem ${index + 1}`}
