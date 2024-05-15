@@ -1,9 +1,15 @@
 import Button from "@/components/Button/Button";
 import "./color-fonte.css";
+import { useRouter } from "next/navigation";
 
 export default function Congratulations() {
   const namePetter = "Sr. Petter";
   const profileImage = "";
+  const router = useRouter();
+
+  const handleClickGoOn = () => {
+    router.push("/Notice");
+  };
 
   return (
     <div className="flex flex-col items-center justify-start h-[50%]">
@@ -15,7 +21,9 @@ export default function Congratulations() {
       <p className="font-secondary">Vamos fazer amigos?</p>
 
       <div className="absolute w-[90%] bottom-[3%]">
-        <Button text="Vamos lá!" type="internalButton" />
+        <div onClick={handleClickGoOn}>
+          <Button text="Vamos lá!" type="internalButton" />
+        </div>
       </div>
     </div>
   );

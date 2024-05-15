@@ -51,7 +51,7 @@ export default function FormRegister() {
         <Label labelHtmlFor="checkbox">
           <div className="flex items-start justify-center gap-5">
             <input type="checkbox" className="mt-[6px]" />
-            <p className="font-secondary mb-2">
+            <p className="font-secondary mb-[3%]">
               Aceito as políticas de privacidade.
             </p>
           </div>
