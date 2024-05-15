@@ -8,7 +8,7 @@ export default function Login() {
     <div className="flex items-center justify-center h-[100vh] w-[100vw]">
       <div className="h-90% w-[90%]">
         <div className="flex flex-col items-center mb-8">
-          <Petter />
+          <Petter fontSize="extraLarge" />
 
           <p className="font-secondary font-bold text-medium text-center mt-6 mb-8">
             Vamos nos conectar?

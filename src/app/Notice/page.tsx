@@ -9,7 +9,7 @@ export default function Notice() {
     <div className="flex justify-center items-center w-[100vw] h-[100vh]">
       <div className="flex flex-col items-center justify-around w-[90%] h-[70%]">
         <div className="flex flex-col items-center">
-          <Petter />
+          <Petter fontSize="extraLarge" />
           <h2 className="font-secondary text-center text-big mb-5">{`Seja bem vindo, ${namePetter}!`}</h2>
         </div>
         <div className="flex flex-col">

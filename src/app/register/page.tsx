@@ -3,7 +3,6 @@
 import Header from "@/components/Header/Header";
 import Petter from "@/components/Petter/Petter";
 import { useStepContext } from "@/context/useStepContext";
-import { useEffect } from "react";
 import AboutPetter from "./StepAboutPetter";
 import Congratulations from "./StepCongratulations";
 import FormRegister from "./StepDataRegister/FormRegister";
@@ -20,7 +19,7 @@ export default function Register() {
         <Header text="Cadastro" />
       </div>
       <div className="flex flex-col items-center mb-[6%]">
-        <Petter />
+        <Petter fontSize="extraLarge" />
         {currentStep === 0 && <InfosDataRegister />}
         {currentStep === 1 && <InfosLoadImage />}
       </div>
