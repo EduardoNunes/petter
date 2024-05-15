@@ -8,7 +8,7 @@ export default function Congratulations() {
   const router = useRouter();
 
   const handleClickGoOn = () => {
-    router.push("/Notice");
+    router.push("/notice");
   };
 
   return (

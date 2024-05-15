@@ -1,9 +1,18 @@
-import { Label } from "@/components/Label/Label";
-import Input from "@/components/Input/Input";
+"use client";
+
 import Button from "@/components/Button/Button";
-import Link from "next/link";
+import Input from "@/components/Input/Input";
+import { Label } from "@/components/Label/Label";
+import { useRouter } from "next/navigation";
 
 export default function FormLogin() {
+  const router = useRouter();
+
+  const handleClickGoOn = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    router.push("/register");
+  };
+
   return (
     <form>
       <div className="mb-3">
@@ -29,15 +38,16 @@ export default function FormLogin() {
       </div>
       <div className="absolute bottom-[4vh] w-[90%]">
         <Button text="Entrar" type="internalButton" />
-        <p className="mt-4 text-center font-secondary">
-          Não tem conta?{" "}         
-            <Link
-              href="/register"
-              className="text-azulEscuro font-secondary font-bold"
-            >
-              Cadastre-se!
-            </Link>
-        </p>
+        <div className="flex items-center justify-center mt-[3%] gap-1">
+          <p className="text-center font-secondary">Não tem conta? </p>
+          <button
+            type="button"
+            className="text-azulEscuro font-secondary font-bold"
+            onClick={handleClickGoOn}
+          >
+            Cadastre-se!
+          </button>
+        </div>
       </div>
     </form>
   );

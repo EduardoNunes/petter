@@ -6,10 +6,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br">
-      <body className="flex justify-center items-center h-[100vh]">
-        <StepProvider>{children}</StepProvider>
-      </body>
-    </html>
+    <div className="flex justify-center items-center h-[100vh] w-[100vw]">
+      <StepProvider>{children}</StepProvider>
+    </div>
   );
 }

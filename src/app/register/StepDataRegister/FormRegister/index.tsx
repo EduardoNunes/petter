@@ -3,9 +3,16 @@ import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import { useStepContext } from "@/context/useStepContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function FormRegister() {
   const { handleToAddCurrentStep } = useStepContext();
+  const router = useRouter();
+
+  const handleClickGoOn = (event: { preventDefault: () => void }) => {
+    event?.preventDefault();
+    router.push("login");
+  };
 
   return (
     <form className="h-full" onSubmit={handleToAddCurrentStep}>
@@ -59,13 +66,13 @@ export default function FormRegister() {
         <Button text="Cadastrar" type="internalButton" />
         <p className="mt-4 text-center font-secondary">
           Já possui conta?{" "}
-          <Link
-            href="/login"
+          <button
+            onClick={handleClickGoOn}
             className="text-azulEscuro font-secondary font-bold"
           >
             {" "}
             Entrar!
-          </Link>
+          </button>
         </p>
       </div>
     </form>

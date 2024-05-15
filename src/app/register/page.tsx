@@ -14,10 +14,6 @@ import InfosLoadImage from "./StepLoadImage/InfosLoadImage";
 export default function Register() {
   const { currentStep } = useStepContext();
 
-  useEffect(() => {
-    console.log("currentStep atualizado:", currentStep);
-  }, [currentStep]);
-
   return (
     <div className="flex flex-col justify-center w-[90%] h-[90%]">
       <div className="text-center">

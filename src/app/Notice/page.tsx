@@ -42,8 +42,8 @@ export default function Notice() {
             <div className="flex gap-5">
               <input type="checkbox" className="custom-checkbox mt-[6px]" />
               <p className="w-[90%] font-secondary mb-5">
-                Respeite todos. Estamos todos em busca de boas amizades e
-                experiências
+                Respeite todos. Estamos todos em busca de boas amizades e boas
+                experiências.
               </p>
             </div>
           </Label>
