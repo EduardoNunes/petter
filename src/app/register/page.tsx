@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/components/Header/Header";
-import Petter from "@/components/Petter/Petter";
+import Petter from "@/components/Petter/PetterColorful";
 import { useStepContext } from "@/context/useStepContext";
 import AboutPetter from "./StepAboutPetter";
 import Congratulations from "./StepCongratulations";

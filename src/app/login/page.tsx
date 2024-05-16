@@ -1,5 +1,5 @@
 import Button from "@/components/Button/Button";
-import Petter from "@/components/Petter/Petter";
+import Petter from "@/components/Petter/PetterColorful";
 import Image from "next/image";
 import FormLogin from "./FormLogin";
 

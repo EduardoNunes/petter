@@ -2,7 +2,6 @@ import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import { useStepContext } from "@/context/useStepContext";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function FormRegister() {

@@ -1,6 +1,6 @@
 import Button from "@/components/Button/Button";
 import { Label } from "@/components/Label/Label";
-import Petter from "@/components/Petter/Petter";
+import Petter from "@/components/Petter/PetterColorful";
 import "./checkbox-style.css";
 
 export default function Notice() {
