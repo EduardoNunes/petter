@@ -1,28 +1,36 @@
 import { useStepContext } from "@/context/useStepContext";
 import Image from "next/image";
 
-interface InputProps {
+interface HeaderProps {
+  showArrow?: boolean;
   text: string;
+  showContinue?: boolean;
 }
 
-export default function Header({ text }: InputProps) {
+export default function Header({
+  text,
+  showArrow = false,
+  showContinue = false,
+}: HeaderProps) {
   const { handleToDecreaseCurrentStep } = useStepContext();
 
   return (
-    <div className="absolute flex justify-between top-5 w-[90%] h-10 bg-red">
-      <div
-        className="pl-2 cursor-pointer"
-        onClick={handleToDecreaseCurrentStep}
-      >
-        <Image
-          src="/images/arrowLeft.svg"
-          width={12}
-          height={12}
-          alt="Throw back"
-        />
-      </div>
+    <div className="absolute flex justify-center items-center top-2 w-[90%] h-10 bg-red">
+      {showArrow && (
+        <button
+          className="absolute left-0 pl-2 cursor-pointer"
+          onClick={handleToDecreaseCurrentStep}
+        >
+          <Image
+            src="/images/arrowLeft.svg"
+            width={12}
+            height={12}
+            alt="Throw back"
+          />
+        </button>
+      )}
       <h1 className="font-secondary font-bold text-center">{text}</h1>
-      <div className="w-[20px]"></div>
+      {showContinue && <div className="absolute right-0 font-secondary">Continuar</div>}
     </div>
   );
 }

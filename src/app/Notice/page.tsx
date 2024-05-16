@@ -1,9 +1,19 @@
+"use client"
+
 import Button from "@/components/Button/Button";
 import { Label } from "@/components/Label/Label";
 import Petter from "@/components/Petter/PetterColorful";
 import "./checkbox-style.css";
+import { useRouter } from "next/navigation";
 
 export default function Notice() {
+  const router = useRouter();
+
+  const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    router.push("/home");
+  };
+
   const namePetter = "Sr. Petter";
   return (
     <div className="flex justify-center items-center w-[100vw] h-[100vh]">
@@ -12,7 +22,7 @@ export default function Notice() {
           <Petter fontSize="extraLarge" />
           <h2 className="font-secondary text-center text-big mb-5">{`Seja bem vindo, ${namePetter}!`}</h2>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-auto">
           <Label labelHtmlFor="checkbox">
             <div className="flex gap-5">
               <input type="checkbox" className="custom-checkbox mt-[6px]" />
@@ -57,7 +67,11 @@ export default function Notice() {
           </Label>
         </div>
         <div className="absolute bottom-[6%] w-[90%]">
-          <Button text="Continuar" type="internalButton" />
+          <Button
+            text="Continuar"
+            type="internalButton"
+            onClick={handleClickGoHome}
+          />
         </div>
       </div>
     </div>

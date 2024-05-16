@@ -16,7 +16,7 @@ export default function Register() {
   return (
     <div className="flex flex-col justify-center w-[90%] h-[90%]">
       <div className="text-center">
-        <Header text="Cadastro" />
+        <Header text="Cadastro" showArrow={true}/>
       </div>
       <div className="flex flex-col items-center mb-[6%]">
         <Petter fontSize="extraLarge" />

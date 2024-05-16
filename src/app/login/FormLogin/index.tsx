@@ -13,7 +13,7 @@ export default function FormLogin() {
     router.push("/register");
   };
 
-  const handleClickLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     router.push("/home");
   };
@@ -45,7 +45,7 @@ export default function FormLogin() {
         <Button
           text="Entrar"
           type="internalButton"
-          onClick={handleClickLogin}
+          onClick={handleClickGoHome}
         />
         <div className="flex items-center justify-center mt-[3%] gap-1">
           <p className="text-center font-secondary">Não tem conta? </p>
