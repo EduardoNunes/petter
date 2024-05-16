@@ -1,9 +1,9 @@
-import ContentCard from "./Components/Card.tsx/ContentCard/ContentCard";
+import Card from "./Components/Card.tsx/Card";
 
 export default function ContentHome() {
   return (
-    <div className="h-[100%] w-full bg-slate-500">
-      <ContentCard />
+    <div className="h-full w-full">
+      <Card />
     </div>
   );
 }

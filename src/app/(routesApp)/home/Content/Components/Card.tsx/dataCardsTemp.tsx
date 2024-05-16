@@ -1,21 +1,19 @@
 const dataCardTemp = [
   {
-    name: "Dognídeo",
-    image: (
-      <img
-        src="/dataTemp/dog.jpeg"
-        alt="Home"
-        style={{
-          width: "100%",
-          height: "100vw",
-          position: "absolute",
-          objectFit: "cover",
-          top: 0,
-          left: 0,
-        }}
-        className=""
-      />
-    ),
+    name: "Dog Nídeo",
+    imageSrc: "/dataTemp/dog.jpeg",
+  },
+  {
+    name: "Au fredo",
+    imageSrc: "/dataTemp/dog2.jpeg",
+  },
+  {
+    name: "Cara Melo",
+    imageSrc: "/dataTemp/dog3.jpeg",
+  },
+  {
+    name: "Pit Oco",
+    imageSrc: "/dataTemp/dog4.jpeg",
   },
 ];
 
