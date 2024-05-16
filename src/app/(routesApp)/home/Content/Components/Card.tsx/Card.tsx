@@ -1,4 +1,7 @@
+import Image from "next/image";
 import dataCardTemp from "./dataCardsTemp";
+import FooterCard from "./FooterCard/FooterCard";
+
 
 export default function Card() {
   return (
@@ -17,9 +20,10 @@ export default function Card() {
               left: 0,
             }}
           />
-          <div className="flex items-center h-8 mb-2">
-            <p>Fotter</p>
-          </div>
+          <FooterCard
+            loves={card.loves}
+            commentsLength={card.comments.length}
+          />
         </div>
       ))}
     </div>

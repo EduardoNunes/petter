@@ -1,3 +1,5 @@
+import React from "react";
+
 type ButtonType =
   | "externalButton"
   | "internalButton"
@@ -8,22 +10,27 @@ type ButtonType =
 interface ButtonProps {
   text: string;
   type: ButtonType;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function Button({
+const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   text,
   children,
   type,
-}: React.PropsWithChildren<ButtonProps>) {
+  onClick,
+}) => {
   return (
     <button
       className={`flex items-center justify-center h-10 w-full font-secondary rounded-3xl gap-3 
       ${type === "externalButton" ? "bg-azulPalido" : ""}
       ${type === "internalButton" ? "bg-azulForteSombra" : ""}
       `}
+      onClick={onClick}
     >
       {children}
       {text}
     </button>
   );
-}
+};
+
+export default Button;

@@ -8,9 +8,14 @@ import { useRouter } from "next/navigation";
 export default function FormLogin() {
   const router = useRouter();
 
-  const handleClickGoOn = (event: { preventDefault: () => void }) => {
+  const handleClickGoOn = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     router.push("/register");
+  };
+
+  const handleClickLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    router.push("/home");
   };
 
   return (
@@ -37,7 +42,11 @@ export default function FormLogin() {
         </p>
       </div>
       <div className="absolute bottom-[4vh] w-[90%]">
-        <Button text="Entrar" type="internalButton" />
+        <Button
+          text="Entrar"
+          type="internalButton"
+          onClick={handleClickLogin}
+        />
         <div className="flex items-center justify-center mt-[3%] gap-1">
           <p className="text-center font-secondary">Não tem conta? </p>
           <button
