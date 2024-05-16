@@ -9,8 +9,19 @@ export default function Post() {
 
   return (
     <div className="w-[90%]">
-      <Header text="New post" showContinue={true}/>
-      {currentStep === 0 && <p>Teste</p>}
+      {currentStep === 0 && (
+        <>
+          <Header text="New post" showContinue={true} />
+          <p>Teste</p>
+        </>
+      )}
+
+      {currentStep === 1 && (
+        <>
+          <Header text="New post" showArrow={true} />
+          <p>Teste2</p>
+        </>
+      )}
     </div>
   );
 }

@@ -12,7 +12,8 @@ export default function Header({
   showArrow = false,
   showContinue = false,
 }: HeaderProps) {
-  const { handleToDecreaseCurrentStep } = useStepContext();
+  const { handleToDecreaseCurrentStep, handleToAddCurrentStep } =
+    useStepContext();
 
   return (
     <div className="absolute flex justify-center items-center top-2 w-[90%] h-10 bg-red">
@@ -30,7 +31,14 @@ export default function Header({
         </button>
       )}
       <h1 className="font-secondary font-bold text-center">{text}</h1>
-      {showContinue && <div className="absolute right-0 font-secondary">Continuar</div>}
+      {showContinue && (
+        <button
+          onClick={handleToAddCurrentStep}
+          className="absolute right-0 font-secondary"
+        >
+          Continuar
+        </button>
+      )}
     </div>
   );
 }
