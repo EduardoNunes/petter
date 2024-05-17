@@ -1,20 +1,15 @@
 "use client";
 
-import React from "react";
 import Header from "@/components/Header/Header";
 import { useStepContext } from "@/context/useStepContext";
+import PostStepSelectImage from "./PostStepSelectImage";
 
 export default function Post() {
   const { currentStep } = useStepContext();
 
   return (
-    <div className="w-[90%]">
-      {currentStep === 0 && (
-        <>
-          <Header text="New post" showContinue={true} />
-          <p>Teste</p>
-        </>
-      )}
+    <div className="w-[90%] h-[86%] bg-red-600">
+      {currentStep === 0 && <PostStepSelectImage />}
 
       {currentStep === 1 && (
         <>

@@ -1,6 +1,5 @@
-import Image from "next/image";
-import dataCardTemp from "./dataCardsTemp";
 import FooterCard from "./FooterCard/FooterCard";
+import dataCardTemp from "../../../../../../../public/dataTemp/dataCardsTemp";
 
 
 export default function Card() {

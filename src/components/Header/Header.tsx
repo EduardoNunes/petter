@@ -1,22 +1,44 @@
 import { useStepContext } from "@/context/useStepContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
+  showExit?: boolean;
   showArrow?: boolean;
   text: string;
   showContinue?: boolean;
 }
 
 export default function Header({
+  showExit = false,
   text,
   showArrow = false,
   showContinue = false,
 }: HeaderProps) {
   const { handleToDecreaseCurrentStep, handleToAddCurrentStep } =
     useStepContext();
+  const router = useRouter();
+
+  const handleClickGoGome = () => {
+    router.push("/home");
+  };
 
   return (
     <div className="absolute flex justify-center items-center top-2 w-[90%] h-10 bg-red">
+      {showExit && (
+        <button
+          className="absolute left-0 cursor-pointer"
+          onClick={handleClickGoGome}
+        >
+          {" "}
+          <Image
+            src="/images/exit.png"
+            width={12}
+            height={12}
+            alt="Throw back"
+          />
+        </button>
+      )}
       {showArrow && (
         <button
           className="absolute left-0 pl-2 cursor-pointer"
@@ -25,7 +47,7 @@ export default function Header({
           <Image
             src="/images/arrowLeft.svg"
             width={12}
-            height={12}
+            height={21}
             alt="Throw back"
           />
         </button>

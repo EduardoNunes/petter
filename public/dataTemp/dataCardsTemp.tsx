@@ -40,7 +40,7 @@ const dataCardTemp = [
         comment1: "O pai ta on",
       },
       {
-        comment2: "Com essa lupa aí as cadela num se ão",
+        comment2: "Com essa lupa aí as cadela num se dão",
       },
       {
         comment3: "Kd vc barão bora correr atras de umas moto",
