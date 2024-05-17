@@ -8,7 +8,7 @@ export default function Post() {
   const { currentStep } = useStepContext();
 
   return (
-    <div className="w-[90%] h-[86%] bg-red-600">
+    <div className="w-[90%] h-[86%]">
       {currentStep === 0 && <PostStepSelectImage />}
 
       {currentStep === 1 && (

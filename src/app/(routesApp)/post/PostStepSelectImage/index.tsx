@@ -17,7 +17,7 @@ export default function PostStepSelectImage() {
   };
 
   return (
-    <>
+    <div className="flex flex-col h-full w-full">
       <Header text="Nova divulgação" showExit={true} showContinue={true} />
 
       <div className="h-[50%] w-full bg-slate-500">
@@ -31,12 +31,14 @@ export default function PostStepSelectImage() {
           />
         )}
       </div>
-      <div>
-        <label
-          htmlFor="fileInput"
-          className="flex items-center h-10 font-secondary font-bold cursor-pointer"
-        >
-          Selecionar mídia
+      <div className="flex items-center justify-center h-[50%] w-full gap-8">
+        <label htmlFor="fileInput" className="font-secondary font-bold">
+          <Image
+            src="/images/image.png"
+            width={48}
+            height={48}
+            alt="Enframe"
+          />
         </label>
         <input
           id="fileInput"
@@ -47,7 +49,8 @@ export default function PostStepSelectImage() {
           accept=".jpg, .jpeg"
           capture="user"
         />
+        <Image src="/images/enframe.png" width={48} height={48} alt="Enframe" />
       </div>
-    </>
+    </div>
   );
 }
