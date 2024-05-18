@@ -1,33 +1,36 @@
 import Header from "@/components/Header/Header";
-import Image from "next/image";
-import { useState } from "react";
-import LoadGallery from "./LoadGalery/LoadGalery";
+import { useEffect, useState } from "react";
+import SelectedImage from "../SelectedImage/SelectedImage";
 import EnframeImages from "./EnframeImage/EnframeImages";
+import LoadGallery from "./LoadGalery/LoadGalery";
 
 export default function PostStepSelectImage() {
   const [image, setImage] = useState<string>("");
-  const [enframe, setEnframe] = useState("contain");
+
+  useEffect(() => {
+    const pic = localStorage.getItem("SelectedPic");
+    if (pic) {
+      setImage(pic)
+      localStorage.removeItem("SelectedPic");
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("SelectedPic", image);
+  }, [image]);
+
 
   return (
     <div className="flex flex-col items-center h-full w-full">
       <Header text="Nova divulgação" showExit={true} showContinue={true} />
 
-      <div className="flex items-center h-[50%] w-full mb-4 bg-slate-500">
-        {image && (
-          <Image
-            src={image}
-            width={3000}
-            height={3000}
-            alt=""
-            className={`object-${enframe} w-full h-full`}
-          />
-        )}
-      </div>
+      <SelectedImage image={image} />
+
       <div className="w-full h-[40%] flex flex-col items-center overflow-auto pb-8">
-        <LoadGallery image={image} setImage={setImage} />
+        <LoadGallery setImage={setImage} />
       </div>
       <div className="absolute bottom-[3%]">
-        <EnframeImages enframe={enframe} setEnframe={setEnframe} />
+        <EnframeImages />
       </div>
     </div>
   );

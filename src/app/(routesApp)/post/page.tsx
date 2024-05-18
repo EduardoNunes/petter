@@ -1,7 +1,7 @@
 "use client";
 
-import Header from "@/components/Header/Header";
 import { useStepContext } from "@/context/useStepContext";
+import PostStepComment from "./PostStepComment/PostStepComment";
 import PostStepSelectImage from "./PostStepSelectImage";
 
 export default function Post() {
@@ -11,12 +11,7 @@ export default function Post() {
     <div className="w-[90%] h-[86%]">
       {currentStep === 0 && <PostStepSelectImage />}
 
-      {currentStep === 1 && (
-        <>
-          <Header text="New post" showArrow={true} />
-          <p>Teste2</p>
-        </>
-      )}
+      {currentStep === 1 && <PostStepComment />}
     </div>
   );
 }

@@ -1,17 +1,11 @@
+import { useEnframeContext } from "@/context/useEnframeContext";
 import Image from "next/image";
 
-
-interface LoadEnframeProps {
-  enframe: string | null;
-  setEnframe: (url: string) => void;
-}
-
-export default function EnframeImages({
-  enframe,
-  setEnframe,
-}: LoadEnframeProps) {
+export default function EnframeImages() {
+  const { enframe, setEnframe } = useEnframeContext();
+  
   const handleClickEnframe = () => {
-    enframe === "contain" ? setEnframe("cover") : setEnframe("contain");
+    enframe === "content" ? setEnframe("full") : setEnframe("content");
   };
 
   return (

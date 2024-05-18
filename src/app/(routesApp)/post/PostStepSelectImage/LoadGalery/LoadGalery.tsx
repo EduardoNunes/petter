@@ -2,7 +2,6 @@ import Image from "next/image";
 import dataGalleryImagesTemp from "../../../../../../public/dataTemp/dataGalleryTemp";
 
 interface LoadGalleryProps {
-  image: string | null;
   setImage: (url: string) => void;
 }
 
