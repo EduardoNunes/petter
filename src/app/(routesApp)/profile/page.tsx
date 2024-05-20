@@ -1,10 +1,19 @@
+"use client"
+
 import Footer from "@/components/Footer/Footer";
 import Bio from "./Bio";
 import GalleryProfile from "./GalleryProfile";
 import HeaderProfile from "./HeaderProfile";
 import InfosProfile from "./InfosProfile";
+import { useRouter } from "next/navigation";
 
 export default function Profile() {
+  const router = useRouter();
+
+  const handleClickGoEditProfile = () => {
+    router.push("edit-profile")
+  }
+
   return (
     <div className="flex items-center w-[90%] h-[100%]">
       <HeaderProfile />
@@ -12,7 +21,7 @@ export default function Profile() {
         <div className="h-[250px]">
           <InfosProfile />
           <Bio />
-          <button className="font-secondary text-smaller bg-azulPalido text-black py-1 px-3 rounded-lg mb-3">
+          <button className="font-secondary text-smaller bg-azulPalido text-black py-1 px-3 rounded-lg mb-3" onClick={handleClickGoEditProfile}>
             Editar Perfil
           </button>
         </div>

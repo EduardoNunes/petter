@@ -10,7 +10,7 @@ export default function PostStepSelectImage() {
   useEffect(() => {
     const pic = localStorage.getItem("SelectedPic");
     if (pic) {
-      setImage(pic)
+      setImage(pic);
       localStorage.removeItem("SelectedPic");
     }
   }, []);
@@ -19,10 +19,14 @@ export default function PostStepSelectImage() {
     localStorage.setItem("SelectedPic", image);
   }, [image]);
 
-
   return (
     <div className="flex flex-col items-center h-full w-full">
-      <Header text="Nova divulgação" showExit={true} showContinue={true} />
+      <Header
+        text="Nova divulgação"
+        showExit={true}
+        routeToGo="home"
+        showContinue={true}
+      />
 
       <SelectedImage image={image} />
 

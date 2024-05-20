@@ -7,6 +7,7 @@ interface HeaderProps {
   showArrow?: boolean;
   text: string;
   showContinue?: boolean;
+  routeToGo?: string;
 }
 
 export default function Header({
@@ -14,13 +15,14 @@ export default function Header({
   text,
   showArrow = false,
   showContinue = false,
+  routeToGo,
 }: HeaderProps) {
   const { handleToDecreaseCurrentStep, handleToAddCurrentStep } =
     useStepContext();
   const router = useRouter();
 
-  const handleClickGoGome = () => {
-    router.push("/home");
+  const handleClickGoTo = () => {
+    router.push(`${routeToGo}`);
     const pic = localStorage.getItem("SelectedPic");
     if (pic) {
       localStorage.removeItem("SelectedPic");
@@ -32,7 +34,7 @@ export default function Header({
       {showExit && (
         <button
           className="absolute left-0 cursor-pointer"
-          onClick={handleClickGoGome}
+          onClick={handleClickGoTo}
         >
           {" "}
           <Image
