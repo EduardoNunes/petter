@@ -16,6 +16,7 @@ const config: Config = {
         small: "1rem",
         medium: "1.25rem",
         big: "2rem",
+        extraLarge1: "2.5rem",
         extraLarge: "3.5rem",
         ultraLarge: "5rem",
       },

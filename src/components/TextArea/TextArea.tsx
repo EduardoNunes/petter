@@ -1,9 +1,5 @@
 import React, { useState, ChangeEvent } from "react";
 
-/* interface TextAreaProps {
-  textArea: string;
-} */
-
 export default function TextArea() {
   const [textValue, setTextValue] = useState("");
 
