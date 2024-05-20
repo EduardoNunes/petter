@@ -1,12 +1,15 @@
+import Button from "@/components/Button/Button";
 import Header from "@/components/Header/Header";
 import TextArea from "@/components/TextArea/TextArea";
-import { useEnframeContext } from "@/context/useEnframeContext";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
+import { useRouter } from "next/navigation";
+import { useStepContext } from "@/context/useStepContext";
 
 export default function PostStepComment() {
   const [selectedPic, setSelectedPic] = useState<string>("");
+  const router = useRouter();
+  const { handleToDecreaseCurrentStep } = useStepContext();
 
   useEffect(() => {
     const pic = localStorage.getItem("SelectedPic");
@@ -15,14 +18,30 @@ export default function PostStepComment() {
     }
   }, []);
 
+  const handleClickFinishPost = (event: { preventDefault: () => void }) => {
+    router.push("home");
+    localStorage.removeItem("SelectedPic");
+    setTimeout(() => {
+      handleToDecreaseCurrentStep();
+      console.log("TESTE");
+    }, 1000);
+  };
+
   return (
     <>
-      <Header text="Nova divulgação" showArrow={true} showContinue={true} />
+      <Header text="Nova divulgação" showArrow={true} showContinue={false} />
 
       {selectedPic && <SelectedImage image={selectedPic} />}
 
-      <div className="flex items-center h-[50%] w-full mb-4 bg-slate-500">
+      <div className="flex items-center  w-full mb-4">
         <TextArea />
+      </div>
+      <div className="absolute w-[90%] bottom-[3%]">
+        <Button
+          text={"Publicar"}
+          type="internalButton"
+          onClick={handleClickFinishPost}
+        />
       </div>
     </>
   );

@@ -21,6 +21,10 @@ export default function Header({
 
   const handleClickGoGome = () => {
     router.push("/home");
+    const pic = localStorage.getItem("SelectedPic");
+    if (pic) {
+      localStorage.removeItem("SelectedPic");
+    }
   };
 
   return (
