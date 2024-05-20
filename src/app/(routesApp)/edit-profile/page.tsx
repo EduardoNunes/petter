@@ -1,8 +1,6 @@
 "use client";
 
 import Header from "@/components/Header/Header";
-import Input from "@/components/Input/Input";
-import { Label } from "@/components/Label/Label";
 import Image from "next/image";
 import EditProfileForm from "./editProfileForm";
 
@@ -15,7 +13,7 @@ export default function EditProfile() {
         showContinue={true}
         routeToGo="profile"
       />
-      <div className="h-[93%] w-full bg-red-300">
+      <div className="h-[93%] w-full">
         <div className="flex items-center w-24 h-24 mb-4">
           <Image
             src="/dataTemp/dog3.jpeg"
@@ -32,7 +30,9 @@ export default function EditProfile() {
             className="h-8 w-8"
           />
         </div>
-        <EditProfileForm />
+        <div className="w-full h-[calc(100%-112px)] overflow-auto pb-4">
+          <EditProfileForm />
+        </div>
       </div>
     </div>
   );

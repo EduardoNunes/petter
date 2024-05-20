@@ -18,7 +18,7 @@ export default function Register() {
       <div className="text-center">
         <Header text="Cadastro" showArrow={true}/>
       </div>
-      <div className="flex flex-col items-center mb-[6%]">
+      <div className="flex flex-col items-center mb-2">
         <Petter fontSize="extraLarge" />
         {currentStep === 0 && <InfosDataRegister />}
         {currentStep === 1 && <InfosLoadImage />}

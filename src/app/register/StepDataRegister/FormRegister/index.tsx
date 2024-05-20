@@ -14,7 +14,7 @@ export default function FormRegister() {
   };
 
   return (
-    <form className="h-full" onSubmit={handleToAddCurrentStep}>
+    <form className="h-full mb-[-24px]" onSubmit={handleToAddCurrentStep}>
       <div className="overflow-y-auto" style={{ height: "calc(100% - 120px)" }}>
         <div className="mb-3">
           <Label labelHtmlFor="nome">Nome do Petter</Label>
@@ -53,7 +53,7 @@ export default function FormRegister() {
           />
         </div>
       </div>
-      <div className="absolute bottom-[4vh] w-[90%]">
+      <div className="absolute bottom-2 w-[90%]">
         <Label labelHtmlFor="checkbox">
           <div className="flex items-start justify-center gap-5">
             <input type="checkbox" className="mt-[6px]" />
@@ -63,7 +63,7 @@ export default function FormRegister() {
           </div>
         </Label>
         <Button text="Cadastrar" type="internalButton" />
-        <p className="mt-4 text-center font-secondary">
+        <p className="mt-2 text-center font-secondary">
           Já possui conta?{" "}
           <button
             onClick={handleClickGoOn}

@@ -5,7 +5,7 @@ export default function InfosProfile() {
   const friends = "10";
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center justify-between gap-4">
       <div className="relative w-24 h-24 ">
         <Image
           src="/dataTemp/dog3.jpeg"
@@ -26,6 +26,28 @@ export default function InfosProfile() {
           Amigos
         </label>
         <h2>{friends}</h2>
+      </div>
+      <div className="w-[90px]">
+        <div className="flex items-center h-8 gap-2">
+          <Image
+            src="/images/paw.png"
+            width={32}
+            height={32}
+            alt="Profile Image"
+            className="object-cover w-5 h-5"
+          />
+          <p className="font-secondary text-smaller">Canis familiaris</p>
+        </div>
+        <div className="flex items-center h-8 gap-2">
+          <Image
+            src="/images/paw.png"
+            width={32}
+            height={32}
+            alt="Profile Image"
+            className="object-cover w-5 h-5"
+          />
+          <p className="font-secondary text-smaller">SDR</p>
+        </div>
       </div>
     </div>
   );
