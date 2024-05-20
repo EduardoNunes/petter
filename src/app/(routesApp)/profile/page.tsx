@@ -1,29 +1,23 @@
 import Footer from "@/components/Footer/Footer";
-import Image from "next/image";
+import Bio from "./Bio";
+import GalleryProfile from "./GalleryProfile";
+import HeaderProfile from "./HeaderProfile";
+import InfosProfile from "./InfosProfile";
 
 export default function Profile() {
-  const userName = "Sr. Petter";
   return (
-    <div className="w-[90%]">
-      <div className="absolute top-2 flex items-center justify-between h-8 w-[90%]">
-        <div>
-          <h1 className="text-extraLarge1">{userName}</h1>
+    <div className="flex items-center w-[90%] h-[100%]">
+      <HeaderProfile />
+      <div className="h-[84%] w-full">
+        <div className="h-[250px]">
+          <InfosProfile />
+          <Bio />
+          <button className="font-secondary text-smaller bg-azulPalido text-black py-1 px-3 rounded-lg mb-3">
+            Editar Perfil
+          </button>
         </div>
-        <div className="flex h-8 gap-2">
-          <Image
-            src="/images/add.png"
-            width={32}
-            height={32}
-            alt="Home"
-            className=""
-          />
-          <Image
-            src="/images/menu-hamburguer.png"
-            width={39}
-            height={39}
-            alt="Home"
-            className=""
-          />
+        <div className="overflow-auto h-[calc(100%-250px)]">
+          <GalleryProfile />
         </div>
       </div>
       <Footer />
