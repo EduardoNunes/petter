@@ -21,7 +21,7 @@ export default function HeaderProfile() {
           width={39}
           height={39}
           alt="Home"
-          className=""
+          className="h-auto w-auto"
         />
       </div>
     </div>

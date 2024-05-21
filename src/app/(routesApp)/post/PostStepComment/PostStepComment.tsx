@@ -23,7 +23,6 @@ export default function PostStepComment() {
     localStorage.removeItem("SelectedPic");
     setTimeout(() => {
       handleToDecreaseCurrentStep();
-      console.log("TESTE");
     }, 1000);
   };
 

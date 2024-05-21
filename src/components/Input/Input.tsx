@@ -1,11 +1,14 @@
+import { ChangeEvent } from "react";
+
 interface InputProps {
   text: string;
   type: string;
   id: string;
   autoComplete?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Input({ text, type, id, autoComplete }: InputProps) {
+const Input: React.FC<InputProps> = ({ text, type, id, autoComplete, onChange }) => {
   return (
     <>
       <input
@@ -13,8 +16,11 @@ export default function Input({ text, type, id, autoComplete }: InputProps) {
         placeholder={text}
         id={id}
         autoComplete={autoComplete}
+        onChange={onChange}
         className="h-10 w-full pl-5 rounded-3xl border border-black border-solid font-secondary mb-2"
       />
     </>
   );
 }
+
+export default Input;

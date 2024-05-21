@@ -4,9 +4,12 @@ import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import { useRouter } from "next/navigation";
+import { ChangeEvent, useState } from "react";
 
 export default function FormLogin() {
   const router = useRouter();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const handleClickGoOn = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -18,6 +21,16 @@ export default function FormLogin() {
     router.push("/home");
   };
 
+  
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log("PASS", password)
+    setPassword(event.target.value);
+  };
+
   return (
     <form>
       <div className="mb-3">
@@ -27,6 +40,7 @@ export default function FormLogin() {
           type="email"
           id="email"
           autoComplete="email"
+          onChange={handleEmailChange}
         />
       </div>
       <div className="mb-2">
@@ -36,6 +50,7 @@ export default function FormLogin() {
           type="password"
           id="password"
           autoComplete="current-password"
+          onChange={handlePasswordChange}
         />
         <p className="mt-2 mb-8 text-end font-secondary text-azulEscuro font-bold">
           Esqueci minha senha.

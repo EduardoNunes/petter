@@ -15,7 +15,6 @@ interface EnframeProviderProps {
 
 export const EnframeProvider: React.FC<EnframeProviderProps> = ({ children }) => {
   const [enframe, setEnframe] = useState<string>("content");
-console.log(enframe, "ENFRAME")
   const contextValue = {
     enframe,
     setEnframe,

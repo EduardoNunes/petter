@@ -1,7 +1,10 @@
+"use client";
 import Button from "@/components/Button/Button";
+
 import Petter from "@/components/Petter/PetterColorful";
 import Image from "next/image";
 import FormLogin from "./FormLogin";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   return (
@@ -15,7 +18,11 @@ export default function Login() {
           </p>
 
           <div className="w-full mb-3">
-            <Button text="Entrar com o Google" type="externalButton">
+            <Button
+              text="Entrar com o Google"
+              type="externalButton"
+              onClick={() => signIn("google", { callbackUrl: "/home" })}
+            >
               <Image
                 src="/images/google.png"
                 height={24}
