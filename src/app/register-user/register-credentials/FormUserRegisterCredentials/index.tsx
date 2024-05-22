@@ -1,4 +1,5 @@
 import Button from "@/components/Button/Button";
+import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import api from "@/server/api";
@@ -28,14 +29,17 @@ export default function FormUserRegisterCredentials() {
         password,
       });
 
-      console.log(response, "RESPONSE");
+      console.log((await response).status, "RESPONSE");
 
-/*       if (response === 201) {
+      if ((await response).status === 201) {
         router.push("register-user/register-");
-      } */
-
-    } catch (error) {
-      console.error("ERROR", error);
+      }
+    } catch (error: any) {
+      console.log("ERROR", error.response.status);
+      setError(error.message);
+      setTimeout(() => {
+        setError("");
+      }, 3000);
     }
   }
 
@@ -67,6 +71,7 @@ export default function FormUserRegisterCredentials() {
       className="h-full mb-6 mt-2 overflow-y-auto"
       onSubmit={handleClickGoOn}
     >
+      {error !== "" && <ErrorWindow textError={error} />}
       <div className="overflow-y-auto" style={{ height: "82%" }}>
         <div className="mb-3">
           <Label labelHtmlFor="tutor-name">Tutor do Petter</Label>
