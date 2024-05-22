@@ -1,4 +1,5 @@
 import Button from "@/components/Button/Button";
+import CheckBox from "@/components/CheckBox/CheckBox";
 import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
@@ -16,13 +17,22 @@ export default function FormUserRegisterCredentials() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [privacyPolicies, setPrivacyPolicies] = useState(false);
 
   async function handleClickGoOn(event: SyntheticEvent) {
     event.preventDefault();
 
     try {
+      if (!privacyPolicies) {
+        setError("Você deve concordar com as políticas de privacidade");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+        return;
+      }
+
       setLoading(true);
-      
+
       await schemaRegisterCredentialsUser.validate(
         {
           name: tutorName,
@@ -31,7 +41,7 @@ export default function FormUserRegisterCredentials() {
           confirmPassword,
         },
         { abortEarly: false }
-      );      
+      );
 
       const response = await api.post("/users-register-credentials", {
         name: tutorName,
@@ -75,6 +85,10 @@ export default function FormUserRegisterCredentials() {
     event: ChangeEvent<HTMLInputElement>
   ) => {
     setConfirmPassword(event.target.value);
+  };
+
+  const handleClickPrivacyPolicies = () => {
+    privacyPolicies ? setPrivacyPolicies(false) : setPrivacyPolicies(true);
   };
 
   const handleClickGoToLogin = (event: SyntheticEvent) => {
@@ -134,7 +148,7 @@ export default function FormUserRegisterCredentials() {
       <div className="absolute bottom-3 w-[90%]">
         <Label labelHtmlFor="checkbox">
           <div className="flex items-start justify-center gap-5">
-            <input type="checkbox" className="mt-[6px]" />
+            <CheckBox onClick={handleClickPrivacyPolicies} />
             <p className="font-secondary mb-[3%]">
               Aceito as políticas de privacidade.
             </p>
