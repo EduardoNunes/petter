@@ -1,10 +1,9 @@
 "use client";
 import Button from "@/components/Button/Button";
-
 import Petter from "@/components/Petter/PetterColorful";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import FormLogin from "./FormLogin";
-import { signIn } from "next-auth/react";
 
 export default function Login() {
   return (

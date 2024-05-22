@@ -11,9 +11,9 @@ export default function FormLogin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleClickGoOn = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickGoRegisterUser = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    router.push("/register");
+    router.push("/register-user/register-credentials");
   };
 
   const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -27,7 +27,6 @@ export default function FormLogin() {
   };
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("PASS", password)
     setPassword(event.target.value);
   };
 
@@ -52,9 +51,9 @@ export default function FormLogin() {
           autoComplete="current-password"
           onChange={handlePasswordChange}
         />
-        <p className="mt-2 mb-8 text-end font-secondary text-azulEscuro font-bold">
+        <button className="w-full mt-2 mb-8 text-right font-secondary text-azulEscuro font-bold">
           Esqueci minha senha.
-        </p>
+        </button>
       </div>
       <div className="absolute bottom-[4vh] w-[90%]">
         <Button
@@ -67,7 +66,7 @@ export default function FormLogin() {
           <button
             type="button"
             className="text-azulEscuro font-secondary font-bold"
-            onClick={handleClickGoOn}
+            onClick={handleClickGoRegisterUser}
           >
             Cadastre-se!
           </button>

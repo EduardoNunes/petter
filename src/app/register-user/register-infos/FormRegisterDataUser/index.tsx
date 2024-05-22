@@ -2,24 +2,17 @@ import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import { useStepContext } from "@/context/useStepContext";
-import { useRouter } from "next/navigation";
 
-export default function FormRegister() {
+export default function FormUserRegisterData() {
   const { handleToAddCurrentStep } = useStepContext();
-  const router = useRouter();
-
-  const handleClickGoOn = (event: { preventDefault: () => void }) => {
-    event?.preventDefault();
-    router.push("login");
-  };
 
   return (
-    <form className="h-full mb-[-24px]" onSubmit={handleToAddCurrentStep}>
+    <form className="h-full mb-6 mt-2" onSubmit={handleToAddCurrentStep}>
       <div className="overflow-y-auto" style={{ height: "calc(100% - 120px)" }}>
         <div className="mb-3">
-          <Label labelHtmlFor="nome">Nome do Petter</Label>
+          <Label labelHtmlFor="nome">Tutor do Petter</Label>
           <Input
-            text="Digite o nome do Petter."
+            text="Nome do tutor."
             type="text"
             id="nome"
             autoComplete="text"
@@ -62,17 +55,7 @@ export default function FormRegister() {
             </p>
           </div>
         </Label>
-        <Button text="Cadastrar" type="internalButton" />
-        <p className="mt-2 text-center font-secondary">
-          Já possui conta?{" "}
-          <button
-            onClick={handleClickGoOn}
-            className="text-azulEscuro font-secondary font-bold"
-          >
-            {" "}
-            Entrar!
-          </button>
-        </p>
+        <Button text="Continuar" type="internalButton" />
       </div>
     </form>
   );
