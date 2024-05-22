@@ -4,6 +4,7 @@ import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
+import { schemaRegisterCredentialsUser } from "@/validation/schemaRegisterCredentialsUser";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 
@@ -19,18 +20,20 @@ export default function FormUserRegisterCredentials() {
   async function handleClickGoOn(event: SyntheticEvent) {
     event.preventDefault();
 
-    if (password !== confirmPassword) {
-      setError("As senhas não coincidem.");
-      setTimeout(() => {
-        setError("");
-      }, 3000);
-      return;
-    }
-
     try {
       setLoading(true);
+      
+      await schemaRegisterCredentialsUser.validate(
+        {
+          name: tutorName,
+          email,
+          password,
+          confirmPassword,
+        },
+        { abortEarly: false }
+      );      
 
-      const response = api.post("/users-register-credentials", {
+      const response = await api.post("/users-register-credentials", {
         name: tutorName,
         email,
         password,
@@ -39,17 +42,21 @@ export default function FormUserRegisterCredentials() {
       console.log((await response).status, "RESPONSE");
 
       if ((await response).status === 201) {
-        router.push("/register-user/register-infos");        
+        router.push("/register-user/register-infos");
       }
     } catch (error: any) {
-      console.log("ERROR", error.response.status);
-      setError(error.message);
+      if (error.errors && error.errors.length > 0) {
+        setError(error.errors[0]);
+      } else {
+        setError(error.message || "Ocorreu um erro.");
+      }
+
       setTimeout(() => {
         setError("");
       }, 3000);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   const handleNameTutorChange = (event: ChangeEvent<HTMLInputElement>) => {
