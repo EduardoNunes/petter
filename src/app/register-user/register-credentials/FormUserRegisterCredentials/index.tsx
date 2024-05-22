@@ -1,8 +1,9 @@
 import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
+import api from "@/server/api";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 
 export default function FormUserRegisterCredentials() {
   const router = useRouter();
@@ -10,11 +11,33 @@ export default function FormUserRegisterCredentials() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleClickGoOn = (event: { preventDefault: () => void }) => {
-    event?.preventDefault();
-    router.push("/register-user/register-infos");
-  };
+  async function handleClickGoOn(event: SyntheticEvent) {
+    event.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("As senhas não coincidem.");
+      return;
+    }
+
+    try {
+      const response = api.post("/users-register-credentials", {
+        name: tutorName,
+        email,
+        password,
+      });
+
+      console.log(response, "RESPONSE");
+
+/*       if (response === 201) {
+        router.push("register-user/register-");
+      } */
+
+    } catch (error) {
+      console.error("ERROR", error);
+    }
+  }
 
   const handleNameTutorChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTutorName(event.target.value);
@@ -28,8 +51,15 @@ export default function FormUserRegisterCredentials() {
     setPassword(event.target.value);
   };
 
-  const handleConfirmPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTutorName(event.target.value);
+  const handleConfirmPasswordChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setConfirmPassword(event.target.value);
+  };
+
+  const handleClickGoToLogin = (event: SyntheticEvent) => {
+    event.preventDefault();
+    router.push("/login");
   };
 
   return (
@@ -39,11 +69,11 @@ export default function FormUserRegisterCredentials() {
     >
       <div className="overflow-y-auto" style={{ height: "82%" }}>
         <div className="mb-3">
-          <Label labelHtmlFor="nome">Tutor do Petter</Label>
+          <Label labelHtmlFor="tutor-name">Tutor do Petter</Label>
           <Input
             text="Nome do tutor."
             type="text"
-            id="nome"
+            id="tutor-name"
             autoComplete="text"
             onChange={handleNameTutorChange}
           />
@@ -92,7 +122,7 @@ export default function FormUserRegisterCredentials() {
         <p className="mt-2 text-center font-secondary">
           Já possui conta?
           <button
-            onClick={handleClickGoOn}
+            onClick={handleClickGoToLogin}
             className="text-azulEscuro font-secondary font-bold ml-2"
           >
             Entrar!
