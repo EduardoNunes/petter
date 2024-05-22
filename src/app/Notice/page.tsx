@@ -5,6 +5,7 @@ import { Label } from "@/components/Label/Label";
 import Petter from "@/components/Petter/PetterColorful";
 import "./checkbox-style.css";
 import { useRouter } from "next/navigation";
+import CheckBox from "@/components/CheckBox/CheckBox";
 
 export default function Notice() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function Notice() {
         <div className="flex flex-col overflow-auto">
           <Label labelHtmlFor="checkbox">
             <div className="flex gap-5">
-              <input type="checkbox" className="custom-checkbox mt-[6px]" />
+              <CheckBox />
               <p className="w-[90%] font-secondary mb-5">
                 Siga as boas práticas da casa.
               </p>
@@ -33,7 +34,7 @@ export default function Notice() {
           </Label>
           <Label labelHtmlFor="checkbox">
             <div className="flex gap-5">
-              <input type="checkbox" className="custom-checkbox mt-[6px]" />
+              <CheckBox />
               <p className="w-[90%] font-secondary mb-5">
                 Seja um Petter real. Forneça apenas informações e imagens
                 verdadeiras.
@@ -42,7 +43,7 @@ export default function Notice() {
           </Label>
           <Label labelHtmlFor="checkbox">
             <div className="flex gap-5">
-              <input type="checkbox" className="custom-checkbox mt-[6px]" />
+              <CheckBox />
               <p className="w-[90%] font-secondary mb-5">
                 Não forneça informações pessoais a usuários suspeitos.
               </p>
@@ -50,7 +51,7 @@ export default function Notice() {
           </Label>
           <Label labelHtmlFor="checkbox">
             <div className="flex gap-5">
-              <input type="checkbox" className="custom-checkbox mt-[6px]" />
+              <CheckBox />
               <p className="w-[90%] font-secondary mb-5">
                 Respeite todos. Estamos todos em busca de boas amizades e boas
                 experiências.
@@ -59,7 +60,7 @@ export default function Notice() {
           </Label>
           <Label labelHtmlFor="checkbox">
             <div className="flex gap-5">
-              <input type="checkbox" className="custom-checkbox mt-[6px]" />
+              <CheckBox />
               <p className="w-[90%] font-secondary mb-5">
                 Ajude a comunidade. Sempre denuncie maus comportamentos.
               </p>
