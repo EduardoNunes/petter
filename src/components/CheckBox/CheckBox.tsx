@@ -2,7 +2,7 @@ import "./checkbox-style.css";
 
 interface CheckBoxPrpos {
   checked: boolean,
-  onChange?: React.MouseEventHandler<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const CheckBox: React.FC<React.PropsWithChildren<CheckBoxPrpos>> = ({

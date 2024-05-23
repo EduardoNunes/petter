@@ -14,6 +14,7 @@ export default function FormUserRegisterCredentials() {
   const [tutorName, setTutorName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [profileImage, setProfileImage] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,6 +50,7 @@ export default function FormUserRegisterCredentials() {
         name: tutorName,
         email,
         password,
+        profileImage,
       });
 
       console.log((await response).status, "RESPONSE");

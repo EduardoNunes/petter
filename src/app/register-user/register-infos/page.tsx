@@ -2,14 +2,16 @@
 
 import Header from "@/components/Header/Header";
 import Petter from "@/components/Petter/PetterColorful";
+import api from "@/server/api";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function RegisterUserInfos() {
-  const [name, setName] = useState("");
+  const [tutorName, setTutorName] = useState("");
   const [email, setEmail] = useState("");
   const [userImage, setUserImage] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -17,12 +19,25 @@ export default function RegisterUserInfos() {
       const session = await getSession();
 
       if (!session) {
-        router.push("/login");
+        router.push("/register-user/register-credentials");
         return;
       }
-      setName(session.user?.name || "");
+
+      setTutorName(session.user?.name || "");
       setEmail(session.user?.email || "");
       setUserImage(session.user?.image || "");
+
+      try {
+        const response = await api.post("/users-register-credentials", {
+          name: tutorName,
+          email,
+          password,
+          profileImage: userImage,
+        });
+      } catch (error) {
+        console.log("ERROR", error)
+      }
+      
     }
 
     fetchSession();
