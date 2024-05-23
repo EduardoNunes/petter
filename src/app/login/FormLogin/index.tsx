@@ -3,6 +3,7 @@
 import Button from "@/components/Button/Button";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
+import Loading from "@/components/Loading/Loading";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
@@ -10,14 +11,17 @@ export default function FormLogin() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
   const handleClickGoRegisterUser = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    setLoading(true);
     router.push("/register-user/register-credentials");
   };
 
   const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    setLoading(true);
     router.push("/home");
   };
 
@@ -32,6 +36,7 @@ export default function FormLogin() {
 
   return (
     <form>
+      {loading && <Loading />}
       <div className="mb-3">
         <Label labelHtmlFor="email">Email</Label>
         <Input

@@ -28,12 +28,14 @@ export default function RegisterUserInfos() {
       setTutorName(session.user?.name || "");
       setEmail(session.user?.email || "");
       setUserImage(session.user?.image || "");
+      
+      registerByAuth();
     }
 
     fetchSession();
   }, []);
 
-  useEffect(() => {
+  const registerByAuth = () => {
     async function postData() {
       try {
         const response = await api.post("/users-register-credentials", {
@@ -45,7 +47,7 @@ export default function RegisterUserInfos() {
 
         console.log((await response).status, "RESPONSE");
 
-        if ((await response).status === 201) {          
+        if ((await response).status === 201) {
           router.push("/register-user/register-infos");
         }
       } catch (error) {
@@ -56,7 +58,7 @@ export default function RegisterUserInfos() {
     if (email) {
       postData();
     }
-  }, [tutorName, email, password, userImage, router]);
+  };
 
   return (
     <div className="flex flex-col w-[90%] h-[86%]">
