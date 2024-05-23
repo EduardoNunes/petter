@@ -24,7 +24,7 @@ export default function RegisterUserInfos() {
         router.push("/register-user/register-credentials");
         return;
       }
-
+      localStorage.setItem("tutorName", session.user?.name || "");
       setTutorName(session.user?.name || "");
       setEmail(session.user?.email || "");
       setUserImage(session.user?.image || "");
@@ -45,7 +45,7 @@ export default function RegisterUserInfos() {
 
         console.log((await response).status, "RESPONSE");
 
-        if ((await response).status === 201) {
+        if ((await response).status === 201) {          
           router.push("/register-user/register-infos");
         }
       } catch (error) {
