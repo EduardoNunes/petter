@@ -56,6 +56,7 @@ export default function FormUserRegisterCredentials() {
       console.log((await response).status, "RESPONSE");
 
       if ((await response).status === 201) {
+        localStorage.setItem("tutorName", tutorName);
         router.push("/register-user/register-infos");
       }
     } catch (error: any) {
