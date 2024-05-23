@@ -23,14 +23,6 @@ export default function FormUserRegisterCredentials() {
     event.preventDefault();
 
     try {
-      if (!privacyPolicies) {
-        setError("Você deve concordar com as políticas de privacidade");
-        setTimeout(() => {
-          setError("");
-        }, 3000);
-        return;
-      }
-
       setLoading(true);
 
       await schemaRegisterCredentialsUser.validate(
@@ -42,6 +34,16 @@ export default function FormUserRegisterCredentials() {
         },
         { abortEarly: false }
       );
+
+      if (!privacyPolicies) {
+        setError(
+          "Para prosseguirmos, você deve concordar com as políticas de privacidade"
+        );
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+        return;
+      }
 
       const response = await api.post("/users-register-credentials", {
         name: tutorName,
@@ -88,7 +90,7 @@ export default function FormUserRegisterCredentials() {
   };
 
   const handleClickPrivacyPolicies = () => {
-    privacyPolicies ? setPrivacyPolicies(false) : setPrivacyPolicies(true);
+    setPrivacyPolicies(!privacyPolicies);
   };
 
   const handleClickGoToLogin = (event: SyntheticEvent) => {
@@ -148,7 +150,10 @@ export default function FormUserRegisterCredentials() {
       <div className="absolute bottom-3 w-[90%]">
         <Label labelHtmlFor="checkbox">
           <div className="flex items-start justify-center gap-5">
-            <CheckBox onClick={handleClickPrivacyPolicies} />
+            <CheckBox
+              checked={privacyPolicies}
+              onChange={handleClickPrivacyPolicies}
+            />
             <p className="font-secondary mb-[3%]">
               Aceito as políticas de privacidade.
             </p>
