@@ -8,7 +8,8 @@ export default function InfosRegisterDataUser() {
         {/*   Agora vamos dar personalidade ao seu pet e transforme-o em um Petter! */}
       </p>
       <p className="font-secondary text-smaller text-center mb-[4%]">
-        Nos conte mais, queremos conhecer melhor os amantes dos Petters!
+        Nos conte mais sobre você, {tutorName?.split(" ")[0]}. Queremos conhecer
+        melhor os amigos dos Petters!
         {/*    Vamos formar a maior comunidade de fofuras do mundo! */}
       </p>
     </>

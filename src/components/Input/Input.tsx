@@ -17,7 +17,7 @@ const Input: React.FC<InputProps> = ({ text, type, id, autoComplete, onChange })
         id={id}
         autoComplete={autoComplete}
         onChange={onChange}
-        className="h-10 w-full pl-5 rounded-3xl border border-black border-solid font-secondary mb-2"
+        className="h-10 w-full px-5 rounded-3xl border border-black border-solid font-secondary mb-2"
       />
     </>
   );
