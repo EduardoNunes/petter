@@ -1,9 +1,12 @@
 "use client";
 
 import Button from "@/components/Button/Button";
+import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
+import api from "@/server/api";
+import { schemaLoginUser } from "@/validation/schemaLoginUser";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
@@ -12,20 +15,56 @@ export default function FormLogin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleClickGoRegisterUser = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickGoRegisterUser = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
     setLoading(true);
     router.push("/register-user/register-credentials");
   };
 
-  const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setLoading(true);
-    router.push("/home");
+
+    try {
+      await schemaLoginUser.validate(
+        {
+          email,
+          password,
+        },
+        { abortEarly: false }
+      );
+
+      const response = await api.post("/users-login", {
+        email,
+        password,
+      });
+
+      router.push("/home");
+    } catch (error: any) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else if (error.errors && error.errors.length > 0) {
+        setError(error.errors[0]);
+      } else {
+        setError(error.message || "Ocorreu um erro.");
+      }
+
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -37,6 +76,7 @@ export default function FormLogin() {
   return (
     <form>
       {loading && <Loading />}
+      {error && <ErrorWindow textError={error} />}
       <div className="mb-3">
         <Label labelHtmlFor="email">Email</Label>
         <Input
@@ -61,11 +101,7 @@ export default function FormLogin() {
         </button>
       </div>
       <div className="absolute bottom-[4vh] w-[90%]">
-        <Button
-          text="Entrar"
-          type="internalButton"
-          onClick={handleClickGoHome}
-        />
+        <Button text="Entrar" type="internalButton" onClick={handleSubmit} />
         <div className="flex items-center justify-center mt-[3%] gap-1">
           <p className="text-center font-secondary">Não tem conta? </p>
           <button

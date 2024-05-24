@@ -60,7 +60,13 @@ export default function FormUserRegisterCredentials() {
         router.push("/register-user/register-infos");
       }
     } catch (error: any) {
-      if (error.errors && error.errors.length > 0) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else if (error.errors && error.errors.length > 0) {
         setError(error.errors[0]);
       } else {
         setError(error.message || "Ocorreu um erro.");
