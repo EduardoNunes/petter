@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export interface IUser {
+export interface CredentialsUser {
   name: string;
   email: string;
   password: string;

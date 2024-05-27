@@ -40,9 +40,7 @@ export default function FormUserRegisterCredentials() {
         setError(
           "Para prosseguirmos, você deve concordar com as políticas de privacidade"
         );
-        setTimeout(() => {
-          setError("");
-        }, 3000);
+        
         return;
       }
 
@@ -72,9 +70,6 @@ export default function FormUserRegisterCredentials() {
         setError(error.message || "Ocorreu um erro.");
       }
 
-      setTimeout(() => {
-        setError("");
-      }, 3000);
     } finally {
       setLoading(false);
     }
@@ -112,7 +107,7 @@ export default function FormUserRegisterCredentials() {
       className="h-full mb-6 mt-2 overflow-y-auto"
       onSubmit={handleClickGoOn}
     >
-      {error !== "" && <ErrorWindow textError={error} />}
+      {error !== "" && <ErrorWindow textError={error} setError={setError} />}
       {loading && <Loading />}
       <div className="overflow-y-auto" style={{ height: "82%" }}>
         <div className="mb-3">

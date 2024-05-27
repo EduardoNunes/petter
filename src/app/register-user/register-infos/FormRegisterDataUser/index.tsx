@@ -1,17 +1,33 @@
 import Button from "@/components/Button/Button";
+import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Select from "@/components/Select/Select";
 import { useStepContext } from "@/context/useStepContext";
 import viaCep from "@/server/api-viacep";
 import formatCep from "@/utils/formatCEP";
+
+import { schemaRegisterInfosUser } from "@/validation/schemaRegisterInfosUser";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export default function FormUserRegisterData() {
   const { handleToAddCurrentStep } = useStepContext();
   const [selectedOption, setSelectOption] = useState("");
+  const [date, setDate] = useState("");
   const [cep, setCep] = useState("");
   const [addressFrom, setAddressForm] = useState("");
+  const [error, setError] = useState("");
+
+  const handleChangeData = async (event: ChangeEvent<HTMLInputElement>) => {
+    const newData = event.target.value;
+    try {
+      await schemaRegisterInfosUser.validate({ date: newData });
+      setDate(newData);
+    } catch (validationError: any) {
+      setError(validationError.errors[0]);
+      console.log("ERROR", validationError.errors[0]);
+    }
+  };
 
   const handleChangeAddress = async (event: ChangeEvent<HTMLInputElement>) => {
     const newCep = event.target.value;
@@ -37,10 +53,17 @@ export default function FormUserRegisterData() {
 
   return (
     <form className="h-[100%] mb-6 mt-2" onSubmit={handleToAddCurrentStep}>
+      {error && <ErrorWindow textError={error} setError={setError} />}
       <div className="overflow-y-auto" style={{ height: "100% - [120px]" }}>
         <div className="mb-3">
           <Label labelHtmlFor="birth">Sua data de nascimento</Label>
-          <Input text="" type="date" id="birth" autoComplete="date" />
+          <Input
+            text=""
+            type="date"
+            id="birth"
+            autoComplete="date"
+            onChange={handleChangeData}
+          />
         </div>
         <div className="mb-3">
           <Label labelHtmlFor="cep">CEP</Label>

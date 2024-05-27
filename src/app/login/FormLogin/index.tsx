@@ -43,7 +43,6 @@ export default function FormLogin() {
         password,
       });
 
-      
       if (response.status === 201) {
         const token = response.data.accessToken;
         console.log((await response).data, "RESPONSE");
@@ -61,10 +60,6 @@ export default function FormLogin() {
       } else {
         setError(error.message || "Ocorreu um erro.");
       }
-
-      setTimeout(() => {
-        setError("");
-      }, 3000);
     } finally {
       setLoading(false);
     }
@@ -81,7 +76,7 @@ export default function FormLogin() {
   return (
     <form>
       {loading && <Loading />}
-      {error && <ErrorWindow textError={error} />}
+      {error && <ErrorWindow textError={error} setError={setError} />}
       <div className="mb-3">
         <Label labelHtmlFor="email">Email</Label>
         <Input
