@@ -38,12 +38,17 @@ export default function FormLogin() {
         { abortEarly: false }
       );
 
-      const response = await api.post("/users-login", {
+      const response = await api.post("/auth/login", {
         email,
         password,
       });
 
-      router.push("/home");
+      
+      if (response.status === 201) {
+        const token = response.data.accessToken;
+        console.log((await response).data, "RESPONSE");
+        router.push("/home");
+      }
     } catch (error: any) {
       if (
         error.response &&

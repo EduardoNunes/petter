@@ -5,10 +5,11 @@ interface InputProps {
   type: string;
   id: string;
   autoComplete?: string;
+  value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<InputProps> = ({ text, type, id, autoComplete, onChange }) => {
+const Input: React.FC<InputProps> = ({ text, type, id, autoComplete, value, onChange }) => {
   return (
     <>
       <input
@@ -16,6 +17,7 @@ const Input: React.FC<InputProps> = ({ text, type, id, autoComplete, onChange })
         placeholder={text}
         id={id}
         autoComplete={autoComplete}
+        value={value}
         onChange={onChange}
         className="h-10 w-full px-5 rounded-3xl border border-black border-solid font-secondary mb-2"
       />

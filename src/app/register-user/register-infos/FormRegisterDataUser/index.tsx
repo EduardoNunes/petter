@@ -3,11 +3,37 @@ import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Select from "@/components/Select/Select";
 import { useStepContext } from "@/context/useStepContext";
-import { useState } from "react";
+import viaCep from "@/server/api-viacep";
+import formatCep from "@/utils/formatCEP";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function FormUserRegisterData() {
   const { handleToAddCurrentStep } = useStepContext();
   const [selectedOption, setSelectOption] = useState("");
+  const [cep, setCep] = useState("");
+  const [addressFrom, setAddressForm] = useState("");
+
+  const handleChangeAddress = async (event: ChangeEvent<HTMLInputElement>) => {
+    const newCep = event.target.value;
+    if (newCep.length <= 9) {
+      formatCep(newCep, setCep);
+    }
+  };
+
+  useEffect(() => {
+    const fetchAddress = async () => {
+      if (cep.length === 9) {
+        try {
+          const response = await viaCep(cep.replace(/\D/g, ""));
+
+          console.log("response", response);
+        } catch (error) {
+          console.error("Erro ao obter dados do CEP:", error);
+        }
+      }
+    };
+    fetchAddress();
+  }, [cep]);
 
   return (
     <form className="h-[100%] mb-6 mt-2" onSubmit={handleToAddCurrentStep}>
@@ -23,6 +49,8 @@ export default function FormUserRegisterData() {
             type="text"
             id="cep"
             autoComplete="cep"
+            value={cep}
+            onChange={handleChangeAddress}
           />
         </div>
         <div className="flex mb-3">
@@ -42,7 +70,7 @@ export default function FormUserRegisterData() {
             />
           )}
         </div>
-        <div>
+        {/*         <div>
           <Label labelHtmlFor="passwordRepeat">Confirmar senha</Label>
           <Input
             text="Repita a senha."
@@ -50,7 +78,7 @@ export default function FormUserRegisterData() {
             id="passwordRepeat"
             autoComplete="current-password"
           />
-        </div>
+        </div> */}
       </div>
       <div className="absolute bottom-2 w-[90%]">
         <Button text="Continuar" type="internalButton" />

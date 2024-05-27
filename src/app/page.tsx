@@ -16,7 +16,7 @@ export default function Opening() {
   }, []);
 
   return (
-    <div>
+    <>
       <div className="flex flex-col items-center justify-center h-[100vh] w-[100vw] bg-gradient-to-r from-azulPalido to-branco">
         <Logo />
         <div className="flex gap-2 pt-14">
@@ -64,6 +64,6 @@ export default function Opening() {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 }
