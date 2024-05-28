@@ -55,6 +55,7 @@ export default function FormUserRegisterCredentials() {
 
       if ((await response).status === 201) {
         localStorage.setItem("tutorName", tutorName);
+        localStorage.setItem("email", email);
         router.push("/register-user/register-infos");
       }
     } catch (error: any) {

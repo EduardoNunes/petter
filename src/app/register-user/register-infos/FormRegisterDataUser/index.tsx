@@ -28,6 +28,7 @@ export default function FormUserRegisterData() {
   const [error, setError] = useState("");
   const [showAddressInfos, setShowAddressInfos] = useState(false);
   const [loading, setLoading] = useState(false);
+  const userEmail = localStorage.getItem("email");
 
   async function handleClickGoOn(event: SyntheticEvent) {
     event.preventDefault();
@@ -36,7 +37,7 @@ export default function FormUserRegisterData() {
       setLoading(true);
 
       await schemaRegisterInfosUser.validate(
-        {
+        {          
           date,
           gender: selectedOption === "outro" ? gender : selectedOption,
           phone,
@@ -50,7 +51,8 @@ export default function FormUserRegisterData() {
         { abortEarly: false }
       );
 
-      const response = await api.post("/users-register-infos", {
+      const response = await api.post("/user-register-infos", {
+        email: userEmail,
         date,
         gender,
         phone,
@@ -65,7 +67,7 @@ export default function FormUserRegisterData() {
       console.log((await response).status, "RESPONSE");
 
       if ((await response).status === 201) {
-        router.push("");
+        router.push("/home");
       }
     } catch (error: any) {
       if (

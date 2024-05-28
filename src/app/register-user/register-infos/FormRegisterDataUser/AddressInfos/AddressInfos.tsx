@@ -22,13 +22,13 @@ export default function AddressInfos({
         <strong className="font-secondary">DDD:</strong> {ddd}
       </p>
       <p className="font-secondary">
-        <strong className="font-secondary">Locality:</strong> {locality}
+        <strong className="font-secondary">Cidade:</strong> {locality}
       </p>
       <p className="font-secondary">
-        <strong className="font-secondary">Public Place:</strong> {publicPlace}
+        <strong className="font-secondary">Rua:</strong> {publicPlace}
       </p>
       <p className="font-secondary">
-        <strong className="font-secondary">UF:</strong> {uf}
+        <strong className="font-secondary">Estado:</strong> {uf}
       </p>
     </div>
   );
