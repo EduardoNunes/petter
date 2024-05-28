@@ -28,7 +28,7 @@ export default function RegisterUserInfos() {
       setTutorName(session.user?.name || "");
       setEmail(session.user?.email || "");
       setUserImage(session.user?.image || "");
-      
+
       registerByAuth();
     }
 

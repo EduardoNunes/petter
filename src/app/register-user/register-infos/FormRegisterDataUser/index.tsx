@@ -4,22 +4,29 @@ import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import Select from "@/components/Select/Select";
-import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
 import viaCep from "@/server/api-viacep";
-import formatCep from "@/utils/formatCEP";
-
+import formatCep from "@/utils/formatCep";
+import formatPhone from "@/utils/formatPhone";
 import { schemaRegisterInfosUser } from "@/validation/schemaRegisterInfosUser";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
+import AddressInfos from "./AddressInfos/AddressInfos";
 
 export default function FormUserRegisterData() {
   const router = useRouter();
   const [selectedOption, setSelectOption] = useState("");
   const [date, setDate] = useState("");
   const [cep, setCep] = useState("");
+  const [neighborhood, setNeighborhood] = useState("");
+  const [ddd, setDdd] = useState("");
+  const [locality, setLocality] = useState("");
+  const [publicPlace, setPublicPlace] = useState("");
+  const [uf, setUf] = useState("");
   const [gender, setGender] = useState("");
+  const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
+  const [showAddressInfos, setShowAddressInfos] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleClickGoOn(event: SyntheticEvent) {
@@ -31,16 +38,28 @@ export default function FormUserRegisterData() {
       await schemaRegisterInfosUser.validate(
         {
           date,
+          gender: selectedOption === "outro" ? gender : selectedOption,
+          phone,
           cep,
-          gender,
+          neighborhood,
+          ddd,
+          locality,
+          publicPlace,
+          uf,
         },
         { abortEarly: false }
       );
 
       const response = await api.post("/users-register-infos", {
         date,
-        cep,
         gender,
+        phone,
+        cep,
+        neighborhood,
+        ddd,
+        locality,
+        publicPlace,
+        uf,
       });
 
       console.log((await response).status, "RESPONSE");
@@ -65,15 +84,18 @@ export default function FormUserRegisterData() {
     }
   }
 
-  const handleChangeData = async (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeData = (event: ChangeEvent<HTMLInputElement>) => {
     setDate(event.target.value);
   };
 
-  const handleChangeAddress = async (event: ChangeEvent<HTMLInputElement>) => {
-    const newCep = event.target.value;
-    if (newCep.length <= 9) {
-      formatCep(newCep, setCep);
-    }
+  const handleTypeGender = (event: ChangeEvent<HTMLInputElement>) => {
+    setGender(event.target.value);
+  };
+
+  const handleTypePhone = (event: ChangeEvent<HTMLInputElement>) => {
+    const newPhone = event.target.value;
+
+    formatPhone(newPhone, setPhone);
   };
 
   useEffect(() => {
@@ -82,7 +104,13 @@ export default function FormUserRegisterData() {
         try {
           const response = await viaCep(cep.replace(/\D/g, ""));
 
-          console.log("response", response);
+          console.log("response", response || "");
+          setNeighborhood(response.neighborhood || "");
+          setDdd(response.ddd || "");
+          setLocality(response.locality || "");
+          setPublicPlace(response.publicPlace || "");
+          setUf(response.uf || "");
+          setShowAddressInfos(true);
         } catch (error) {
           console.error("Erro ao obter dados do CEP:", error);
         }
@@ -91,12 +119,19 @@ export default function FormUserRegisterData() {
     fetchAddress();
   }, [cep]);
 
+  const handleChangeAddress = async (event: ChangeEvent<HTMLInputElement>) => {
+    const newCep = event.target.value;
+    if (newCep.length <= 9) {
+      formatCep(newCep, setCep);
+    }
+  };
+
   return (
     <form className="h-[100%] mb-6 mt-2" onSubmit={handleClickGoOn}>
       {error && <ErrorWindow textError={error} setError={setError} />}
       {loading && <Loading />}
-      <div className="overflow-y-auto" style={{ height: "100% - [120px]" }}>
-        <div className="mb-3">
+      <div className="overflow-hidden" style={{ height: "100% - [120px]" }}>
+        <div className="mb-2">
           <Label labelHtmlFor="birth">Sua data de nascimento</Label>
           <Input
             text=""
@@ -106,7 +141,41 @@ export default function FormUserRegisterData() {
             onChange={handleChangeData}
           />
         </div>
-        <div className="mb-3">
+        <div className="flex mb-2">
+          <div>
+            <Label labelHtmlFor="gender">Gênero</Label>
+            <Select
+              selectedOption={selectedOption}
+              option1="masculino"
+              option2="feminino"
+              option3="outro"
+              option4="prefiro não informar"
+              handleSelectChange={(e) => setSelectOption(e.target.value)}
+            />
+          </div>
+          {selectedOption === "outro" && (
+            <Input
+              text="Digite seu gênero."
+              type="text"
+              id="gender"
+              autoComplete="gender"
+              value={gender}
+              onChange={handleTypeGender}
+            />
+          )}
+        </div>
+        <div className="mb-2">
+          <Label labelHtmlFor="tel">Número de telefone</Label>
+          <Input
+            text="Informe seu número de celular."
+            type="tel"
+            id="tel"
+            autoComplete="tel"
+            value={phone}
+            onChange={handleTypePhone}
+          />
+        </div>
+        <div className="h-[24vh]">
           <Label labelHtmlFor="cep">CEP</Label>
           <Input
             text="Digite seu cep."
@@ -116,33 +185,16 @@ export default function FormUserRegisterData() {
             value={cep}
             onChange={handleChangeAddress}
           />
-        </div>
-        <div className="flex mb-3">
-          <div>
-            <Label labelHtmlFor="gender">Gênero</Label>
-            <Select
-              selectedOption={selectedOption}
-              handleSelectChange={(e) => setSelectOption(e.target.value)}
-            />
-          </div>
-          {selectedOption === "option3" && (
-            <Input
-              text="Digite seu gênero."
-              type="text"
-              id="gender"
-              autoComplete="gender"
+          {showAddressInfos && (
+            <AddressInfos
+              neighborhood={neighborhood}
+              ddd={ddd}
+              locality={locality}
+              publicPlace={publicPlace}
+              uf={uf}
             />
           )}
         </div>
-        {/*         <div>
-          <Label labelHtmlFor="passwordRepeat">Confirmar senha</Label>
-          <Input
-            text="Repita a senha."
-            type="password"
-            id="passwordRepeat"
-            autoComplete="current-password"
-          />
-        </div> */}
       </div>
       <div className="absolute bottom-2 w-[90%]">
         <Button text="Continuar" type="internalButton" />

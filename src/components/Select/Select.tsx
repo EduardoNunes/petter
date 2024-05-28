@@ -2,11 +2,19 @@ import React, { ChangeEvent } from "react";
 
 interface SelectProps {
   selectedOption: string;
+  option1: string;
+  option2: string;
+  option3: string;
+  option4: string;
   handleSelectChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const Select: React.FC<SelectProps> = ({
   selectedOption,
+  option1,
+  option2,
+  option3,
+  option4,
   handleSelectChange,
 }) => {
   return (
@@ -19,17 +27,17 @@ const Select: React.FC<SelectProps> = ({
       <option value="" className="font-secondary">
         Selecione...
       </option>
-      <option value="option1" className="font-secondary">
-        Masculino
+      <option value="masculino" className="font-secondary">
+        {option1}
       </option>
-      <option value="option2" className="font-secondary">
-        Feminino
+      <option value="feminino" className="font-secondary">
+        {option2}
       </option>
-      <option value="option3" className="font-secondary">
-        Outro
+      <option value={option3} className="font-secondary">
+        {"outro"}
       </option>
-      <option value="option4" className="font-secondary">
-        Prefiro não informar.
+      <option value="Prefiro não informar" className="font-secondary">
+        {option4}
       </option>
     </select>
   );

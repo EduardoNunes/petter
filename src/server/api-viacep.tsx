@@ -4,13 +4,12 @@ async function viaCep(cep: string) {
     const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
 
     return {
-        cep,
-/*         publicPlace: data.logradouro,
-        complement: "",
-        neighborhood: "",
+        neighborhood: data.bairro,
+        cep: data.cep,
+        ddd: data.ddd,
         locality: data.localidade,
-        estado: data.uf,
-        ddd: "", */
+        publicPlace: data.logradouro,
+        uf: data.uf,
     };
 }
 

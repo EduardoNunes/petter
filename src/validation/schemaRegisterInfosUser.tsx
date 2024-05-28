@@ -17,4 +17,7 @@ export const schemaRegisterInfosUser = yup.object().shape({
     .string()
     .required("O CEP é obrigatório.")
     .matches(/^\d{5}-\d{3}$/, "CEP deve estar no formato XXXXX-XXX"),
+    gender: yup
+    .string()
+    .required("Gênero é obrigatório"),
 });
