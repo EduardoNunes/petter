@@ -37,7 +37,7 @@ export default function FormUserRegisterData() {
       setLoading(true);
 
       await schemaRegisterInfosUser.validate(
-        {          
+        {
           date,
           gender: selectedOption === "outro" ? gender : selectedOption,
           phone,
@@ -67,7 +67,7 @@ export default function FormUserRegisterData() {
       console.log((await response).status, "RESPONSE");
 
       if ((await response).status === 201) {
-        router.push("/home");
+        router.push("");
       }
     } catch (error: any) {
       if (
@@ -91,8 +91,10 @@ export default function FormUserRegisterData() {
   };
 
   const handleTypeGender = (event: ChangeEvent<HTMLInputElement>) => {
+
     setGender(event.target.value);
   };
+  console.log("GENERO", gender);
 
   const handleTypePhone = (event: ChangeEvent<HTMLInputElement>) => {
     const newPhone = event.target.value;
@@ -152,7 +154,14 @@ export default function FormUserRegisterData() {
               option2="feminino"
               option3="outro"
               option4="prefiro não informar"
-              handleSelectChange={(e) => setSelectOption(e.target.value)}
+              handleSelectChange={(e) => {
+                setSelectOption(e.target.value);
+                if (e.target.value !== "outro") {
+                  setGender(e.target.value);
+                } else {
+                  setGender("")
+                }
+              }}
             />
           </div>
           {selectedOption === "outro" && (
