@@ -30,7 +30,7 @@ export default function FormUserRegisterData() {
   const [loading, setLoading] = useState(false);
   const userEmail = localStorage.getItem("email");
 
-  async function handleClickGoOn(event: SyntheticEvent) {
+  async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
 
     try {
@@ -131,7 +131,7 @@ export default function FormUserRegisterData() {
   };
 
   return (
-    <form className="h-[100%] mb-6 mt-2" onSubmit={handleClickGoOn}>
+    <form className="h-[100%] mb-6 mt-2" onSubmit={onSubmit}>
       {error && <ErrorWindow textError={error} setError={setError} />}
       {loading && <Loading />}
       <div className="overflow-hidden" style={{ height: "100% - [120px]" }}>

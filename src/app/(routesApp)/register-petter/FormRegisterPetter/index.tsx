@@ -1,14 +1,62 @@
 import Button from "@/components/Button/Button";
 import CheckBox from "@/components/CheckBox/CheckBox";
+import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
-import { ChangeEvent, useState } from "react";
+import Loading from "@/components/Loading/Loading";
+import api from "@/server/api";
+import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 
 export default function FormRegisterPetter() {
   const [checkNoData, setCheckNoData] = useState(false);
   const [petterName, setPetterName] = useState("");
   const [petterKind, setPetterKind] = useState("");
   const [petterBreed, setPetterBreed] = useState("");
+  const [petterBirth, setPetterBirth] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function onSubmit(event: SyntheticEvent) {
+    event.preventDefault();
+
+    try {
+      setLoading(true);
+
+      await schemaRegisterPetterInfos.validate(
+        {
+          petterName,
+          petterKind,
+          petterBreed,
+          petterBirth,
+        },
+        { abortEarly: false }
+      );
+
+      const response = await api.post("petter-register-infos", {
+        petterName,
+        petterKind,
+        petterBreed,
+        petterBirth,
+      });
+
+      console.log((await response).status, "RESPONSE");
+    } catch (error: any) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else if (error.errors && error.errors.length > 0) {
+        setError(error.errors[0]);
+      } else {
+        setError(error.message || "Ocorreu um erro.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const handleNamePetterChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPetterName(event.target.value);
@@ -22,12 +70,18 @@ export default function FormRegisterPetter() {
     setPetterBreed(event.target.value);
   };
 
+  const handleBirthPetterChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPetterBirth(event.target.value);
+  };
+
   const handleClickNoData = () => {
     setCheckNoData(!checkNoData);
   };
 
   return (
-    <form className="w-full">
+    <form className="w-full" onSubmit={onSubmit}>
+      {error && <ErrorWindow textError={error} setError={setError} />}
+      {loading && <Loading />}
       <div className="mb-3">
         <Label labelHtmlFor="petter-name">Nome do Petter</Label>
         <Input
@@ -39,7 +93,7 @@ export default function FormRegisterPetter() {
         />
       </div>
       <div className="mb-3">
-        <Label labelHtmlFor="kind-petter">Kind do Petter</Label>
+        <Label labelHtmlFor="kind-petter">Tipo do Petter</Label>
         <Input
           text="Ex: Cachorro, Gato."
           type="text"
@@ -66,7 +120,7 @@ export default function FormRegisterPetter() {
             type="date"
             id="petter-birth"
             autoComplete="date"
-            /*  onChange={handleChangeData} */
+            onChange={handleBirthPetterChange}
           />
         </div>
         <div className="flex items-center w-[50%] h-[72px] pl-4">

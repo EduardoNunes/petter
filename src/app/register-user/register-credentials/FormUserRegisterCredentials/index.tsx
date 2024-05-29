@@ -40,7 +40,7 @@ export default function FormUserRegisterCredentials() {
         setError(
           "Para prosseguirmos, você deve concordar com as políticas de privacidade"
         );
-        
+
         return;
       }
 
@@ -70,7 +70,6 @@ export default function FormUserRegisterCredentials() {
       } else {
         setError(error.message || "Ocorreu um erro.");
       }
-
     } finally {
       setLoading(false);
     }
