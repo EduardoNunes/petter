@@ -6,7 +6,7 @@ import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
 import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 
 export default function FormRegisterPetter() {
   const [checkNoData, setCheckNoData] = useState(false);
@@ -22,7 +22,7 @@ export default function FormRegisterPetter() {
 
     try {
       setLoading(true);
-
+      console.log("DATA", petterBirth);
       await schemaRegisterPetterInfos.validate(
         {
           petterName,
@@ -74,9 +74,13 @@ export default function FormRegisterPetter() {
     setPetterBirth(event.target.value);
   };
 
-  const handleClickNoData = () => {
+  const handleClickNoDataCheck = () => {
     setCheckNoData(!checkNoData);
   };
+
+  useEffect(() => {
+    checkNoData ? setPetterBirth("Não sei a data.") : setPetterBirth("");
+  }, [checkNoData]);
 
   return (
     <form className="w-full" onSubmit={onSubmit}>
@@ -113,7 +117,11 @@ export default function FormRegisterPetter() {
         />
       </div>
       <div className="flex mb-2">
-        <div className="flex flex-col items-center w-[50%]">
+        <div
+          className={`flex flex-col items-center w-[50%] ${
+            checkNoData ? "opacity-25" : ""
+          }`}
+        >
           <Label labelHtmlFor="birth">Data de nascimento.</Label>
           <Input
             text=""
@@ -121,10 +129,11 @@ export default function FormRegisterPetter() {
             id="petter-birth"
             autoComplete="date"
             onChange={handleBirthPetterChange}
+            disabled={checkNoData}
           />
         </div>
         <div className="flex items-center w-[50%] h-[72px] pl-4">
-          <CheckBox checked={checkNoData} onChange={handleClickNoData} />
+          <CheckBox checked={checkNoData} onChange={handleClickNoDataCheck} />
           <p className="w-[90%] font-secondary ml-3">Não sei a data.</p>
         </div>
       </div>
