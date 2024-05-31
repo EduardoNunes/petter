@@ -8,7 +8,7 @@ export interface PetterUser {
 }
 
 const today = new Date();
-const minDate = new Date("1900-01-01");
+const minDate = new Date("1400-01-01");
 
 export const schemaRegisterPetterInfos = yup.object().shape({
   petterName: yup.string().required("O nome é obrigatório."),
@@ -16,7 +16,7 @@ export const schemaRegisterPetterInfos = yup.object().shape({
   petterBreed: yup.string().required("A raça é obrigatória."),
   petterBirth: yup
     .string()
-    .required("A data de nascimento é obrigatória.")
+    .required('Se não souber a data, marque a opção "Não sei a data."')
     .max(today.getTime(), "A data não pode ser maior que a data atual.")
     .test(
       "is-valid-date-or-unknown",

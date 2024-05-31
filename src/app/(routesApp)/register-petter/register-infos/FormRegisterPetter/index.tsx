@@ -6,6 +6,8 @@ import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
 import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
+import { useRouter } from "next/navigation";
+
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 
 export default function FormRegisterPetter() {
@@ -16,13 +18,14 @@ export default function FormRegisterPetter() {
   const [petterBirth, setPetterBirth] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const route = useRouter();
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
 
     try {
       setLoading(true);
-      console.log("DATA", petterBirth);
+
       await schemaRegisterPetterInfos.validate(
         {
           petterName,
@@ -41,6 +44,7 @@ export default function FormRegisterPetter() {
       });
 
       console.log((await response).status, "RESPONSE");
+      route.push("")
     } catch (error: any) {
       if (
         error.response &&
