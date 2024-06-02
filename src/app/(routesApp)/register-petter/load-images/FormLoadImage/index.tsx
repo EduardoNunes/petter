@@ -1,25 +1,80 @@
 "use client";
 
 import Button from "@/components/Button/Button";
-import { useStepContext } from "@/context/useStepContext";
+import ErrorWindow from "@/components/Error/ErrorWindown";
+import Loading from "@/components/Loading/Loading";
+import api from "@/server/api";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { SyntheticEvent, useState } from "react";
 
 export default function FormLoadImages() {
-  const [images, setImages] = useState<string[]>([]);
-  const { handleToAddCurrentStep } = useStepContext();
+  const [images, setImages] = useState<File[]>([]);
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
   );
+  const router = useRouter();
+  const petterIdStr = localStorage.getItem("petterId");
 
-  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  async function onSubmit(event: SyntheticEvent) {
+    event.preventDefault();
+
+    if (!petterIdStr) {
+      setError("Petter ID não encontrado no localStorage");
+      return;
+    }
+
+    const petterIdNum = Number(petterIdStr);
+    console.log("PETID", typeof(petterIdNum))
+    try {
+      setLoading(true);
+
+      const formData = new FormData(); 
+
+      for (const image of images) {
+        formData.append("petterId", petterIdNum.toString());
+        formData.append("description", description);
+        formData.append("images", image); 
+      }
+
+      const response = await api.post("petter-register-images", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("RESPONSE", response);
+
+      if (response.status !== 200) {
+        throw new Error("Erro ao enviar a imagem");
+      }
+
+      router.push("");
+    } catch (error: any) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else {
+        setError(error.message || "Ocorreu um erro.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     const newImages = Array.from(e.target.files ?? []);
 
     if (newImages.length > 0) {
-      const newUrls = newImages.map((image) => URL.createObjectURL(image));
-      setImages((prevImages) => prevImages.concat(newUrls));
+      setImages((prevImages) => prevImages.concat(newImages));
     }
   };
 
@@ -32,7 +87,6 @@ export default function FormLoadImages() {
   };
 
   const handleClickDeleteImage = () => {
-
     if (selectedImageIndex !== null) {
       setImages((prevImages) =>
         prevImages.filter((_, idx) => idx !== selectedImageIndex)
@@ -43,9 +97,11 @@ export default function FormLoadImages() {
 
   return (
     <form
-      onSubmit={handleToAddCurrentStep}
+      onSubmit={onSubmit}
       className="flex flex-col items-start h-[72%] w-full"
     >
+      {error && <ErrorWindow textError={error} setError={setError} />}
+      {loading && <Loading />}
       <label
         htmlFor="fileInput"
         className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-[6%]"
@@ -65,14 +121,14 @@ export default function FormLoadImages() {
         />
       </label>
       <div className="flex flex-wrap justify-center w-full max-h-[75%] gap-3 overflow-auto">
-        {images.map((imageUrl, index) => (
+        {images.map((image, index) => (
           <div
             key={index}
             className="relative w-[140px] h-[100px]"
             onClick={() => handleClickOpenTrash(index)}
           >
             <img
-              src={imageUrl}
+              src={URL.createObjectURL(image)}
               alt={`Imagem ${index + 1}`}
               className="w-[140px] h-[100px] rounded-2xl"
             />

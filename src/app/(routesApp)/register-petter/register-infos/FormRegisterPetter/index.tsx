@@ -43,8 +43,8 @@ export default function FormRegisterPetter() {
         petterBirth,
       });
 
-      console.log((await response).status, "RESPONSE");
-      route.push("")
+      localStorage.setItem("petterId", (await response).data.id);
+      route.push("");
     } catch (error: any) {
       if (
         error.response &&
