@@ -36,8 +36,12 @@ export default function FormLoadImages() {
 
       const formData = new FormData();
 
+      if (images.length === 0) {
+        setError("Carregue pelo menos uma imagem do Petter.");
+        return;
+      }
+
       for await (const image of images) {
-        console.log("IMAGE", image.name, typeof(image.size), typeof(image.type))
         schemaRegisterPetterImage.validate(
           {
             name: image.name,
@@ -48,7 +52,7 @@ export default function FormLoadImages() {
         );
       }
 
-      for await (const image of images) {        
+      for await (const image of images) {
         formData.append("petterId", petterIdNum.toString());
         formData.append("description", description);
         formData.append("images", image);
@@ -64,7 +68,7 @@ export default function FormLoadImages() {
 
       router.push("");
     } catch (error: any) {
-      console.log("ERROR", error)
+      console.log("ERROR", error);
       if (
         error.response &&
         error.response.data &&
