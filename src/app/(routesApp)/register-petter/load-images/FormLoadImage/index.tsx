@@ -4,6 +4,7 @@ import Button from "@/components/Button/Button";
 import ErrorWindow from "@/components/Error/ErrorWindown";
 import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
+import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useState } from "react";
@@ -17,7 +18,8 @@ export default function FormLoadImages() {
     null
   );
   const router = useRouter();
-  const petterIdStr = localStorage.getItem("petterId");
+  const petterIdStr =
+    typeof window !== "undefined" ? localStorage.getItem("petterId") : null;
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
@@ -28,16 +30,28 @@ export default function FormLoadImages() {
     }
 
     const petterIdNum = Number(petterIdStr);
-    console.log("PETID", typeof(petterIdNum))
+
     try {
       setLoading(true);
 
-      const formData = new FormData(); 
+      const formData = new FormData();
 
-      for (const image of images) {
+      for await (const image of images) {
+        console.log("IMAGE", image)
+        schemaRegisterPetterInfos.validate(
+          {
+            name: image.name,
+            size: image.size,
+            type: image.type,
+          },
+          { abortEarly: false }
+        );
+      }
+
+      for await (const image of images) {        
         formData.append("petterId", petterIdNum.toString());
         formData.append("description", description);
-        formData.append("images", image); 
+        formData.append("images", image);
       }
 
       const response = await api.post("petter-register-images", formData, {
@@ -54,6 +68,7 @@ export default function FormLoadImages() {
 
       router.push("");
     } catch (error: any) {
+      console.log("ERROR", error)
       if (
         error.response &&
         error.response.data &&
