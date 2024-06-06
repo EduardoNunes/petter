@@ -62,10 +62,6 @@ export default function FormLoadImages() {
 
       console.log("RESPONSE", response);
 
-      if (response.status !== 200) {
-        throw new Error("Erro ao enviar a imagem");
-      }
-
       router.push("");
     } catch (error: any) {
       console.log("ERROR", error)
