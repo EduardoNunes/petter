@@ -1,3 +1,5 @@
+"use client"
+
 import Button from "@/components/Button/Button";
 import "./color-fonte.css";
 import { useRouter } from "next/navigation";
@@ -8,7 +10,7 @@ export default function Congratulations() {
   const router = useRouter();
 
   const handleClickGoOn = () => {
-    router.push("/notice");
+    router.push("/home");
   };
 
   return (
@@ -17,7 +19,7 @@ export default function Congratulations() {
         <p className="font-primary text-ultraLarge">Parabéns!</p>
       </div>
       <img src={profileImage} alt="" />
-      <p className="font-secondary">{`Seja bem vindo, ${namePetter}`}!</p>
+      <p className="font-secondary">{`Seja muito bem vindo, ${namePetter}`}!</p>
       <p className="font-secondary">Vamos fazer amigos?</p>
 
       <div className="absolute w-[90%] bottom-[3%]">

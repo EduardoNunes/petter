@@ -1,71 +1,68 @@
-"use client"
+"use client";
 
 import Button from "@/components/Button/Button";
 import { Label } from "@/components/Label/Label";
 import Petter from "@/components/Petter/PetterColorful";
-import "./checkbox-style.css";
 import { useRouter } from "next/navigation";
 import CheckBox from "@/components/CheckBox/CheckBox";
+import { useState } from "react";
+import ErrorWindow from "@/components/Error/ErrorWindown";
 
 export default function Notice() {
+  const [error, setError] = useState("");
+  const [checkedList, setCheckedList] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
   const router = useRouter();
 
   const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    router.push("/home");
+
+    if (checkedList.every((check) => check === true)) {
+      router.push("/home");
+    } else {
+      setError("Leia e marque todos os itens.");
+    }
+  };
+
+  const handleClickCheck = (index: number) => {
+    const newList = [...checkedList];
+    newList[index] = !newList[index];
+    setCheckedList(newList);
   };
 
   const namePetter = "Sr. Petter";
   return (
     <div className="flex justify-center items-center w-[100vw] h-[100vh]">
+      {error && <ErrorWindow textError={error} setError={setError} />}
       <div className="flex flex-col items-center justify-around w-[90%] h-[70%]">
         <div className="flex flex-col items-center">
           <Petter fontSize="extraLarge" />
           <h2 className="font-secondary text-center text-big mb-5">{`Seja bem vindo, ${namePetter}!`}</h2>
         </div>
         <div className="flex flex-col overflow-auto">
-          <Label labelHtmlFor="checkbox">
-            <div className="flex gap-5">
-              <CheckBox />
-              <p className="w-[90%] font-secondary mb-5">
-                Siga as boas práticas da casa.
-              </p>
-            </div>
-          </Label>
-          <Label labelHtmlFor="checkbox">
-            <div className="flex gap-5">
-              <CheckBox />
-              <p className="w-[90%] font-secondary mb-5">
-                Seja um Petter real. Forneça apenas informações e imagens
-                verdadeiras.
-              </p>
-            </div>
-          </Label>
-          <Label labelHtmlFor="checkbox">
-            <div className="flex gap-5">
-              <CheckBox />
-              <p className="w-[90%] font-secondary mb-5">
-                Não forneça informações pessoais a usuários suspeitos.
-              </p>
-            </div>
-          </Label>
-          <Label labelHtmlFor="checkbox">
-            <div className="flex gap-5">
-              <CheckBox />
-              <p className="w-[90%] font-secondary mb-5">
-                Respeite todos. Estamos todos em busca de boas amizades e boas
-                experiências.
-              </p>
-            </div>
-          </Label>
-          <Label labelHtmlFor="checkbox">
-            <div className="flex gap-5">
-              <CheckBox />
-              <p className="w-[90%] font-secondary mb-5">
-                Ajude a comunidade. Sempre denuncie maus comportamentos.
-              </p>
-            </div>
-          </Label>
+          {[
+            "Siga as boas práticas da casa.",
+            "Seja um Petter real. Forneça apenas informações e imagens verdadeiras.",
+            "Não forneça informações pessoais a usuários suspeitos.",
+            "Respeite todos. Estamos todos em busca de boas amizades e boas experiências.",
+            "Ajude a comunidade. Sempre denuncie maus comportamentos.",
+          ].map((text, index) => (
+            <Label key={index} labelHtmlFor={`checkbox-${index}`}>
+              <div className="flex gap-5">
+                <CheckBox
+                  checked={checkedList[index]}
+                  onChange={() => handleClickCheck(index)}
+                  id={`checkbox-${index}`}
+                />
+                <p className="w-[90%] font-secondary mb-5">{text}</p>
+              </div>
+            </Label>
+          ))}
         </div>
         <div className="absolute bottom-[6%] w-[90%]">
           <Button
