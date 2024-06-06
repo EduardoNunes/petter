@@ -42,6 +42,7 @@ export default function FormLoadImages() {
       }
 
       for await (const image of images) {
+        console.log("IMAGEM", image.type)
         schemaRegisterPetterImage.validate(
           {
             name: image.name,
@@ -63,8 +64,6 @@ export default function FormLoadImages() {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      console.log("RESPONSE", response);
 
       router.push("");
     } catch (error: any) {
