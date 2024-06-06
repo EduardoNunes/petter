@@ -31,7 +31,7 @@ export default function FormRegisterPetter() {
           petterName,
           petterKind,
           petterBreed,
-          petterBirth,
+          petterBirth,  
         },
         { abortEarly: false }
       );

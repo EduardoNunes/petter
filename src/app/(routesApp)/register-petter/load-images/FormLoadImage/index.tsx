@@ -4,7 +4,7 @@ import Button from "@/components/Button/Button";
 import ErrorWindow from "@/components/Error/ErrorWindown";
 import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
-import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
+import { schemaRegisterPetterImage } from "@/validation/schemaRegisterPetterImages copy";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useState } from "react";
@@ -37,8 +37,8 @@ export default function FormLoadImages() {
       const formData = new FormData();
 
       for await (const image of images) {
-        console.log("IMAGE", image)
-        schemaRegisterPetterInfos.validate(
+        console.log("IMAGE", image.name, typeof(image.size), typeof(image.type))
+        schemaRegisterPetterImage.validate(
           {
             name: image.name,
             size: image.size,
