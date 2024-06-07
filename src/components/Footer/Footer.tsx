@@ -2,24 +2,37 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Loading from "../Loading/Loading";
 
 export default function Footer() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleClickGoHome = () => {
-    router.push("/home");
+    if (window.location.pathname !== "/home") {
+      setLoading(true);
+      router.push("/home");
+    }
   };
 
   const handleClickGoPost = () => {
-    router.push("/post");
+    if (window.location.pathname !== "/post") {
+      setLoading(true);
+      router.push("/post");
+    }
   };
 
   const handleClickGoProfile = () => {
-    router.push("/profile");
+    if (window.location.pathname !== "/profile") {
+      setLoading(true);
+      router.push("/profile");
+    }
   };
 
   return (
     <div className="absolute flex items-center justify-between bottom-0 h-[7%] w-[90%] pl-2 pr-2">
+      {loading && <Loading />}
       <button onClick={handleClickGoHome}>
         <Image
           src="/images/home.png"
