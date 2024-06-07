@@ -44,9 +44,11 @@ export default function FormLogin() {
       });
 
       if (response.status === 201) {
-        const token = response.data.accessToken;
-        console.log((await response).data, "RESPONSE");
-        router.push("/home");
+        const { accessToken, userId } = response.data;
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("token", accessToken);
+        //Ir para home se houver petter
+        router.push(""); 
       }
     } catch (error: any) {
       if (
