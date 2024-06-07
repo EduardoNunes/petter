@@ -6,15 +6,15 @@ import { useEffect, useState } from "react";
 import api from "@/server/api";
 
 export default function Card() {
-  const [imageSrc, setImageSrc] = useState("");
+  const [imageSrc, setImageSrc] = useState([]);
 
   useEffect(() => {
     async function loadTimeline() {
-      console.log("TESTE");
       try {
-        const response = await api.get("show-card-timeline/top-10-images", {});
+        const response = await api.get("show-card-timeline/top-10-images");
 
-        console.log("RESPONSE", response.data);
+        const urls = response.data;
+        setImageSrc(urls);
       } catch (error) {
         console.log("ERRO", error);
       }
@@ -25,12 +25,12 @@ export default function Card() {
 
   return (
     <div className="flex flex-col relative w-full h-full overflow-auto">
-      {dataCardTemp.map((card, index) => (
+      {imageSrc.map((image, index) => (
         <div key={index} className="relative w-full h-auto">
-          <p className="absolute left-2 text-medium">{card.name}</p>
+          <p className="absolute left-2 text-medium">{index}</p>
           <img
-            src={card.imageSrc}
-            alt={card.name}
+            src={image}
+            alt={`${index}`}
             style={{
               width: "100%",
               height: "auto",
@@ -39,10 +39,7 @@ export default function Card() {
               left: 0,
             }}
           />
-          <FooterCard
-            loves={card.loves}
-            commentsLength={card.comments.length}
-          />
+          <FooterCard loves={index} commentsLength={index} />
         </div>
       ))}
     </div>
