@@ -44,8 +44,9 @@ export default function FormRegisterPetter() {
       });
 
       localStorage.setItem("petterId", (await response).data.id);
-      route.push("");
+      route.push("/register-petter/load-images");
     } catch (error: any) {
+      setLoading(false);
       if (
         error.response &&
         error.response.data &&
@@ -57,8 +58,6 @@ export default function FormRegisterPetter() {
       } else {
         setError(error.message || "Ocorreu um erro.");
       }
-    } finally {
-      setLoading(false);
     }
   }
 

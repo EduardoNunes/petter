@@ -65,8 +65,9 @@ export default function FormLoadImages() {
         },
       });
 
-      router.push("");
+      router.push("/register-petter/about-petter");
     } catch (error: any) {
+      setLoading(false);
       console.log("ERROR", error);
       if (
         error.response &&
@@ -77,8 +78,6 @@ export default function FormLoadImages() {
       } else {
         setError(error.message || "Ocorreu um erro.");
       }
-    } finally {
-      setLoading(false);
     }
   }
 
