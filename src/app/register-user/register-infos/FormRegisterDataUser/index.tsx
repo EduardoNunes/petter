@@ -67,7 +67,7 @@ export default function FormUserRegisterData() {
       console.log((await response).status, "RESPONSE");
 
       if ((await response).status === 201) {
-        router.push("");
+        router.push("/notice");
       }
     } catch (error: any) {
       if (
@@ -94,7 +94,6 @@ export default function FormUserRegisterData() {
 
     setGender(event.target.value);
   };
-  console.log("GENERO", gender);
 
   const handleTypePhone = (event: ChangeEvent<HTMLInputElement>) => {
     const newPhone = event.target.value;

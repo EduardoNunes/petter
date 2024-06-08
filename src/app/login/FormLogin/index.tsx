@@ -47,7 +47,7 @@ export default function FormLogin() {
         const { accessToken, userId } = response.data;
         localStorage.setItem("userId", userId);
         localStorage.setItem("token", accessToken);
-        //Ir para home se houver petter
+        //Ir para home se já houver petter
         router.push(""); 
       }
     } catch (error: any) {

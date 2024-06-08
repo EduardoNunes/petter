@@ -51,11 +51,12 @@ export default function FormUserRegisterCredentials() {
         profileImage,
       });
 
-      console.log((await response).status, "RESPONSE");
+      console.log((await response), "RESPONSE");
 
       if ((await response).status === 201) {
         localStorage.setItem("tutorName", tutorName);
         localStorage.setItem("email", email);
+        localStorage.setItem("userId", response.data.id);
         router.push("/register-user/register-infos");
       }
     } catch (error: any) {

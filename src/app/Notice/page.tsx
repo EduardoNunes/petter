@@ -23,7 +23,7 @@ export default function Notice() {
     event.preventDefault();
 
     if (checkedList.every((check) => check === true)) {
-      router.push("/home");
+      router.push("/registe-petter/register-infos");
     } else {
       setError("Leia e marque todos os itens.");
     }
