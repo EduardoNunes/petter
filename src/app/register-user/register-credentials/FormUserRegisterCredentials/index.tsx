@@ -57,6 +57,7 @@ export default function FormUserRegisterCredentials() {
         localStorage.setItem("tutorName", tutorName);
         localStorage.setItem("email", email);
         localStorage.setItem("userId", response.data.id);
+        localStorage.setItem("loggedBy", "credentials")
         router.push("/register-user/register-infos");
       }
     } catch (error: any) {

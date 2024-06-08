@@ -9,6 +9,7 @@ export default function InfosUserRegisterCredentials() {
 
   const HandleClickGoogleRegister = () => {
     setLoading(true)
+    localStorage.setItem("loggedBy", "google")
     signIn("google", { callbackUrl: "/register-user/register-infos" })
   }
 

@@ -64,8 +64,6 @@ export default function FormUserRegisterData() {
         uf,
       });
 
-      console.log((await response).status, "RESPONSE");
-
       if ((await response).status === 201) {
         router.push("/notice");
       }
@@ -81,8 +79,6 @@ export default function FormUserRegisterData() {
       } else {
         setError(error.message || "Ocorreu um erro.");
       }
-    } finally {
-      setLoading(false);
     }
   }
 

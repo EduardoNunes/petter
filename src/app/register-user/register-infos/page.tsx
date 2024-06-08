@@ -17,48 +17,54 @@ export default function RegisterUserInfos() {
   const router = useRouter();
 
   useEffect(() => {
-    async function fetchSession() {
-      const session = await getSession();
+    const loggedBy = localStorage.getItem("loggedBy");
 
-      if (!session) {
-        router.push("/register-user/register-credentials");
-        return;
-      }
-      localStorage.setItem("tutorName", session.user?.name || "");
-      setTutorName(session.user?.name || "");
-      setEmail(session.user?.email || "");
-      setUserImage(session.user?.image || "");
-
-      registerByAuth();
+    if (loggedBy === "google") {
+      fetchSession();
     }
-
-    fetchSession();
   }, []);
 
-  const registerByAuth = () => {
-    async function postData() {
-      try {
-        const response = await api.post("/users-register-credentials", {
-          name: tutorName,
-          email,
-          password,
-          profileImage: userImage,
-        });
+  async function fetchSession() {
+    const session = await getSession();
 
-        console.log((await response).status, "RESPONSE");
+    if (!session) {
+      router.push("/register-user/register-credentials");
+      return;
+    }
 
-        if ((await response).status === 201) {
-          router.push("/register-user/register-infos");
-        }
-      } catch (error) {
-        console.log("ERROR", error);
+    const name = session.user?.name || "";
+    const email = session.user?.email || "";
+    const image = session.user?.image || "";
+
+    localStorage.setItem("tutorName", name);
+    setTutorName(name);
+    localStorage.setItem("email", email);
+    setEmail(email);
+    localStorage.setItem("image", image);
+    setUserImage(image);
+
+    postData(name, email, image);
+  }
+
+  async function postData(name: string, email: string, image: string) {
+    try {
+      const response = await api.post("/users-register-credentials", {
+        name,
+        email,
+        password,
+        profileImage: image,
+      });
+
+      console.log(response, "RESPONSE");
+
+      if (response.status === 201) {
+        localStorage.setItem("userId", response.data.id);
+        router.push("/register-user/register-infos");
       }
+    } catch (error) {
+      console.log("ERROR", error);
     }
-
-    if (email) {
-      postData();
-    }
-  };
+  }
 
   return (
     <div className="flex flex-col w-[90%] h-[86%]">
