@@ -10,7 +10,7 @@ export default function PostStepSelectImage() {
   useEffect(() => {
     const pic = localStorage.getItem("SelectedPic");
     if (pic) {
-      setImage(pic);
+      setImage("");
       localStorage.removeItem("SelectedPic");
     }
   }, []);
@@ -25,7 +25,7 @@ export default function PostStepSelectImage() {
         text="Nova divulgação"
         showExit={true}
         routeToGo="home"
-        showContinue={true}
+        showContinue={image ? true : false}
       />
 
       <SelectedImage image={image} />
