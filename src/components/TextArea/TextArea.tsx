@@ -1,10 +1,16 @@
 import React, { useState, ChangeEvent } from "react";
 
-export default function TextArea() {
+interface TextAreaProps {
+  onTextChange: (text: string) => void;
+}
+
+const TextArea: React.FC<TextAreaProps> = ({ onTextChange }) => {
   const [textValue, setTextValue] = useState("");
 
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setTextValue(event.target.value);
+    const newTextValue = event.target.value;
+    setTextValue(newTextValue);
+    onTextChange(newTextValue);
   };
 
   return (
@@ -15,4 +21,6 @@ export default function TextArea() {
       className="h-[200px] w-full p-5 pt-2 pb-2 rounded-3xl border border-black border-solid font-secondary"
     />
   );
-}
+};
+
+export default TextArea;

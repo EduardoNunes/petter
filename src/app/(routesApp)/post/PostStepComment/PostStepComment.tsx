@@ -8,6 +8,7 @@ import { useStepContext } from "@/context/useStepContext";
 
 export default function PostStepComment() {
   const [selectedPic, setSelectedPic] = useState<string>("");
+  const [commentText, setCommentText] = useState<string>("");
   const router = useRouter();
   const { handleToDecreaseCurrentStep } = useStepContext();
 
@@ -18,12 +19,31 @@ export default function PostStepComment() {
     }
   }, []);
 
+  const handleTextChange = (text: string) => {
+    setCommentText(text);
+  };
+
+  console.log("COMMENT", commentText, selectedPic);
   const handleClickFinishPost = (event: { preventDefault: () => void }) => {
-    router.push("home");
-    localStorage.removeItem("SelectedPic");
-    setTimeout(() => {
-      handleToDecreaseCurrentStep();
-    }, 1000);
+    
+    try {
+      const response = await api.post("", {
+        description,
+        url,
+        userId,
+        petterInfoId,
+      });
+
+      localStorage.removeItem("SelectedPic");
+      setTimeout(() => {
+        handleToDecreaseCurrentStep();
+      }, 1000);
+
+      router.push("home");
+      console.log(response, "RESPONSE");
+    } catch (error) {
+      console.log("ERROR", error);
+    }
   };
 
   return (
@@ -33,7 +53,7 @@ export default function PostStepComment() {
       {selectedPic && <SelectedImage image={selectedPic} />}
 
       <div className="flex items-center  w-full mb-4">
-        <TextArea />
+        <TextArea onTextChange={handleTextChange} />
       </div>
       <div className="absolute w-[90%] bottom-[3%]">
         <Button
