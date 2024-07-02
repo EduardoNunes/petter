@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
 import { useRouter } from "next/navigation";
 import { useStepContext } from "@/context/useStepContext";
+import api from "@/server/api";
 
 export default function PostStepComment() {
   const [selectedPic, setSelectedPic] = useState<string>("");
@@ -23,8 +24,7 @@ export default function PostStepComment() {
     setCommentText(text);
   };
 
-  console.log("COMMENT", commentText, selectedPic);
-  const handleClickFinishPost = (event: { preventDefault: () => void }) => {
+  async function handleClickSubmit(event: { preventDefault: () => void }) {
     
     try {
       const response = await api.post("", {
@@ -59,7 +59,7 @@ export default function PostStepComment() {
         <Button
           text={"Publicar"}
           type="internalButton"
-          onClick={handleClickFinishPost}
+          onClick={handleClickSubmit}
         />
       </div>
     </>
