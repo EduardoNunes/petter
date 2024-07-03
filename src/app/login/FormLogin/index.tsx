@@ -43,13 +43,13 @@ export default function FormLogin() {
         password,
       });
 
-      if (response.status === 201) {
         const { accessToken, userId } = response.data;
         localStorage.setItem("userId", userId);
         localStorage.setItem("token", accessToken);
+        console.log('DATAS', userId, accessToken);
         //Ir para home se já houver petter
-        router.push(""); 
-      }
+        router.push("/post"); 
+
     } catch (error: any) {
       if (
         error.response &&

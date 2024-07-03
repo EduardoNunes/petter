@@ -27,9 +27,8 @@ export default function PostStepComment() {
   async function handleClickSubmit(event: { preventDefault: () => void }) {
     
     try {
-      const response = await api.post("", {
-        description,
-        url,
+      const response = await api.post("petter-image-timeline", {
+        description: commentText,
         userId,
         petterInfoId,
       });
