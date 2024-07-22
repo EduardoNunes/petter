@@ -1,57 +1,67 @@
 import Button from "@/components/Button/Button";
 import Header from "@/components/Header/Header";
 import TextArea from "@/components/TextArea/TextArea";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
 import { useRouter } from "next/navigation";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
+import { getItem } from "@/utils/localStorageUtils";
+import { usePostTimeLineContext } from "@/context/postTimeLineContext";
 
 export default function PostStepComment() {
-  const [selectedPic, setSelectedPic] = useState<string>("");
+  const { image } = usePostTimeLineContext();
   const [commentText, setCommentText] = useState<string>("");
   const router = useRouter();
   const { handleToDecreaseCurrentStep } = useStepContext();
-
-  useEffect(() => {
-    const pic = localStorage.getItem("SelectedPic");
-    if (pic) {
-      setSelectedPic(pic);
-    }
-  }, []);
 
   const handleTextChange = (text: string) => {
     setCommentText(text);
   };
 
   async function handleClickSubmit(event: { preventDefault: () => void }) {
-    
+    event.preventDefault();
+
+    console.log("IMAGENS", image);
+
     try {
-      const response = await api.post("petter-image-timeline", {
-        description: commentText,
-        userId,
-        petterInfoId,
+      const formData = new FormData();
+
+      formData.append("petterId", getItem("petterId") || "");
+      formData.append("userId", getItem("userId") || "");
+      
+      if (image) {
+        formData.append("image", image);
+      } else {
+        console.error("Invalid image type:", image);
+      }
+
+      formData.append("description", commentText);
+
+      const response = await api.post("petter-image-timeline", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      localStorage.removeItem("SelectedPic");
       setTimeout(() => {
         handleToDecreaseCurrentStep();
       }, 1000);
 
-      router.push("home");
       console.log(response, "RESPONSE");
+      // router.push("home");
     } catch (error) {
-      console.log("ERROR", error);
+      console.error("ERROR", error);
     }
-  };
+  }
 
   return (
     <>
       <Header text="Nova divulgação" showArrow={true} showContinue={false} />
 
-      {selectedPic && <SelectedImage image={selectedPic} />}
+      {image && <SelectedImage />}
 
-      <div className="flex items-center  w-full mb-4">
+      <div className="flex items-center w-full mb-4">
         <TextArea onTextChange={handleTextChange} />
       </div>
       <div className="absolute w-[90%] bottom-[3%]">

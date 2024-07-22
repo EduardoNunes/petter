@@ -1,13 +1,25 @@
 import Image from "next/image";
 import dataGalleryImagesTemp from "../../../../../../public/dataTemp/dataGalleryTemp";
+import { usePostTimeLineContext } from "@/context/postTimeLineContext";
 
-interface LoadGalleryProps {
-  setImage: (url: string) => void;
-}
+export default function LoadGallery() {
+  const { setImageURL, setImage } = usePostTimeLineContext();
 
-export default function LoadGallery({ setImage }: LoadGalleryProps) {
-  const handleImageClick = (imageUrl: string) => {
-    setImage(imageUrl);
+  const handleImageClick = async (imageUrl: string) => {
+    setImageURL(imageUrl);
+
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+
+      const file = new File([blob], imageUrl.split("/").pop() || "image", {
+        type: blob.type,
+      });
+
+      setImage(file);
+    } catch (error) {
+      console.error("Failed to fetch image:", error);
+    }
   };
 
   return (

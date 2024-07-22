@@ -42,7 +42,6 @@ export default function FormLoadImages() {
       }
 
       for await (const image of images) {
-        console.log("IMAGEM", image.type)
         schemaRegisterPetterImage.validate(
           {
             name: image.name,
@@ -140,7 +139,7 @@ export default function FormLoadImages() {
             className="relative w-[140px] h-[100px]"
             onClick={() => handleClickOpenTrash(index)}
           >
-            <img
+            <Image
               src={URL.createObjectURL(image)}
               alt={`Imagem ${index + 1}`}
               className="w-[140px] h-[100px] rounded-2xl"

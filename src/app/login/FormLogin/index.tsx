@@ -43,12 +43,16 @@ export default function FormLogin() {
         password,
       });
 
-        const { accessToken, userId } = response.data;
+        const { accessToken, userId, petterInfo } = response.data;
         localStorage.setItem("userId", userId);
         localStorage.setItem("token", accessToken);
-        console.log('DATAS', userId, accessToken);
-        //Ir para home se já houver petter
-        router.push("/post"); 
+        localStorage.setItem('petterId', petterInfo.id)
+
+        if (petterInfo) {
+          router.push("/post"); 
+        } else {
+          router.push("/post"); 
+        }        
 
     } catch (error: any) {
       if (

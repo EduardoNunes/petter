@@ -1,18 +1,16 @@
+import { usePostTimeLineContext } from "@/context/postTimeLineContext";
 import { useEnframeContext } from "@/context/useEnframeContext";
 import Image from "next/image";
 
-interface PostStepSelectImageProps {
-  image: string;
-}
-
-export default function SelectedImage({ image }: PostStepSelectImageProps) {
+export default function SelectedImage() {
   const { enframe } = useEnframeContext();
+  const { imageURL, image } = usePostTimeLineContext();
 
   return (
     <div className="flex items-center h-[50%] w-full mb-4 bg-slate-500">
-      {image && (
+      {imageURL && (
         <Image
-          src={image}
+          src={imageURL}
           width={3000}
           height={3000}
           alt=""
