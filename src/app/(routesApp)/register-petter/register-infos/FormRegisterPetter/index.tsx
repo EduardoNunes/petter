@@ -101,7 +101,7 @@ export default function FormRegisterPetter() {
   };
 
   return (
-    <form className="w-full" onSubmit={onSubmit}>
+    <form className="h-[84%] overflow-auto w-full" onSubmit={onSubmit}>
       {error && <ErrorWindow textError={error} setError={setError} />}
       {loading && <Loading />}
       <div className="mb-3">
@@ -176,7 +176,7 @@ export default function FormRegisterPetter() {
         </label>
       </div>
       <div className="flex justify-center w-full">
-        <div className="w-24 h-24 ">
+        <div className="w-24 h-24 mb-10">
           {profileImage && (
             <Image
               src={profileUrl}
