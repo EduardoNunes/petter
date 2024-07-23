@@ -6,6 +6,7 @@ import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
 import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
@@ -16,7 +17,8 @@ export default function FormRegisterPetter() {
   const [petterKind, setPetterKind] = useState("");
   const [petterBreed, setPetterBreed] = useState("");
   const [petterBirth, setPetterBirth] = useState("");
-  const [profileImage, setProfileImage] = useState("");
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileUrl, setProfileUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const route = useRouter();
@@ -32,7 +34,7 @@ export default function FormRegisterPetter() {
           petterName,
           petterKind,
           petterBreed,
-          petterBirth,  
+          petterBirth,
         },
         { abortEarly: false }
       );
@@ -87,6 +89,17 @@ export default function FormRegisterPetter() {
     checkNoData ? setPetterBirth("Não sei a data.") : setPetterBirth("");
   }, [checkNoData]);
 
+  const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setProfileImage(file);
+      const url = URL.createObjectURL(file);
+      setProfileUrl(url);
+    }
+  };
+
   return (
     <form className="w-full" onSubmit={onSubmit}>
       {error && <ErrorWindow textError={error} setError={setError} />}
@@ -140,6 +153,39 @@ export default function FormRegisterPetter() {
         <div className="flex items-center w-[50%] h-[72px] pl-4">
           <CheckBox checked={checkNoData} onChange={handleClickNoDataCheck} />
           <p className="w-[90%] font-secondary ml-3">Não sei a data.</p>
+        </div>
+      </div>
+      <div className="flex mt-6">
+        <label
+          htmlFor="fileInput"
+          className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-[6%]"
+        >
+          <span className="flex items-center h-10 font-secondary font-bold">
+            Selecionar imagem de perfil
+          </span>
+          <input
+            id="fileInput"
+            type="file"
+            className="block w-0 h-0 font-secondary"
+            name="images"
+            onChange={uploadImage}
+            multiple
+            accept=".jpg, .jpeg"
+            capture="user"
+          />
+        </label>
+      </div>
+      <div className="flex justify-center w-full">
+        <div className="w-24 h-24 ">
+          {profileImage && (
+            <Image
+              src={profileUrl}
+              width={150}
+              height={150}
+              alt="Profile Image"
+              className="object-cover w-full h-full rounded-full border-lime-950 border-solid border-[3px]"
+            />
+          )}
         </div>
       </div>
       <div className="absolute bottom-4 w-[90%]">
