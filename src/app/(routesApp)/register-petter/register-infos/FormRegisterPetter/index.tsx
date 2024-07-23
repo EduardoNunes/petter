@@ -17,7 +17,7 @@ export default function FormRegisterPetter() {
   const [petterKind, setPetterKind] = useState("");
   const [petterBreed, setPetterBreed] = useState("");
   const [petterBirth, setPetterBirth] = useState("");
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [profileUrl, setProfileUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -29,6 +29,8 @@ export default function FormRegisterPetter() {
     try {
       setLoading(true);
 
+      const formData = new FormData();
+
       await schemaRegisterPetterInfos.validate(
         {
           petterName,
@@ -39,16 +41,27 @@ export default function FormRegisterPetter() {
         { abortEarly: false }
       );
 
-      const response = await api.post("petter-register-infos", {
-        petterName,
-        petterKind,
-        petterBreed,
-        petterBirth,
-        profileImage,
+      formData.append("petterName", petterName);
+      formData.append("petterKind", petterKind);
+      formData.append("petterBreed", petterBreed);
+      formData.append("petterBirth", petterBirth);
+
+      if (profileImageFile) {
+        formData.append("profileImageFile", profileImageFile);
+      } else {
+        console.error("Invalid image type:", profileImageFile);
+      }
+
+      const response = await api.post("petter-register-infos", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
+      console.log("RESPONSE", response);
       localStorage.setItem("petterId", (await response).data.id);
-      route.push("/register-petter/load-images");
+      /* route.push("/register-petter/load-images"); */
+      setLoading(false);
     } catch (error: any) {
       setLoading(false);
       if (
@@ -62,6 +75,7 @@ export default function FormRegisterPetter() {
       } else {
         setError(error.message || "Ocorreu um erro.");
       }
+      setLoading(false);
     }
   }
 
@@ -94,7 +108,7 @@ export default function FormRegisterPetter() {
 
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      setProfileImage(file);
+      setProfileImageFile(file);
       const url = URL.createObjectURL(file);
       setProfileUrl(url);
     }
@@ -177,7 +191,7 @@ export default function FormRegisterPetter() {
       </div>
       <div className="flex justify-center w-full">
         <div className="w-24 h-24 mb-10">
-          {profileImage && (
+          {profileImageFile && (
             <Image
               src={profileUrl}
               width={150}
