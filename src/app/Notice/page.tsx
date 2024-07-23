@@ -52,7 +52,7 @@ export default function Notice() {
         <div className="flex flex-col overflow-auto">
           {[
             "Siga as boas práticas da casa.",
-            "Cadastre Petters reais. Forneça apenas informações e imagens verdadeiras.",
+            "Cadastre Petters reais. Forneça apenas informações e imagens verdadeiras e autorais.",
             "Não forneça informações pessoais a usuários suspeitos.",
             "Respeite todos. Estamos todos em busca de boas amizades e boas experiências.",
             "Ajude a comunidade. Sempre denuncie maus comportamentos.",

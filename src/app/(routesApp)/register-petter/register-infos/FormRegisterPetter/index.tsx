@@ -16,6 +16,7 @@ export default function FormRegisterPetter() {
   const [petterKind, setPetterKind] = useState("");
   const [petterBreed, setPetterBreed] = useState("");
   const [petterBirth, setPetterBirth] = useState("");
+  const [profileImage, setProfileImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const route = useRouter();
@@ -41,6 +42,7 @@ export default function FormRegisterPetter() {
         petterKind,
         petterBreed,
         petterBirth,
+        profileImage,
       });
 
       localStorage.setItem("petterId", (await response).data.id);

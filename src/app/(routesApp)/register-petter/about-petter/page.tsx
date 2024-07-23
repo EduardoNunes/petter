@@ -21,7 +21,9 @@ export default function AboutPetter() {
         <p className="font-secondary">Tem Petterzinhos? </p>
         <p className="font-secondary">Seja criativo!</p>
       </div>
-      <TextArea />
+      <TextArea onTextChange={function (text: string): void {
+        throw new Error("Function not implemented.");
+      } } />
       <div className="absolute w-[90%] bottom-[3%]">
         <Button text="Continuar" type="internalButton" />
       </div>

@@ -1,30 +1,11 @@
-import api from "@/server/api";
-import { getItem } from "@/utils/localStorageUtils";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
-export default function GalleryProfile() {
-  const [imageSrc, setImageSrc] = useState<string[]>([]);
+interface GalleryProfileProps {
+  imageSrc: (string | StaticImport)[];
+}
 
-  useEffect(() => {
-    async function loadImagesProfile() {
-      try {
-        const petterId = getItem("petterId");
-
-        const response = await api.get(
-          `show-images-profile/top-20-images?petterId=${petterId}`
-        );
-
-        console.log("RESPONSE", response.data);
-        setImageSrc(response.data);
-      } catch (error) {
-        console.log("Deu ruim aqui", error);
-      }
-    }
-
-    loadImagesProfile();
-  }, []);
-
+export default function GalleryProfile({ imageSrc }: GalleryProfileProps) {
   return (
     <div className="grid grid-cols-3 gap-1">
       {imageSrc.map((image, index) => (
