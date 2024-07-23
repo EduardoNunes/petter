@@ -1,9 +1,9 @@
-"use client";
+'use client'
 
 import FooterCard from "./FooterCard/FooterCard";
-import dataCardTemp from "../../../../../../../public/dataTemp/dataCardsTemp";
 import { useEffect, useState } from "react";
 import api from "@/server/api";
+import Image from "next/image";
 
 export default function Card() {
   const [imageSrc, setImageSrc] = useState([]);
@@ -28,8 +28,10 @@ export default function Card() {
       {imageSrc.map((image, index) => (
         <div key={index} className="relative w-full h-auto">
           <p className="absolute left-2 text-medium">{index}</p>
-          <img
+          <Image
             src={image}
+            width={200}
+            height={200}
             alt={`${index}`}
             style={{
               width: "100%",
