@@ -57,7 +57,7 @@ export default function FormLoadImages() {
         formData.append("description", description);
         formData.append("images", image);
       }
-      console.log(formData);
+
       const response = await api.post("petter-register-images", formData, {
         headers: {
           "Content-Type": "multipart/form-data",

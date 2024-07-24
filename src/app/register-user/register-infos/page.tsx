@@ -48,7 +48,7 @@ export default function RegisterUserInfos() {
 
   async function postData(name: string, email: string, image: string) {
     try {
-      const response = await api.post("/users-register-credentials", {
+      const response = await api.post("/users-credentials", {
         name,
         email,
         password,

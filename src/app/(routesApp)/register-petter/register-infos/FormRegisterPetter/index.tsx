@@ -52,7 +52,7 @@ export default function FormRegisterPetter() {
         console.error("Invalid image type:", profileImageFile);
       }
 
-      const response = await api.post("petter-register-infos", formData, {
+      const response = await api.post("petter-infos", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

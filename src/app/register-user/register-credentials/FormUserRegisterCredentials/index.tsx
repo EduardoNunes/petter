@@ -44,7 +44,7 @@ export default function FormUserRegisterCredentials() {
         return;
       }
 
-      const response = await api.post("/users-register-credentials", {
+      const response = await api.post("/users-credentials", {
         name: tutorName,
         email,
         password,

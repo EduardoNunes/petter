@@ -51,7 +51,7 @@ export default function FormUserRegisterData() {
         { abortEarly: false }
       );
 
-      const response = await api.post("/user-register-infos", {
+      const response = await api.post("/user-infos", {
         email: userEmail,
         date,
         gender,
