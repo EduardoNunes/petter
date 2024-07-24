@@ -4,10 +4,16 @@ import Button from "@/components/Button/Button";
 import PetterColorful from "@/components/Petter/PetterColorful";
 import TextArea from "@/components/TextArea/TextArea";
 import { useStepContext } from "@/context/useStepContext";
+import { useState } from "react";
 
 export default function AboutPetter() {
   const { handleToAddCurrentStep } = useStepContext();
+  const [commentText, setCommentText] = useState<string>("");
 
+  const handleTextChange = (text: string) => {
+    setCommentText(text);
+  };
+  console.log(commentText);
   return (
     <form onSubmit={handleToAddCurrentStep} className="w-[90%]">
       <PetterColorful fontSize={"extraLarge"} />
@@ -21,9 +27,7 @@ export default function AboutPetter() {
         <p className="font-secondary">Tem Petterzinhos? </p>
         <p className="font-secondary">Seja criativo!</p>
       </div>
-      <TextArea onTextChange={function (text: string): void {
-        throw new Error("Function not implemented.");
-      } } />
+      <TextArea onTextChange={handleTextChange} />
       <div className="absolute w-[90%] bottom-[3%]">
         <Button text="Continuar" type="internalButton" />
       </div>

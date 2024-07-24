@@ -57,7 +57,7 @@ export default function FormLoadImages() {
         formData.append("description", description);
         formData.append("images", image);
       }
-
+      console.log(formData);
       const response = await api.post("petter-register-images", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -110,7 +110,7 @@ export default function FormLoadImages() {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col items-start h-[72%] w-full"
+      className="flex flex-col items-start h-full w-full overflow-auto pb-4"
     >
       {error && <ErrorWindow textError={error} setError={setError} />}
       {loading && <Loading />}
@@ -132,7 +132,7 @@ export default function FormLoadImages() {
           capture="user"
         />
       </label>
-      <div className="flex flex-wrap justify-center w-full max-h-[75%] gap-3 overflow-auto">
+      <div className="flex flex-wrap justify-center w-full gap-3 overflow-auto">
         {images.map((image, index) => (
           <div
             key={index}
@@ -141,6 +141,8 @@ export default function FormLoadImages() {
           >
             <Image
               src={URL.createObjectURL(image)}
+              width={3000}
+              height={3000}
               alt={`Imagem ${index + 1}`}
               className="w-[140px] h-[100px] rounded-2xl"
             />
