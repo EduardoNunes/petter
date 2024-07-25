@@ -7,6 +7,7 @@ import { useSelfContext } from "@/context/selfContext";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
 import { getItem } from "@/utils/localStorageUtils";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function AboutPetter() {
@@ -15,6 +16,7 @@ export default function AboutPetter() {
   const [descriptionBio, setDescriptionBio] = useState<string>("");
   const [email, setEmail] = useState<string | null>(null);
   const [petterId, setPetterId] = useState<Number | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const storedEmail = getItem("email");
@@ -47,8 +49,8 @@ export default function AboutPetter() {
         }
       );
 
-      console.log("RESPONSE", response);
       handleToAddCurrentStep();
+      router.push("/register-petter/congratulations");
     } catch (error) {
       console.error("ERROR", error);
     }

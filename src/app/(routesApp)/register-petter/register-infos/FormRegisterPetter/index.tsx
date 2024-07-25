@@ -59,10 +59,10 @@ export default function FormRegisterPetter() {
       });
 
       localStorage.setItem("petterId", (await response).data.id);
+      localStorage.setItem("petterName", (await response).data.petterName);
       route.push("/register-petter/load-images");
       setLoading(false);
     } catch (error: any) {
-      setLoading(false);
       if (
         error.response &&
         error.response.data &&
@@ -76,6 +76,7 @@ export default function FormRegisterPetter() {
       }
       setLoading(false);
     }
+    setLoading(false);
   }
 
   const handleNamePetterChange = (event: ChangeEvent<HTMLInputElement>) => {

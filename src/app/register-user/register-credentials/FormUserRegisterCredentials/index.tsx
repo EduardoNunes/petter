@@ -55,10 +55,10 @@ export default function FormUserRegisterCredentials() {
       });
 
       if ((await response).status === 201) {
-        localStorage.setItem("tutorName", tutorName);
-        localStorage.setItem("email", email);
+        localStorage.setItem("tutorName", response.data.name);
+        localStorage.setItem("email", response.data.email);
         localStorage.setItem("userId", response.data.id);
-        localStorage.setItem("loggedBy", "credentials");
+        localStorage.setItem("loggedBy", response.data.loggedBy);
         router.push("/register-user/register-infos");
       }
     } catch (error: any) {

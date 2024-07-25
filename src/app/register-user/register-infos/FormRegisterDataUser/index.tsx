@@ -103,7 +103,6 @@ export default function FormUserRegisterData() {
         try {
           const response = await viaCep(cep.replace(/\D/g, ""));
 
-          console.log("response", response || "");
           setNeighborhood(response.neighborhood || "");
           setDdd(response.ddd || "");
           setLocality(response.locality || "");
