@@ -33,7 +33,7 @@ export default function Profile() {
   }, [petterId]);
 
   useEffect(() => {
-    async function loadInfosProfile() {
+  /*   async function loadInfosProfile() {
       try {
         const response = await api.get(
           ``
@@ -41,7 +41,7 @@ export default function Profile() {
       } catch (error) {
         console.log("Deu ruim em carregar informações do perfil", error);
       }
-    }
+    } */
   }, [petterId]);
 
   const handleClickGoEditProfile = () => {

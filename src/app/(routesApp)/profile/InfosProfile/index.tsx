@@ -1,14 +1,51 @@
+import api from "@/server/api";
+import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+interface PetterData {
+  profileImage?: string;
+}
 
 export default function InfosProfile() {
   const publications = "12";
   const friends = "10";
+  const [petterId, setPetterId] = useState<string>("");
+  const [petterData, setPetterData] = useState<PetterData>({});
+
+  useEffect(() => {
+    const storedPetterId = getItem("petterId");
+    if (storedPetterId) {
+      setPetterId(storedPetterId);
+    }
+  }, []);
+
+  useEffect(() => {
+    async function loadProfileInfos() {
+      try {
+        const response = await api.get("petter-infos", {
+          params: {
+            petterId,
+          },
+        });
+
+        console.log("RESPONSE", response.data);
+        setPetterData(response.data);
+      } catch (error) {
+        console.log("ERRO", error);
+      }
+    }
+
+    if (petterId) {
+      loadProfileInfos();
+    }
+  }, [petterId]);
 
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="relative w-24 h-24 ">
         <Image
-          src="/dataTemp/dog3.jpeg"
+          src={petterData.profileImage || ""}
           width={150}
           height={150}
           alt="Profile Image"
