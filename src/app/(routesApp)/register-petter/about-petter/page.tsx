@@ -14,13 +14,23 @@ export default function AboutPetter() {
   const { self, getSelf } = useSelfContext();
   const [descriptionBio, setDescriptionBio] = useState<string>("");
   const [email, setEmail] = useState<string | null>(null);
+  const [petterId, setPetterId] = useState<Number | null>(null);
 
   useEffect(() => {
     const storedEmail = getItem("email");
+    const storedPetterId = Number(getItem("petterId"));
+
     if (storedEmail) {
       setEmail(storedEmail);
+      setPetterId(storedPetterId);
     }
   }, []);
+
+  useEffect(() => {
+    if (email) {
+      getSelf(email);
+    }
+  }, [email]);
 
   const handleTextChange = (text: string) => {
     setDescriptionBio(text);
@@ -29,28 +39,19 @@ export default function AboutPetter() {
   async function onSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
 
-    if (email) {
-      getSelf(email);
-    }
-    /* try {
-      const formData = new FormData();
-      formData.append("descriptionBio", descriptionBio);
-  
+    try {
       const response = await api.patch(
-        `/petter-infos/${petterId}/description-bio`,
-        formData,
+        `/petter-infos/${self.id}/${petterId}/description-bio`,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          descriptionBio: descriptionBio,
         }
       );
-  
-      console.log("RESPONSE", response);     
+
+      console.log("RESPONSE", response);
       handleToAddCurrentStep();
     } catch (error) {
-      console.error("ERROR", error);     
-    } */
+      console.error("ERROR", error);
+    }
   }
 
   return (

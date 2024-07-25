@@ -4,6 +4,7 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { schemaRegisterCredentialsUser } from "@/validation/schemaRegisterCredentialsUser";
 import { useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ export default function FormUserRegisterCredentials() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profileImage, setProfileImage] = useState("");
+  const [loggedBy, setLoggedBy] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,15 +51,14 @@ export default function FormUserRegisterCredentials() {
         email,
         password,
         profileImage,
+        loggedBy: "credentials",
       });
-
-      console.log((await response), "RESPONSE");
 
       if ((await response).status === 201) {
         localStorage.setItem("tutorName", tutorName);
         localStorage.setItem("email", email);
         localStorage.setItem("userId", response.data.id);
-        localStorage.setItem("loggedBy", "credentials")
+        localStorage.setItem("loggedBy", "credentials");
         router.push("/register-user/register-infos");
       }
     } catch (error: any) {

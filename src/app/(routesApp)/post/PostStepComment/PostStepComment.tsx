@@ -22,8 +22,6 @@ export default function PostStepComment() {
   async function handleClickSubmit(event: { preventDefault: () => void }) {
     event.preventDefault();
 
-    console.log("IMAGENS", image);
-
     try {
       const formData = new FormData();
 

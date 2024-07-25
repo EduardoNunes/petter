@@ -46,7 +46,7 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
       console.error("ERROR", error);
     }
   }
-
+  console.log("SELF", self);
   const contextValue = {
     self,
     setSelf,

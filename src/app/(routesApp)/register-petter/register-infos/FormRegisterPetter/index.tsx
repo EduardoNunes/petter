@@ -58,7 +58,6 @@ export default function FormRegisterPetter() {
         },
       });
 
-      console.log("RESPONSE", response);
       localStorage.setItem("petterId", (await response).data.id);
       route.push("/register-petter/load-images");
       setLoading(false);

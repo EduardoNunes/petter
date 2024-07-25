@@ -1,3 +1,4 @@
+import { SelfProvider } from "@/context/selfContext";
 import { StepProvider } from "@/context/useStepContext";
 
 export default function RootLayout({
@@ -7,7 +8,9 @@ export default function RootLayout({
 }) {
   return (
     <div className="flex justify-center items-center h-[100vh] w-[100vw]">
-      <StepProvider>{children}</StepProvider>
+      <StepProvider>
+        <SelfProvider>{children}</SelfProvider>
+      </StepProvider>
     </div>
   );
 }

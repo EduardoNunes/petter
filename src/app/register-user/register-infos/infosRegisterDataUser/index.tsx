@@ -1,8 +1,4 @@
-import { useEffect, useState } from "react";
-
 export default function InfosRegisterDataUser() {
-  const [tutorName, setTutorName] = useState("");
-
   return (
     <>
       <p className="font-secondary font-bold text-medium text-center mb-[3%]">
