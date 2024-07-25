@@ -10,19 +10,23 @@ interface SelfType {
   profileImage?: string;
 }
 
-interface SelfPettersType {
-  id?: number;
-  name?: string;
-  email?: string;
+interface SelfPetterType {
+  petterName?: string;
+  petterKind?: string;
+  petterBreed?: string;
+  petterBirth?: string;
+  userId?: number;
   profileImage?: string;
+  descriptionBio?: string;
 }
 
 interface SelfContextType {
   self: SelfType;
   setSelf: (value: SelfType) => void;
-  selfPetters: any; // Defina o tipo adequado para selfPetters se souber a estrutura
-  setSelfPetters: (value: any) => void; // Ajuste o tipo de acordo
   getSelf: (email: string) => Promise<void>;
+  selfPetter: SelfPetterType;
+  setSelfPetter: (value: SelfPetterType) => void;
+  getSelfPetter: (petterId: number) => Promise<void>;
 }
 
 const SelfContext = createContext<SelfContextType | null>(null);
@@ -32,8 +36,8 @@ interface SelfProviderProps {
 }
 
 export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
-  const [self, setSelf] = useState({});
-  const [selfPetters, setSelfPetters] = useState({});
+  const [self, setSelf] = useState<SelfType>({});
+  const [selfPetter, setSelfPetter] = useState<SelfPetterType>({});
 
   async function getSelf(email: string): Promise<void> {
     try {
@@ -46,13 +50,26 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
       console.error("ERROR", error);
     }
   }
-  console.log("SELF", self);
+
+  async function getSelfPetter(petterId: number): Promise<void> {
+    try {
+      const response = await api.get("petter-infos", {
+        params: { petterId },
+      });
+
+      setSelfPetter(response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+    }
+  }
+
   const contextValue = {
     self,
     setSelf,
-    selfPetters,
-    setSelfPetters,
     getSelf,
+    selfPetter,
+    setSelfPetter,
+    getSelfPetter,
   };
   return (
     <SelfContext.Provider value={contextValue}>{children}</SelfContext.Provider>

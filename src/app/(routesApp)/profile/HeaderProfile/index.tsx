@@ -1,7 +1,8 @@
+import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
 
 export default function HeaderProfile() {
-  const userName = "Cara Mello";
+  const userName = getItem("petterName")?.split(" ")[0];
   
   return (
     <div className="absolute top-2 flex items-center justify-between h-[7%] w-[90%]">
