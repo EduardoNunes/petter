@@ -60,10 +60,11 @@ export default function Footer() {
       </button>
       <Image
         src="/images/pet-services.png"
-        width={39}
-        height={39}
+        width={32}
+        height={32}
+        priority={true}
         alt="Services"
-        className=""
+        className="w-9 h-9"
       />
       <button onClick={handleClickGoProfile}>
         <Image

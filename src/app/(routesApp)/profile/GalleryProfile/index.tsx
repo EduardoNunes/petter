@@ -1,21 +1,39 @@
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import api from "@/server/api";
+import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-interface GalleryProfileProps {
-  imageSrc: (string | StaticImport)[];
-}
+export default function GalleryProfile() {
+  const [imageSrc, setImageSrc] = useState<string[]>([]);
+  const petterId = getItem("petterId");
 
-export default function GalleryProfile({ imageSrc }: GalleryProfileProps) {
+/*   useEffect(() => {
+    async function loadImagesProfile() {
+      try {
+        const response = await api.get(
+          `show-images-profile/top-20-images?petterId=${petterId}`
+        );
+
+        setImageSrc(response.data);
+      } catch (error) {
+        console.log("Deu ruim em carregar imagens da grade do perfil", error);
+      }
+    }
+
+    loadImagesProfile();
+  }, [petterId]); */
+
   return (
     <div className="grid grid-cols-3 gap-1">
       {imageSrc.map((image, index) => (
-        <div key={index} className="relative w-23 h-23 ">
+        <div key={index} className="relative w-[28vw] h-[28vw]">
           <Image
             src={image}
-            width={65}
-            height={65}
             alt={`${index}`}
-            className="object-cover rounded-sm h-full w-full"
+            fill
+            className="rounded-sm object-cover"
+            priority={index === 0}
+            sizes="(max-width: 600px) 50vw, (max-width: 1200px) 25vw, 20vw"
           />
         </div>
       ))}

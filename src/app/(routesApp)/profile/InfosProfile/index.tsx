@@ -3,18 +3,11 @@ import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-interface PetterData {
-  profileImage?: string;
-  petterBreed?: string;
-  petterKind?: string;
-}
-
 export default function InfosProfile() {
   const { getSelfPetter, selfPetter } = useSelfContext();
   const publications = "12";
   const friends = "10";
   const [petterId, setPetterId] = useState<string>("");
-  const [petterData, setPetterData] = useState<PetterData>({});
 
   useEffect(() => {
     const storedPetterId = getItem("petterId");
@@ -34,9 +27,10 @@ export default function InfosProfile() {
       <div className="relative w-24 h-24 ">
         <Image
           src={selfPetter.profileImage || "/images/default-profile.png"}
-          width={150}
-          height={150}
+          width={40}
+          height={40}
           alt="Profile Image"
+          priority={true}
           className="object-cover w-full h-full rounded-full border-lime-950 border-solid border-[3px]"
         />
       </div>

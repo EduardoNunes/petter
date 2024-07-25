@@ -1,48 +1,15 @@
 "use client";
 
 import Footer from "@/components/Footer/Footer";
-import Bio from "./Bio";
+import { useRouter } from "next/navigation";
 import GalleryProfile from "./GalleryProfile";
 import HeaderProfile from "./HeaderProfile";
 import InfosProfile from "./InfosProfile";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { getItem } from "@/utils/localStorageUtils";
-import api from "@/server/api";
+import { useSelfContext } from "@/context/selfContext";
 
 export default function Profile() {
-  const [imageSrc, setImageSrc] = useState<string[]>([]);
+  const { selfPetter } = useSelfContext();
   const router = useRouter();
-  const petterId = getItem("petterId");
-
-  useEffect(() => {
-   /*  async function loadImagesProfile() {
-      try {
-        const response = await api.get(
-          `show-images-profile/top-20-images?petterId=${petterId}`
-        );
-
-        console.log("RESPONSE", response.data);
-        setImageSrc(response.data);
-      } catch (error) {
-        console.log("Deu ruim em carregar imagens da grade do perfil", error);
-      }
-    }
-
-    loadImagesProfile(); */
-  }, [petterId]);
-
-  useEffect(() => {
-  /*   async function loadInfosProfile() {
-      try {
-        const response = await api.get(
-          ``
-        )
-      } catch (error) {
-        console.log("Deu ruim em carregar informações do perfil", error);
-      }
-    } */
-  }, [petterId]);
 
   const handleClickGoEditProfile = () => {
     router.push("edit-profile");
@@ -54,7 +21,9 @@ export default function Profile() {
       <div className="h-[84%] w-full">
         <div className="h-[250px]">
           <InfosProfile />
-          <Bio />
+          <h1 className="h-28 py-2 font-secondary">
+            {selfPetter.descriptionBio}
+          </h1>
           <button
             className="font-secondary text-smaller bg-azulPalido text-black py-1 px-3 rounded-lg mb-3"
             onClick={handleClickGoEditProfile}
@@ -63,7 +32,7 @@ export default function Profile() {
           </button>
         </div>
         <div className="overflow-auto h-[calc(100%-250px)]">
-          <GalleryProfile imageSrc={imageSrc} />
+          <GalleryProfile />
         </div>
       </div>
       <Footer />
