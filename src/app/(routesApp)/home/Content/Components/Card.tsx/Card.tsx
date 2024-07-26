@@ -6,15 +6,21 @@ import api from "@/server/api";
 import Image from "next/image";
 
 export default function Card() {
-  const [imageSrc, setImageSrc] = useState([]);
+  const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
+
+  interface ImageType {
+    url: string;
+    description: string;
+  }
 
   useEffect(() => {
     async function loadTimeline() {
       try {
         const response = await api.get("show-card-timeline/top-10-images");
 
-        const urls = response.data;
-        setImageSrc(urls);
+        const images = response.data;
+        setImageSrc(images);
+        console.log(response);
       } catch (error) {
         console.log("ERRO", error);
       }
@@ -26,16 +32,18 @@ export default function Card() {
   return (
     <div className="flex flex-col relative w-full h-full overflow-auto">
       {!imageSrc || imageSrc.length === 0 ? (
-        <p className="flex h-full items-center justify-center text-big">Ops, nada novo por aqui</p>
+        <p className="flex h-full items-center justify-center text-medium">
+          Renderizando as ultimas postagens.
+        </p>
       ) : (
         imageSrc.map((image, index) => (
           <div key={index} className="relative w-full h-auto">
-            <p className="absolute left-2 text-medium">{index}</p>
             <Image
-              src={image}
+              src={image.url}
               width={200}
               height={200}
               alt={`${index}`}
+              priority={index === 0}
               style={{
                 width: "100%",
                 height: "auto",
@@ -44,7 +52,11 @@ export default function Card() {
                 left: 0,
               }}
             />
-            <FooterCard loves={index} commentsLength={index} />
+            <FooterCard
+              loves={index}
+              commentsLength={index}
+              descriptionCard={image.description}
+            />
           </div>
         ))
       )}

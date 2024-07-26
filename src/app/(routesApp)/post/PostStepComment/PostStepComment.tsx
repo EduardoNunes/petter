@@ -27,7 +27,7 @@ export default function PostStepComment() {
 
       formData.append("petterId", getItem("petterId") || "");
       formData.append("userId", getItem("userId") || "");
-      
+
       if (image) {
         formData.append("image", image);
       } else {
@@ -47,7 +47,7 @@ export default function PostStepComment() {
       }, 1000);
 
       console.log(response, "RESPONSE");
-      // router.push("home");
+      router.push("home");
     } catch (error) {
       console.error("ERROR", error);
     }

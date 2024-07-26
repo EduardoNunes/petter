@@ -26,6 +26,12 @@ const dataGalleryImagesTemp = [
   {
     image:"/dataTemp/petter-sol.jpg",
   },
+  {
+    image:"/dataTemp/Simba.png",
+  },
+  {
+    image:"/dataTemp/junin.jpg",
+  },
 ];
 
 export default dataGalleryImagesTemp;

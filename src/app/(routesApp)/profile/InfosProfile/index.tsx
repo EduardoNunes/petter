@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function InfosProfile() {
   const { getSelfPetter, selfPetter, numberImagesGallery } = useSelfContext();
-  const friends = "10";
+  const friends = "0";
   const [petterId, setPetterId] = useState<string>("");
 
   useEffect(() => {

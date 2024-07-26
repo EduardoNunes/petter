@@ -28,15 +28,17 @@ export default function LoadGallery() {
         {dataGalleryImagesTemp.map((item, index) => (
           <div
             key={index}
-            className="relative w-full aspect-w-1 aspect-h-1 cursor-pointer"
+            className="relative aspect-w-1 aspect-h-1 cursor-pointer w-[18vw] h-[18vw]"
             onClick={() => handleImageClick(item.image)}
           >
             <Image
               src={item.image}
-              width={50}
-              height={50}
               alt=""
-              className="rounded-md h-auto w-auto"
+              fill
+              className="rounded-sm object-cover"
+              sizes="(max-width: 200px) 18vw, 18vw"
+              priority={index === 0}
+              quality={50}
             />
           </div>
         ))}

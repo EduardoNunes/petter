@@ -1,9 +1,8 @@
 import Header from "@/components/Header/Header";
-import { useEffect } from "react";
+import { usePostTimeLineContext } from "@/context/postTimeLineContext";
 import SelectedImage from "../SelectedImage/SelectedImage";
 import EnframeImages from "./EnframeImage/EnframeImages";
 import LoadGallery from "./LoadGalery/LoadGalery";
-import { usePostTimeLineContext } from "@/context/postTimeLineContext";
 
 export default function PostStepSelectImage() {
   const { image } = usePostTimeLineContext();
