@@ -56,7 +56,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
         petterInfoId: Number(petterId),
         [type === "timeline" ? "timelineId" : "imageId"]: id,
       };
-      console.log('PAYLOAD', payload)
+
       const response = await api.post("like-post-timeline", payload);
 
       console.log("LIKED", response);

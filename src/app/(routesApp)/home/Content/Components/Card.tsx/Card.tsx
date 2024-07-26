@@ -20,7 +20,7 @@ export default function Card() {
     async function loadTimeline() {
       try {
         const response = await api.get("show-card-timeline/top-10-images");
-
+        console.log('RESPONSE', response)
         const images = response.data;
         setImageSrc(images);
       } catch (error) {
@@ -65,7 +65,7 @@ export default function Card() {
               }}
             />
             <FooterCard
-              loves={index}
+              likesCount={image.likesCount}
               commentsLength={index}
               descriptionCard={image.description}
               handleClickComment={handleClickComment}
