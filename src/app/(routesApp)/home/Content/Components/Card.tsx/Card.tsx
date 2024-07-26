@@ -4,14 +4,17 @@ import FooterCard from "./FooterCard/FooterCard";
 import { useEffect, useState } from "react";
 import api from "@/server/api";
 import Image from "next/image";
+import { useTimeLineContext } from "@/context/timeLineContext";
+
+interface ImageType {
+  id: number;
+  url: string;
+  description: string;
+}
 
 export default function Card() {
   const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
-
-  interface ImageType {
-    url: string;
-    description: string;
-  }
+  const { handleClickLikeFunction } = useTimeLineContext();
 
   useEffect(() => {
     async function loadTimeline() {
@@ -20,7 +23,6 @@ export default function Card() {
 
         const images = response.data;
         setImageSrc(images);
-        console.log(response);
       } catch (error) {
         console.log("ERRO", error);
       }
@@ -29,20 +31,14 @@ export default function Card() {
     loadTimeline();
   }, []);
 
-  const handleClickLike = (
-    url: string,
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-    console.log("Like clicked for URL:", url);
-  };
+  const handleClickLike =
+    (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      handleClickLikeFunction(id, "timeline");
+    };
 
-  const handleClickComment = (
-    url: string,
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleClickComment = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("Comment clicked for URL:", url);
   };
 
   return (
@@ -72,9 +68,8 @@ export default function Card() {
               loves={index}
               commentsLength={index}
               descriptionCard={image.description}
-              url={image.url}
               handleClickComment={handleClickComment}
-              handleClickLike={handleClickLike}
+              handleClickLike={handleClickLike(image.id)}
             />
           </div>
         ))

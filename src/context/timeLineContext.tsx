@@ -1,12 +1,24 @@
 "use client";
 
-import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import api from "@/server/api";
+import { getItem } from "@/utils/localStorageUtils";
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface TimeLineContextType {
   image: File | undefined;
   setImage: (value: File | undefined) => void;
   imageURL: string;
   setImageURL: (value: string) => void;
+  handleClickLikeFunction: (
+    id: number,
+    type: "timeline" | "image"
+  ) => Promise<void>;
 }
 
 const TimeLineContext = createContext<TimeLineContextType | null>(null);
@@ -31,11 +43,34 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     }
   }, [image]);
 
+  async function handleClickLikeFunction(
+    id: number,
+    type: "timeline" | "image"
+  ): Promise<void> {
+    const userId = getItem("userId");
+    const petterId = getItem("petterId");
+
+    try {
+      const payload = {
+        userId: Number(userId),
+        petterInfoId: Number(petterId),
+        [type === "timeline" ? "timelineId" : "imageId"]: id,
+      };
+      console.log('PAYLOAD', payload)
+      const response = await api.post("like-post-timeline", payload);
+
+      console.log("LIKED", response);
+    } catch (error) {
+      console.log("ERRO AO DAR LIKE", error);
+    }
+  }
+
   const contextValue = {
     image,
     setImage,
     imageURL,
     setImageURL,
+    handleClickLikeFunction,
   };
 
   return (
