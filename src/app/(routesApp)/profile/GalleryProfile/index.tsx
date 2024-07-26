@@ -1,13 +1,15 @@
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function GalleryProfile() {
+  const { setNumberImagesGallery } = useSelfContext();
   const [imageSrc, setImageSrc] = useState<string[]>([]);
   const petterId = getItem("petterId");
 
-/*   useEffect(() => {
+  useEffect(() => {
     async function loadImagesProfile() {
       try {
         const response = await api.get(
@@ -15,13 +17,14 @@ export default function GalleryProfile() {
         );
 
         setImageSrc(response.data);
+        setNumberImagesGallery(response.data.length);
       } catch (error) {
         console.log("Deu ruim em carregar imagens da grade do perfil", error);
       }
     }
 
     loadImagesProfile();
-  }, [petterId]); */
+  }, [petterId]);
 
   return (
     <div className="grid grid-cols-3 gap-1">
@@ -32,8 +35,9 @@ export default function GalleryProfile() {
             alt={`${index}`}
             fill
             className="rounded-sm object-cover"
+            sizes="(max-width: 200px) 28vw, 28vw"
             priority={index === 0}
-            sizes="(max-width: 600px) 50vw, (max-width: 1200px) 25vw, 20vw"
+            quality={50}
           />
         </div>
       ))}

@@ -27,6 +27,8 @@ interface SelfContextType {
   selfPetter: SelfPetterType;
   setSelfPetter: (value: SelfPetterType) => void;
   getSelfPetter: (petterId: number) => Promise<void>;
+  numberImagesGallery: number;
+  setNumberImagesGallery: (value: number) => void;
 }
 
 const SelfContext = createContext<SelfContextType | null>(null);
@@ -38,6 +40,7 @@ interface SelfProviderProps {
 export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const [self, setSelf] = useState<SelfType>({});
   const [selfPetter, setSelfPetter] = useState<SelfPetterType>({});
+  const [numberImagesGallery, setNumberImagesGallery] = useState(0);
 
   async function getSelf(email: string): Promise<void> {
     try {
@@ -70,7 +73,10 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
     selfPetter,
     setSelfPetter,
     getSelfPetter,
+    numberImagesGallery,
+    setNumberImagesGallery,
   };
+
   return (
     <SelfContext.Provider value={contextValue}>{children}</SelfContext.Provider>
   );

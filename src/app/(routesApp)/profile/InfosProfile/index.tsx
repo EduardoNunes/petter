@@ -4,8 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function InfosProfile() {
-  const { getSelfPetter, selfPetter } = useSelfContext();
-  const publications = "12";
+  const { getSelfPetter, selfPetter, numberImagesGallery } = useSelfContext();
   const friends = "10";
   const [petterId, setPetterId] = useState<string>("");
 
@@ -38,13 +37,13 @@ export default function InfosProfile() {
         <label className="font-secondary" htmlFor="text">
           Posts
         </label>
-        <h2>{publications}</h2>
+        <h2 className="text-medium">{numberImagesGallery}</h2>
       </div>
       <div>
         <label className="font-secondary" htmlFor="text">
           Amigos
         </label>
-        <h2>{friends}</h2>
+        <h2 className="text-medium">{friends}</h2>
       </div>
       <div className="w-[30%]">
         <div className="flex items-center h-8 gap-2 ">
