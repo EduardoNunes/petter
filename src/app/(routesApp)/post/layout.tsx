@@ -1,4 +1,5 @@
-import { PostTimeLineProvider } from "@/context/postTimeLineContext";
+
+import { TimeLineProvider } from "@/context/timeLineContext";
 import { EnframeProvider } from "@/context/useEnframeContext";
 
 export default function RootLayout({
@@ -9,7 +10,7 @@ export default function RootLayout({
   return (
     <div className="flex justify-center items-center h-[100vh] w-[100vw]">
       <EnframeProvider>
-        <PostTimeLineProvider>{children}</PostTimeLineProvider>
+        <TimeLineProvider>{children}</TimeLineProvider>
       </EnframeProvider>
     </div>
   );

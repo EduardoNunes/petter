@@ -2,20 +2,20 @@
 
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
-interface PostTimeLineContextType {
+interface TimeLineContextType {
   image: File | undefined;
   setImage: (value: File | undefined) => void;
   imageURL: string;
   setImageURL: (value: string) => void;
 }
 
-const PostTimeLineContext = createContext<PostTimeLineContextType | null>(null);
+const TimeLineContext = createContext<TimeLineContextType | null>(null);
 
-interface PostTimeLineProviderProps {
+interface TimeLineProviderProps {
   children: ReactNode;
 }
 
-export const PostTimeLineProvider: React.FC<PostTimeLineProviderProps> = ({
+export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   children,
 }) => {
   const [image, setImage] = useState<File | undefined>(undefined);
@@ -39,17 +39,17 @@ export const PostTimeLineProvider: React.FC<PostTimeLineProviderProps> = ({
   };
 
   return (
-    <PostTimeLineContext.Provider value={contextValue}>
+    <TimeLineContext.Provider value={contextValue}>
       {children}
-    </PostTimeLineContext.Provider>
+    </TimeLineContext.Provider>
   );
 };
 
-export const usePostTimeLineContext = (): PostTimeLineContextType => {
-  const context = useContext(PostTimeLineContext);
+export const useTimeLineContext = (): TimeLineContextType => {
+  const context = useContext(TimeLineContext);
   if (!context) {
     throw new Error(
-      "usePostTimeLineContext must be used within a PostTimeLineProvider"
+      "useTimeLineContext must be used within a TimeLineProvider"
     );
   }
   return context;

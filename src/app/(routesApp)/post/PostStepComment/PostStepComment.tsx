@@ -7,10 +7,10 @@ import { useRouter } from "next/navigation";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
 import { getItem } from "@/utils/localStorageUtils";
-import { usePostTimeLineContext } from "@/context/postTimeLineContext";
+import { useTimeLineContext } from "@/context/timeLineContext";
 
 export default function PostStepComment() {
-  const { image } = usePostTimeLineContext();
+  const { image } = useTimeLineContext();
   const [commentText, setCommentText] = useState<string>("");
   const router = useRouter();
   const { handleToDecreaseCurrentStep } = useStepContext();

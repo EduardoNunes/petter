@@ -1,9 +1,9 @@
 import Image from "next/image";
 import dataGalleryImagesTemp from "../../../../../../public/dataTemp/dataGalleryTemp";
-import { usePostTimeLineContext } from "@/context/postTimeLineContext";
+import { useTimeLineContext } from "@/context/timeLineContext";
 
 export default function LoadGallery() {
-  const { setImageURL, setImage } = usePostTimeLineContext();
+  const { setImageURL, setImage } = useTimeLineContext();
 
   const handleImageClick = async (imageUrl: string) => {
     setImageURL(imageUrl);
