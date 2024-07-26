@@ -29,6 +29,22 @@ export default function Card() {
     loadTimeline();
   }, []);
 
+  const handleClickLike = (
+    url: string,
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    console.log("Like clicked for URL:", url);
+  };
+
+  const handleClickComment = (
+    url: string,
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    console.log("Comment clicked for URL:", url);
+  };
+
   return (
     <div className="flex flex-col relative w-full h-full overflow-auto">
       {!imageSrc || imageSrc.length === 0 ? (
@@ -56,6 +72,9 @@ export default function Card() {
               loves={index}
               commentsLength={index}
               descriptionCard={image.description}
+              url={image.url}
+              handleClickComment={handleClickComment}
+              handleClickLike={handleClickLike}
             />
           </div>
         ))
