@@ -32,6 +32,21 @@ const dataGalleryImagesTemp = [
   {
     image:"/dataTemp/junin.jpg",
   },
+  {
+    image:"/dataTemp/praia.jpg",
+  },
+  {
+    image:"/dataTemp/meu lugar ao sol.jpeg",
+  },
+  {
+    image:"/dataTemp/briga com tiranossauro.png",
+  },
+  {
+    image:"/dataTemp/envergadura.jpg",
+  },
+  {
+    image:"/dataTemp/Minha vó.jpg",
+  },
 ];
 
 export default dataGalleryImagesTemp;

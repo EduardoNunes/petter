@@ -17,7 +17,7 @@ const FooterCard: React.FC<FooterCardProps> = ({
   handleClickComment,
   handleClickLike,
 }) => {
-  useEffect(() => {
+/*   useEffect(() => {
     async function likesCount() {
       try {
         const response = await api.post("likes-count", )
@@ -27,7 +27,7 @@ const FooterCard: React.FC<FooterCardProps> = ({
         console.log("Erro ao carregar as curtidas", error);
       }
     }
-  });
+  }); */
 
   return (
     <div className="flex flex-col mb-4">
