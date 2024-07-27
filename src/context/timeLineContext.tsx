@@ -19,6 +19,8 @@ interface TimeLineContextType {
     id: number,
     type: "timeline" | "image"
   ) => Promise<void>;
+  likesCount: number | undefined;
+  setLikesCount: (value: number) => void;
 }
 
 const TimeLineContext = createContext<TimeLineContextType | null>(null);
@@ -32,6 +34,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
 }) => {
   const [image, setImage] = useState<File | undefined>(undefined);
   const [imageURL, setImageURL] = useState("");
+  const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     if (image) {
@@ -58,7 +61,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
       };
 
       const response = await api.post("like-post-timeline", payload);
-
+      setLikesCount(response.data.likeCount);
       console.log("LIKED", response);
     } catch (error) {
       console.log("ERRO AO DAR LIKE", error);
@@ -71,6 +74,8 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     imageURL,
     setImageURL,
     handleClickLikeFunction,
+    likesCount,
+    setLikesCount,
   };
 
   return (

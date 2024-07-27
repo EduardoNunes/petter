@@ -10,11 +10,12 @@ interface ImageType {
   id: number;
   url: string;
   description: string;
+  likesCount: number
 }
 
 export default function Card() {
   const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
-  const { handleClickLikeFunction } = useTimeLineContext();
+  const { handleClickLikeFunction, likesCount } = useTimeLineContext();
 
   useEffect(() => {
     async function loadTimeline() {
@@ -29,7 +30,7 @@ export default function Card() {
     }
 
     loadTimeline();
-  }, []);
+  }, [likesCount]);
 
   const handleClickLike =
     (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
