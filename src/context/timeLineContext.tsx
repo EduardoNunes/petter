@@ -46,7 +46,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   const [image, setImage] = useState<File | undefined>(undefined);
   const [imageURL, setImageURL] = useState("");
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
-  const [commentsOpenModal, setCommentsOpenModal] = useState<boolean>(true);
+  const [commentsOpenModal, setCommentsOpenModal] = useState<boolean>(false);
   const [commentsCount, setCommentsCount] = useState<number | undefined>(
     undefined
   );
@@ -88,6 +88,8 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   ): Promise<void> {
     const userId = getItem("userId");
     const petterId = getItem("petterId");
+
+    setCommentsOpenModal(true);
     console.log(userId, petterId, type);
 
     /*  try {
