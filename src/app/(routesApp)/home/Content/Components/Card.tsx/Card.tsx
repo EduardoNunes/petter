@@ -18,7 +18,7 @@ export default function Card() {
   const {
     handleClickLikeFunction,
     likesCount,
-    handleClickCommentFunction,
+    handleClickShowComment,
   } = useTimeLineContext();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function Card() {
   const handleClickComment =
     (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      handleClickCommentFunction(id, "timeline");
+      handleClickShowComment(id, "timeline");
     };
 
   return (

@@ -10,6 +10,13 @@ import React, {
   useState,
 } from "react";
 
+interface Comment {
+  id: number;
+  text: string;
+  commented: string;
+  petterInfo: { profileImage: string; petterName: string };
+}
+
 interface TimeLineContextType {
   image: File | undefined;
   setImage: (value: File | undefined) => void;
@@ -26,12 +33,12 @@ interface TimeLineContextType {
 
   likesCount: number | undefined;
 
-  handleClickCommentFunction: (
+  handleClickShowComment: (
     id: number,
     type: "timeline" | "image"
   ) => Promise<void>;
 
-  commentsCount: number | undefined;
+  comments: Comment[];
 }
 
 const TimeLineContext = createContext<TimeLineContextType | null>(null);
@@ -47,9 +54,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   const [imageURL, setImageURL] = useState("");
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
   const [commentsOpenModal, setCommentsOpenModal] = useState<boolean>(false);
-  const [commentsCount, setCommentsCount] = useState<number | undefined>(
-    undefined
-  );
+  const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     if (image) {
@@ -82,7 +87,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     }
   }
 
-  async function handleClickCommentFunction(
+  async function handleClickShowComment(
     id: number,
     type: "timeline" | "image"
   ): Promise<void> {
@@ -98,7 +103,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
       };
 
       const response = await api.get("comment-post-timeline", { params });
-      setCommentsCount(response.data);
+      setComments(response.data);
     } catch (error) {
       console.log("Eerro ao mostrar os comentários", error);
     }
@@ -110,10 +115,10 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     imageURL,
     setImageURL,
     handleClickLikeFunction,
-    commentsCount,
+    comments,
     likesCount,
     setLikesCount,
-    handleClickCommentFunction,
+    handleClickShowComment,
     commentsOpenModal,
     setCommentsOpenModal,
   };
