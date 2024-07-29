@@ -9,7 +9,7 @@ export default function ModalComment() {
   };
 
   return (
-    <div className="absolute top-0 lef-0 z-10 flex flex-col w-[90%] h-[100%] bg-brancoSombra">
+    <div className="absolute top-0 left-0 z-10 flex flex-col w-[100%] h-[100%] bg-branco">
       <div className="flex w-full justify-end p-3">
         <button>
           <Image

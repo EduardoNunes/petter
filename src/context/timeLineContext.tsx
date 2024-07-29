@@ -30,7 +30,7 @@ interface TimeLineContextType {
     id: number,
     type: "timeline" | "image"
   ) => Promise<void>;
-  
+
   commentsCount: number | undefined;
 }
 
@@ -78,7 +78,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
       const response = await api.post("like-post-timeline", payload);
       setLikesCount(response.data.likeCount);
     } catch (error) {
-      console.log("ERRO AO DAR LIKE", error);
+      console.log("Erro ao dar like", error);
     }
   }
 
@@ -88,22 +88,20 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   ): Promise<void> {
     const userId = getItem("userId");
     const petterId = getItem("petterId");
-
     setCommentsOpenModal(true);
-    console.log(userId, petterId, type);
 
-    /*  try {
+    try {
       const payload = {
         userId: Number(userId),
         petterInfoId: Number(petterId),
         [type === "timeline" ? "timelineId" : "imageId"]: id,
       };
-
-      const response = await api.post("comment-post-timeline", payload);
-      setCommentsCount(response.data.commentsCount);
+      console.log(payload);
+      const response = await api.get("comment-post-timeline", payload);
+      setCommentsCount(response.data.commentCount);
     } catch (error) {
-      console.log("ERRO ABRIR OS COMENTÁRIOS", error);
-    } */
+      console.log("Eerro ao mostrar os comentários", error);
+    }
   }
 
   const contextValue = {
