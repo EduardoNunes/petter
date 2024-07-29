@@ -69,7 +69,11 @@ export default function AboutPetter() {
         <p className="font-secondary">Tem Petterzinhos? </p>
         <p className="font-secondary">Seja criativo!</p>
       </div>
-      <TextArea onTextChange={handleTextChange} placeholder={"Fale sobre seu Petter"} />
+      <TextArea
+        onTextChange={handleTextChange}
+        placeholder={"Fale sobre seu Petter"}
+        height="[200px]"
+      />
       <div className="absolute w-[90%] bottom-[3%]">
         <Button text="Continuar" type="internalButton" />
       </div>

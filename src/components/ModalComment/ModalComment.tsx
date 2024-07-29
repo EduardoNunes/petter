@@ -59,6 +59,7 @@ export default function ModalComment() {
           placeholder="Digite seu comentário."
           height="12"
         />
+        <button></button>
       </div>
     </div>
   );
