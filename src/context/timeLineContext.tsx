@@ -91,14 +91,14 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     setCommentsOpenModal(true);
 
     try {
-      const payload = {
+      const params = {
         userId: Number(userId),
         petterInfoId: Number(petterId),
         [type === "timeline" ? "timelineId" : "imageId"]: id,
       };
-      console.log(payload);
-      const response = await api.get("comment-post-timeline", payload);
-      setCommentsCount(response.data.commentCount);
+
+      const response = await api.get("comment-post-timeline", { params });
+      setCommentsCount(response.data);
     } catch (error) {
       console.log("Eerro ao mostrar os comentários", error);
     }
