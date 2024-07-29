@@ -1,6 +1,5 @@
-import api from "@/server/api";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface FooterCardProps {
   likesCount: number;
@@ -17,18 +16,7 @@ const FooterCard: React.FC<FooterCardProps> = ({
   handleClickComment,
   handleClickLike,
 }) => {
-/*   useEffect(() => {
-    async function likesCount() {
-      try {
-        const response = await api.post("likes-count", )
-
-        console.log(response)
-      } catch (error) {
-        console.log("Erro ao carregar as curtidas", error);
-      }
-    }
-  }); */
-
+  
   return (
     <div className="flex flex-col mb-4">
       <div className="flex items-center h-9 pl-2 pr-2 gap-3">

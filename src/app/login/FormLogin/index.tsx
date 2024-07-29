@@ -49,9 +49,9 @@ export default function FormLogin() {
         localStorage.setItem('petterId', petterInfo.id)
 
         if (petterInfo) {
-          router.push("/post"); 
+          router.push("/home"); 
         } else {
-          router.push("/post"); 
+          router.push("/register-petter"); 
         }        
 
     } catch (error: any) {

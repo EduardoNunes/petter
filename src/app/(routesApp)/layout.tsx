@@ -1,4 +1,5 @@
 import { SelfProvider } from "@/context/selfContext";
+import { TimeLineProvider } from "@/context/timeLineContext";
 import { StepProvider } from "@/context/useStepContext";
 
 export default function RootLayout({

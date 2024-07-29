@@ -15,12 +15,23 @@ interface TimeLineContextType {
   setImage: (value: File | undefined) => void;
   imageURL: string;
   setImageURL: (value: string) => void;
+  setLikesCount: (value: number) => void;
+  commentsOpenModal: boolean;
+  setCommentsOpenModal: (value: boolean) => void;
+
   handleClickLikeFunction: (
     id: number,
     type: "timeline" | "image"
   ) => Promise<void>;
+
   likesCount: number | undefined;
-  setLikesCount: (value: number) => void;
+
+  handleClickCommentFunction: (
+    id: number,
+    type: "timeline" | "image"
+  ) => Promise<void>;
+  
+  commentsCount: number | undefined;
 }
 
 const TimeLineContext = createContext<TimeLineContextType | null>(null);
@@ -35,6 +46,10 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   const [image, setImage] = useState<File | undefined>(undefined);
   const [imageURL, setImageURL] = useState("");
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
+  const [commentsOpenModal, setCommentsOpenModal] = useState<boolean>(true);
+  const [commentsCount, setCommentsCount] = useState<number | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     if (image) {
@@ -62,10 +77,31 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
 
       const response = await api.post("like-post-timeline", payload);
       setLikesCount(response.data.likeCount);
-      console.log("LIKED", response);
     } catch (error) {
       console.log("ERRO AO DAR LIKE", error);
     }
+  }
+
+  async function handleClickCommentFunction(
+    id: number,
+    type: "timeline" | "image"
+  ): Promise<void> {
+    const userId = getItem("userId");
+    const petterId = getItem("petterId");
+    console.log(userId, petterId, type);
+
+    /*  try {
+      const payload = {
+        userId: Number(userId),
+        petterInfoId: Number(petterId),
+        [type === "timeline" ? "timelineId" : "imageId"]: id,
+      };
+
+      const response = await api.post("comment-post-timeline", payload);
+      setCommentsCount(response.data.commentsCount);
+    } catch (error) {
+      console.log("ERRO ABRIR OS COMENTÁRIOS", error);
+    } */
   }
 
   const contextValue = {
@@ -74,8 +110,12 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     imageURL,
     setImageURL,
     handleClickLikeFunction,
+    commentsCount,
     likesCount,
     setLikesCount,
+    handleClickCommentFunction,
+    commentsOpenModal,
+    setCommentsOpenModal,
   };
 
   return (

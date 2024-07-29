@@ -10,18 +10,21 @@ interface ImageType {
   id: number;
   url: string;
   description: string;
-  likesCount: number
+  likesCount: number;
 }
 
 export default function Card() {
   const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
-  const { handleClickLikeFunction, likesCount } = useTimeLineContext();
+  const {
+    handleClickLikeFunction,
+    likesCount,
+    handleClickCommentFunction,
+  } = useTimeLineContext();
 
   useEffect(() => {
     async function loadTimeline() {
       try {
         const response = await api.get("show-card-timeline/top-10-images");
-        console.log('RESPONSE', response)
         const images = response.data;
         setImageSrc(images);
       } catch (error) {
@@ -38,9 +41,11 @@ export default function Card() {
       handleClickLikeFunction(id, "timeline");
     };
 
-  const handleClickComment = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-  };
+  const handleClickComment =
+    (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      handleClickCommentFunction(id, "timeline");
+    };
 
   return (
     <div className="flex flex-col relative w-full h-full overflow-auto">
@@ -69,7 +74,7 @@ export default function Card() {
               likesCount={image.likesCount}
               commentsLength={index}
               descriptionCard={image.description}
-              handleClickComment={handleClickComment}
+              handleClickComment={handleClickComment(image.id)}
               handleClickLike={handleClickLike(image.id)}
             />
           </div>
