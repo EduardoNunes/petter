@@ -23,6 +23,8 @@ interface TimeLineContextType {
   imageURL: string;
   setImageURL: (value: string) => void;
   setLikesCount: (value: number) => void;
+  timelineImageId: number | undefined;
+  setTimelineImageId: (value: number | undefined) => void;
   commentsOpenModal: boolean;
   setCommentsOpenModal: (value: boolean) => void;
 
@@ -55,6 +57,9 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
   const [commentsOpenModal, setCommentsOpenModal] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]);
+  const [timelineImageId, setTimelineImageId] = useState<number | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     if (image) {
@@ -121,6 +126,8 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     handleClickShowComment,
     commentsOpenModal,
     setCommentsOpenModal,
+    timelineImageId,
+    setTimelineImageId,
   };
 
   return (

@@ -1,13 +1,27 @@
 import { useTimeLineContext } from "@/context/timeLineContext";
+import api from "@/server/api";
+import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
-import "./animation.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextArea from "../TextArea/TextArea";
+import "./animation.css";
 
 export default function ModalComment() {
-  const { setCommentsOpenModal, comments } = useTimeLineContext();
+  const {
+    setCommentsOpenModal,
+    comments,
+    timelineImageId,
+    handleClickShowComment,
+  } = useTimeLineContext();
   const [animation, setAnimation] = useState("slide-in");
   const [commentAdd, setCommentAdd] = useState("");
+  const [userId, setUserId] = useState("");
+  const [petterId, setPetterId] = useState("");
+
+  useEffect(() => {
+    setUserId(getItem("userId") || "");
+    setPetterId(getItem("petterId") || "");
+  }, []);
 
   const handleClickCloseModal = () => {
     setAnimation("slide-out");
@@ -19,7 +33,25 @@ export default function ModalComment() {
   const handleTextChange = (text: string) => {
     setCommentAdd(text);
   };
-  console.log(commentAdd);
+
+  const handleClickSendMessage = async () => {
+    try {
+      const data = {
+        userId,
+        petterId,
+        commented: commentAdd,
+        timelineId: timelineImageId,
+      };
+
+      const response = await api.post("comment-post-timeline", data);
+      console.log("Comentário salvo com sucesso.", response.data);
+      await handleClickShowComment(Number(timelineImageId), "timeline");
+      setCommentAdd("");
+    } catch (error) {
+      console.log("ERRO AO TENTAR ENVIAR", error);
+    }
+  };
+
   return (
     <div
       className={`absolute top-0 left-0 z-10 flex flex-col w-[100%] h-[100%] px-8 bg-branco ${animation}`}
@@ -35,7 +67,7 @@ export default function ModalComment() {
           />
         </button>
       </div>
-      <div>
+      <div className="h-[80%] overflow-auto">
         {comments &&
           comments.map((comment, index) => (
             <div key={index} className="p-2 mb-2 bg-verdePastel rounded-lg">
@@ -54,12 +86,23 @@ export default function ModalComment() {
           ))}
       </div>
       <div className="absolute bottom-12 w-[86%]">
-        <TextArea
-          onTextChange={handleTextChange}
-          placeholder="Digite seu comentário."
-          height="12"
-        />
-        <button></button>
+        <div className="relative">
+          <TextArea
+            onTextChange={handleTextChange}
+            value={commentAdd}
+            placeholder="Deixe seu comentário."
+            height="[46px]"
+          />
+          <button onClick={handleClickSendMessage}>
+            <Image
+              src="/images/send.png"
+              width={32}
+              height={32}
+              alt="Enviar"
+              className="absolute top-2 right-4"
+            />
+          </button>
+        </div>
       </div>
     </div>
   );
