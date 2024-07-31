@@ -31,8 +31,6 @@ export default function RegisterUserInfos() {
     getSelf();
   }, []);
 
-  console.log("USER", self);
-
   async function fetchSession() {
     const session = await getSession();
 

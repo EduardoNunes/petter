@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 
 export default function FormRegisterPetter() {
-  const { getSelf } = useSelfContext();
+  const { getSelf, self } = useSelfContext();
   const [checkNoData, setCheckNoData] = useState(false);
   const [petterName, setPetterName] = useState("");
   const [petterKind, setPetterKind] = useState("");
@@ -26,8 +26,13 @@ export default function FormRegisterPetter() {
 
   const route = useRouter();
 
+  useEffect(() => {
+    getSelf();
+  }, []);
+
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
+    console.log(self);
 
     try {
       setLoading(true);
@@ -44,6 +49,12 @@ export default function FormRegisterPetter() {
         { abortEarly: false }
       );
 
+      if (!self.email) {
+        console.log("Usuário não encontrado");
+        return;
+      }
+      
+      formData.append("email", self.email);
       formData.append("petterName", petterName);
       formData.append("petterKind", petterKind);
       formData.append("petterBreed", petterBreed);
@@ -61,7 +72,7 @@ export default function FormRegisterPetter() {
         },
       });
 
-      route.push("/register-petter/load-images");
+      /* route.push("/register-petter/load-images"); */
       setLoading(false);
       getSelf();
     } catch (error: any) {

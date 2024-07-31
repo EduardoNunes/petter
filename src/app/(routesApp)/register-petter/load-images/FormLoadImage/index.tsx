@@ -25,7 +25,7 @@ export default function FormLoadImages() {
   useEffect(() => {
     getSelf();
   }, []);
-
+  console.log(self)
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
     try {
@@ -68,7 +68,7 @@ export default function FormLoadImages() {
       router.push("/register-petter/about-petter");
     } catch (error: any) {
       setLoading(false);
-      console.log("ERROR", error);
+      console.log("As imagens n foram carregadas", error);
       if (
         error.response &&
         error.response.data &&
