@@ -30,7 +30,6 @@ export default function Card() {
         const response = await api.get("show-card-timeline/top-10-images");
         const images = response.data.top10ImagesWithCounts;
         setImageSrc(images);
-        console.log(images)
       } catch (error) {
         console.log("ERRO", error);
       }

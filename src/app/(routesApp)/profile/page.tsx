@@ -2,27 +2,14 @@
 
 import Footer from "@/components/Footer/Footer";
 import { useSelfContext } from "@/context/selfContext";
-import { getItem } from "@/utils/localStorageUtils";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import GalleryProfile from "./GalleryProfile";
 import HeaderProfile from "./HeaderProfile";
 import InfosProfile from "./InfosProfile";
 
-interface PetterInfoType {
-  id: number;
-  petterName: string;
-  petterKind: string;
-  petterBreed: string;
-  petterBirth: string;
-  userId: number;
-  profileImage: string;
-  descriptionBio: string;
-}
-
 export default function Profile() {
-  const { self, getSelf, emailLogged, setEmailLogged } = useSelfContext();
-  const [data, setData] = useState<PetterInfoType | null>(null);
+  const { self, getSelf } = useSelfContext();
   const router = useRouter();
 
   const handleClickGoEditProfile = () => {
@@ -30,37 +17,23 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    const email = getItem("email");
-    if (email) {
-      setEmailLogged(email);
-    }
+    getSelf();
   }, []);
 
-  useEffect(() => {
-    if (emailLogged) {
-      getSelf();
-    }
-  }, [emailLogged]);
-
-  useEffect(() => {
-    if (self.PetterInfo && self.PetterInfo.length > 0) {
-      const firstPetterInfo = self.PetterInfo[0] as PetterInfoType;
-      setData(firstPetterInfo);
-    }
-  }, [self.PetterInfo]);
+  const petterInfo = self.PetterInfo && self.PetterInfo[0];
 
   return (
     <div className="flex items-center w-[90%] h-[100%]">
-      <HeaderProfile petterName={data?.petterName ?? ""} />
+      <HeaderProfile petterName={petterInfo?.petterName || ""} />
       <div className="h-[84%] w-full">
         <div className="h-[250px]">
           <InfosProfile
-            profileImage={data?.profileImage ?? ""}
-            petterKind={data?.petterKind ?? ""}
-            petterBreed={data?.petterBreed ?? ""}
+            profileImage={petterInfo?.profileImage || ""}
+            petterKind={petterInfo?.petterKind || ""}
+            petterBreed={petterInfo?.petterBreed || ""}
           />
           <h1 className="h-28 py-2 font-secondary">
-            {data?.descriptionBio ?? ""}
+            {petterInfo?.descriptionBio || ""}
           </h1>
           <button
             className="font-secondary text-smaller bg-azulPalido text-black py-1 px-3 rounded-lg mb-3"
@@ -70,7 +43,9 @@ export default function Profile() {
           </button>
         </div>
         <div className="overflow-auto h-[calc(100%-250px)]">
-          {data && <GalleryProfile petterId={data.id} />}
+          {self.PetterInfo && (
+            <GalleryProfile petterId={(petterInfo && petterInfo.id) || 0} />
+          )}
         </div>
       </div>
       <Footer />

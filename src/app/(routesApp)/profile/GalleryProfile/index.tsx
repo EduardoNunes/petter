@@ -1,6 +1,5 @@
 import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
-import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
