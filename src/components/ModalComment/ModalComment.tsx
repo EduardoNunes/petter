@@ -1,12 +1,13 @@
+import { useSelfContext } from "@/context/selfContext";
 import { useTimeLineContext } from "@/context/timeLineContext";
 import api from "@/server/api";
-import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TextArea from "../TextArea/TextArea";
 import "./animation.css";
 
 export default function ModalComment() {
+  const { self } = useSelfContext();
   const {
     setCommentsOpenModal,
     comments,
@@ -15,13 +16,6 @@ export default function ModalComment() {
   } = useTimeLineContext();
   const [animation, setAnimation] = useState("slide-in");
   const [commentAdd, setCommentAdd] = useState("");
-  const [userId, setUserId] = useState("");
-  const [petterId, setPetterId] = useState("");
-
-  useEffect(() => {
-    setUserId(getItem("userId") || "");
-    setPetterId(getItem("petterId") || "");
-  }, []);
 
   const handleClickCloseModal = () => {
     setAnimation("slide-out");
@@ -35,16 +29,23 @@ export default function ModalComment() {
   };
 
   const handleClickSendMessage = async () => {
+    if (!self.PetterInfo) {
+      console.log("Petter que vai comentar não identificado.");
+      return;
+    }
+
     try {
       const data = {
-        userId,
-        petterId,
+        userId: self.id,
+        petterId: self.PetterInfo[0].id,
         commented: commentAdd,
         timelineId: timelineImageId,
       };
 
       const response = await api.post("comment-post-timeline", data);
+      
       console.log("Comentário salvo com sucesso.", response.data);
+
       await handleClickShowComment(Number(timelineImageId), "timeline");
       setCommentAdd("");
     } catch (error) {

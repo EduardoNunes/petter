@@ -1,19 +1,24 @@
 import Button from "@/components/Button/Button";
 import Header from "@/components/Header/Header";
 import TextArea from "@/components/TextArea/TextArea";
-import { useState } from "react";
-import SelectedImage from "../SelectedImage/SelectedImage";
-import { useRouter } from "next/navigation";
+import { useSelfContext } from "@/context/selfContext";
+import { useTimeLineContext } from "@/context/timeLineContext";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
-import { getItem } from "@/utils/localStorageUtils";
-import { useTimeLineContext } from "@/context/timeLineContext";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import SelectedImage from "../SelectedImage/SelectedImage";
 
 export default function PostStepComment() {
   const { image } = useTimeLineContext();
+  const { handleToDecreaseCurrentStep } = useStepContext();
+  const { getSelf, self } = useSelfContext();
   const [commentText, setCommentText] = useState<string>("");
   const router = useRouter();
-  const { handleToDecreaseCurrentStep } = useStepContext();
+
+  useEffect(() => {
+    getSelf()
+  }, []);
 
   const handleTextChange = (text: string) => {
     setCommentText(text);
@@ -22,11 +27,16 @@ export default function PostStepComment() {
   async function handleClickSubmit(event: { preventDefault: () => void }) {
     event.preventDefault();
 
+    if (!self.id || !self.PetterInfo) {
+      console.error("User ID or Petter ID is missing");
+      return;
+    }
+
     try {
       const formData = new FormData();
 
-      formData.append("petterId", getItem("petterId") || "");
-      formData.append("userId", getItem("userId") || "");
+      formData.append("userId", self.id.toString());
+      formData.append("petterId", self.PetterInfo[0].id.toString());
 
       if (image) {
         formData.append("image", image);
@@ -36,7 +46,7 @@ export default function PostStepComment() {
 
       formData.append("description", commentText);
 
-      const response = await api.post("petter-image-timeline", formData, {
+      await api.post("petter-image-timeline", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -46,7 +56,7 @@ export default function PostStepComment() {
         handleToDecreaseCurrentStep();
       }, 1000);
 
-      console.log(response, "RESPONSE");
+      console.log("Imagem postada na timeline");
       router.push("home");
     } catch (error) {
       console.error("ERROR", error);
@@ -60,7 +70,12 @@ export default function PostStepComment() {
       {image && <SelectedImage />}
 
       <div className="flex items-center w-full mb-4">
-        <TextArea onTextChange={handleTextChange} />
+        <TextArea
+          value={commentText}
+          onTextChange={handleTextChange}
+          placeholder="Descrição da imagem"
+          height="44"
+        />
       </div>
       <div className="absolute w-[90%] bottom-[3%]">
         <Button

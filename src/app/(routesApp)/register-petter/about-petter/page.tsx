@@ -6,7 +6,6 @@ import TextArea from "@/components/TextArea/TextArea";
 import { useSelfContext } from "@/context/selfContext";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
-import { getItem } from "@/utils/localStorageUtils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -14,25 +13,11 @@ export default function AboutPetter() {
   const { handleToAddCurrentStep } = useStepContext();
   const { self, getSelf } = useSelfContext();
   const [descriptionBio, setDescriptionBio] = useState<string>("");
-  const [email, setEmail] = useState<string | null>(null);
-  const [petterId, setPetterId] = useState<Number | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const storedEmail = getItem("email");
-    const storedPetterId = Number(getItem("petterId"));
-
-    if (storedEmail) {
-      setEmail(storedEmail);
-      setPetterId(storedPetterId);
-    }
+    getSelf();
   }, []);
-
-  useEffect(() => {
-    if (email) {
-      getSelf(email);
-    }
-  }, [email]);
 
   const handleTextChange = (text: string) => {
     setDescriptionBio(text);
@@ -41,9 +26,14 @@ export default function AboutPetter() {
   async function onSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
 
+    if (!self.PetterInfo) {
+      console.log("Petter não identificado.");
+      return;
+    }
+
     try {
-      const response = await api.patch(
-        `/petter-infos/${self.id}/${petterId}/description-bio`,
+      await api.patch(
+        `/petter-infos/${self.id}/${self.PetterInfo[0].id}/description-bio`,
         {
           descriptionBio: descriptionBio,
         }
@@ -71,8 +61,9 @@ export default function AboutPetter() {
       </div>
       <TextArea
         onTextChange={handleTextChange}
+        value={descriptionBio}
         placeholder={"Fale sobre seu Petter"}
-        height="[200px]"
+        height="48"
       />
       <div className="absolute w-[90%] bottom-[3%]">
         <Button text="Continuar" type="internalButton" />

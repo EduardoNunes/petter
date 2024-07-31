@@ -3,7 +3,7 @@ import React from "react";
 
 interface FooterCardProps {
   likesCount: number;
-  commentsLength: number;
+  commentsCount: number;
   descriptionCard: string;
   handleClickComment: (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleClickLike: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -11,7 +11,7 @@ interface FooterCardProps {
 
 const FooterCard: React.FC<FooterCardProps> = ({
   likesCount,
-  commentsLength,
+  commentsCount,
   descriptionCard,
   handleClickComment,
   handleClickLike,
@@ -42,7 +42,7 @@ const FooterCard: React.FC<FooterCardProps> = ({
             height={28}
             alt="Baalon comment"
           />
-          <p>{commentsLength}</p>
+          <p>{commentsCount}</p>
         </button>
       </div>
       <p className="font-secondary">{descriptionCard}</p>

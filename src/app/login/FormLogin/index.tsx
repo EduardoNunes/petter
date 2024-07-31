@@ -5,17 +5,22 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
+import { setItem } from "@/utils/localStorageUtils";
 import { schemaLoginUser } from "@/validation/schemaLoginUser";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 export default function FormLogin() {
-  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { getSelf } = useSelfContext();
+
+  const router = useRouter();
 
   const handleClickGoRegisterUser = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -28,6 +33,8 @@ export default function FormLogin() {
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setLoading(true);
+
+    getSelf();
 
     try {
       await schemaLoginUser.validate(
@@ -43,17 +50,14 @@ export default function FormLogin() {
         password,
       });
 
-        const { accessToken, userId, petterInfo } = response.data;
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("token", accessToken);
-        localStorage.setItem('petterId', petterInfo.id)
+      setItem("email", email);
+      const { petterInfo } = response.data;
 
-        if (petterInfo) {
-          router.push("/home"); 
-        } else {
-          router.push("/register-petter"); 
-        }        
-
+      if (petterInfo) {
+        router.push("/home");
+      } else {
+        router.push("/register-petter");
+      }
     } catch (error: any) {
       if (
         error.response &&

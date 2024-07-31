@@ -4,10 +4,13 @@ import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function GalleryProfile() {
+interface GalleryProfileProps {
+  petterId: number;
+}
+
+export default function GalleryProfile({ petterId }: GalleryProfileProps) {
   const { setNumberImagesGallery } = useSelfContext();
   const [imageSrc, setImageSrc] = useState<string[]>([]);
-  const petterId = getItem("petterId");
 
   useEffect(() => {
     async function loadImagesProfile() {

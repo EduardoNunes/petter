@@ -11,6 +11,7 @@ interface ImageType {
   url: string;
   description: string;
   likesCount: number;
+  commentsCount: number;
 }
 
 export default function Card() {
@@ -18,6 +19,7 @@ export default function Card() {
   const {
     handleClickLikeFunction,
     likesCount,
+    likesCountId,
     handleClickShowComment,
     setTimelineImageId,
   } = useTimeLineContext();
@@ -26,15 +28,15 @@ export default function Card() {
     async function loadTimeline() {
       try {
         const response = await api.get("show-card-timeline/top-10-images");
-        const images = response.data;
+        const images = response.data.top10ImagesWithCounts;
         setImageSrc(images);
+        console.log(images)
       } catch (error) {
         console.log("ERRO", error);
       }
     }
-
     loadTimeline();
-  }, [likesCount]);
+  }, [likesCount, likesCountId]);
 
   const handleClickLike =
     (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -74,10 +76,10 @@ export default function Card() {
             />
             <FooterCard
               likesCount={image.likesCount}
-              commentsLength={index}
+              commentsCount={image.commentsCount}
               descriptionCard={image.description}
-              handleClickComment={handleClickComment(image.id)}
               handleClickLike={handleClickLike(image.id)}
+              handleClickComment={handleClickComment(image.id)}
             />
           </div>
         ))

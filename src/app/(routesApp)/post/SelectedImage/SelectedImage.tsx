@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function SelectedImage() {
   const { enframe } = useEnframeContext();
-  const { imageURL, image } = useTimeLineContext();
+  const { imageURL } = useTimeLineContext();
 
   return (
     <div className="flex items-center h-[50%] w-full mb-4 bg-slate-500">

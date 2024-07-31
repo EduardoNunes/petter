@@ -9,9 +9,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="flex justify-center items-center h-[100vh] w-[100vw]">
-      <StepProvider>
-        <SelfProvider>{children}</SelfProvider>
-      </StepProvider>
+      <StepProvider>{children}</StepProvider>
     </div>
   );
 }

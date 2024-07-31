@@ -4,6 +4,7 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
 import Image from "next/image";
@@ -12,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 
 export default function FormRegisterPetter() {
+  const { getSelf } = useSelfContext();
   const [checkNoData, setCheckNoData] = useState(false);
   const [petterName, setPetterName] = useState("");
   const [petterKind, setPetterKind] = useState("");
@@ -21,6 +23,7 @@ export default function FormRegisterPetter() {
   const [profileUrl, setProfileUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const route = useRouter();
 
   async function onSubmit(event: SyntheticEvent) {
@@ -52,16 +55,15 @@ export default function FormRegisterPetter() {
         console.error("Invalid image type:", profileImageFile);
       }
 
-      const response = await api.post("petter-infos", formData, {
+      await api.post("petter-infos", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      localStorage.setItem("petterId", (await response).data.id);
-      localStorage.setItem("petterName", (await response).data.petterName);
       route.push("/register-petter/load-images");
       setLoading(false);
+      getSelf();
     } catch (error: any) {
       if (
         error.response &&

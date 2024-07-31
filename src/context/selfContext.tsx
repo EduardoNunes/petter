@@ -1,6 +1,7 @@
 "use client";
 
 import api from "@/server/api";
+import { getItem } from "@/utils/localStorageUtils";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
 interface SelfType {
@@ -8,25 +9,33 @@ interface SelfType {
   name?: string;
   email?: string;
   profileImage?: string;
-}
-
-interface SelfPetterType {
-  petterName?: string;
-  petterKind?: string;
-  petterBreed?: string;
-  petterBirth?: string;
-  userId?: number;
-  profileImage?: string;
-  descriptionBio?: string;
+  loggedBy?: string;
+  UserInfo?: Array<{
+    id: number;
+    date?: string;
+    gender?: string;
+    phone?: string;
+    cep?: string;
+    neighborhood?: string;
+    ddd?: string;
+    locality?: string;
+    publicPlace?: string;
+    uf?: string;
+  }>;
+  PetterInfo?: Array<{
+    id: number;
+    petterName?: string;
+    petterKind?: string;
+    petterBreed?: string;
+    profileImage?: string;
+    descriptionBio?: string;
+  }>;
 }
 
 interface SelfContextType {
   self: SelfType;
   setSelf: (value: SelfType) => void;
-  getSelf: (email: string) => Promise<void>;
-  selfPetter: SelfPetterType;
-  setSelfPetter: (value: SelfPetterType) => void;
-  getSelfPetter: (petterId: number) => Promise<void>;
+  getSelf: () => Promise<void>;
   numberImagesGallery: number;
   setNumberImagesGallery: (value: number) => void;
 }
@@ -39,28 +48,37 @@ interface SelfProviderProps {
 
 export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const [self, setSelf] = useState<SelfType>({});
-  const [selfPetter, setSelfPetter] = useState<SelfPetterType>({});
   const [numberImagesGallery, setNumberImagesGallery] = useState(0);
 
-  async function getSelf(email: string): Promise<void> {
+  async function getSelf() {
+    const emailStorage = getItem("email");
+
     try {
       const response = await api.get("/users-credentials/", {
-        params: { email },
+        params: { email: emailStorage },
+      });
+
+      const {
+        id,
+        name,
+        email,
+        profileImage,
+        loggedBy,
+        UserInfo = [],
+        PetterInfo = [],
+      } = response.data;
+
+      setSelf({
+        id,
+        name,
+        email,
+        profileImage,
+        loggedBy,
+        UserInfo,
+        PetterInfo,
       });
 
       setSelf(response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-    }
-  }
-
-  async function getSelfPetter(petterId: number): Promise<void> {
-    try {
-      const response = await api.get("petter-infos", {
-        params: { petterId },
-      });
-
-      setSelfPetter(response.data);
     } catch (error) {
       console.error("ERROR", error);
     }
@@ -70,9 +88,6 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
     self,
     setSelf,
     getSelf,
-    selfPetter,
-    setSelfPetter,
-    getSelfPetter,
     numberImagesGallery,
     setNumberImagesGallery,
   };

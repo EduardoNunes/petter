@@ -4,6 +4,7 @@ import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import Select from "@/components/Select/Select";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import viaCep from "@/server/api-viacep";
 import formatCep from "@/utils/formatCep";
@@ -14,7 +15,7 @@ import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import AddressInfos from "./AddressInfos/AddressInfos";
 
 export default function FormUserRegisterData() {
-  const router = useRouter();
+  const { self, getSelf } = useSelfContext();
   const [selectedOption, setSelectOption] = useState("");
   const [date, setDate] = useState("");
   const [cep, setCep] = useState("");
@@ -28,7 +29,8 @@ export default function FormUserRegisterData() {
   const [error, setError] = useState("");
   const [showAddressInfos, setShowAddressInfos] = useState(false);
   const [loading, setLoading] = useState(false);
-  const userEmail = localStorage.getItem("email");
+
+  const router = useRouter();
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
@@ -52,7 +54,7 @@ export default function FormUserRegisterData() {
       );
 
       const response = await api.post("/user-infos", {
-        email: userEmail,
+        email: self.email,
         date,
         gender,
         phone,
@@ -64,9 +66,9 @@ export default function FormUserRegisterData() {
         uf,
       });
 
-      if ((await response).status === 201) {
-        router.push("/notice");
-      }
+      console.log("Informações cadastradas.", response.data);
+      router.push("/notice");
+      getSelf();
     } catch (error: any) {
       if (
         error.response &&
@@ -87,7 +89,6 @@ export default function FormUserRegisterData() {
   };
 
   const handleTypeGender = (event: ChangeEvent<HTMLInputElement>) => {
-
     setGender(event.target.value);
   };
 
@@ -153,7 +154,7 @@ export default function FormUserRegisterData() {
                 if (e.target.value !== "outro") {
                   setGender(e.target.value);
                 } else {
-                  setGender("")
+                  setGender("");
                 }
               }}
             />

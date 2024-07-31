@@ -3,13 +3,15 @@
 import Button from "@/components/Button/Button";
 import ErrorWindow from "@/components/Error/ErrorWindown";
 import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { schemaRegisterPetterImage } from "@/validation/schemaRegisterPetterImages copy";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 
 export default function FormLoadImages() {
+  const { self, getSelf } = useSelfContext();
   const [images, setImages] = useState<File[]>([]);
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,20 +19,15 @@ export default function FormLoadImages() {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
   );
+
   const router = useRouter();
-  const petterIdStr =
-    typeof window !== "undefined" ? localStorage.getItem("petterId") : null;
+
+  useEffect(() => {
+    getSelf();
+  }, []);
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
-
-    if (!petterIdStr) {
-      setError("Petter ID não encontrado no localStorage");
-      return;
-    }
-
-    const petterIdNum = Number(petterIdStr);
-
     try {
       setLoading(true);
 
@@ -52,10 +49,14 @@ export default function FormLoadImages() {
         );
       }
 
-      for await (const image of images) {
-        formData.append("petterId", petterIdNum.toString());
-        formData.append("description", description);
-        formData.append("images", image);
+      if (self.PetterInfo) {
+        for await (const image of images) {
+          formData.append("petterId", self.PetterInfo[0].id.toString());
+          formData.append("description", description);
+          formData.append("images", image);
+        }
+      } else {
+        return;
       }
 
       const response = await api.post("petter-register-images", formData, {

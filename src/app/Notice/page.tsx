@@ -5,11 +5,13 @@ import { Label } from "@/components/Label/Label";
 import Petter from "@/components/Petter/PetterColorful";
 import { useRouter } from "next/navigation";
 import CheckBox from "@/components/CheckBox/CheckBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ErrorWindow from "@/components/Error/ErrorWindown";
 import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 
 export default function Notice() {
+  const { self, getSelf } = useSelfContext();
   const [error, setError] = useState("");
   const [checkedList, setCheckedList] = useState<boolean[]>([
     false,
@@ -19,7 +21,6 @@ export default function Notice() {
     false,
   ]);
   const router = useRouter();
-  const userName = localStorage.getItem("tutorName");
   const [loading, setLoading] = useState(false);
 
   const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -40,6 +41,10 @@ export default function Notice() {
     setCheckedList(newList);
   };
 
+  useEffect(() => {
+    getSelf();
+  }, []);
+
   return (
     <div className="flex justify-center items-center w-[100vw] h-[100vh]">
       {error && <ErrorWindow textError={error} setError={setError} />}
@@ -47,7 +52,9 @@ export default function Notice() {
       <div className="flex flex-col items-center justify-around w-[90%] h-[70%]">
         <div className="flex flex-col items-center">
           <Petter fontSize="extraLarge" />
-          <h2 className="font-secondary text-center text-big mb-5">{`Sinta-se em casa, ${userName}!`}</h2>
+          <h2 className="font-secondary text-center text-big mb-5">{`Sinta-se em casa, ${
+            self.name ? self.name.split(" ")[0] : ""
+          }!`}</h2>
         </div>
         <div className="flex flex-col overflow-auto">
           {[

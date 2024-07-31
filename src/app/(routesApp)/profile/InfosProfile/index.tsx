@@ -1,31 +1,25 @@
 import { useSelfContext } from "@/context/selfContext";
-import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
-export default function InfosProfile() {
-  const { getSelfPetter, selfPetter, numberImagesGallery } = useSelfContext();
+interface InfosProfileProps {
+  profileImage: string;
+  petterKind: string;
+  petterBreed: string;
+}
+
+export default function InfosProfile({
+  profileImage,
+  petterKind,
+  petterBreed,
+}: InfosProfileProps) {
+  const { numberImagesGallery } = useSelfContext();
   const friends = "0";
-  const [petterId, setPetterId] = useState<string>("");
-
-  useEffect(() => {
-    const storedPetterId = getItem("petterId");
-    if (storedPetterId) {
-      setPetterId(storedPetterId);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (petterId) {
-      getSelfPetter(Number(petterId));
-    }
-  }, [petterId]);
 
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="relative w-24 h-24 ">
         <Image
-          src={selfPetter.profileImage || "/images/default-profile.png"}
+          src={profileImage || "/images/paw.png"}
           width={40}
           height={40}
           alt="Profile Image"
@@ -55,7 +49,7 @@ export default function InfosProfile() {
             className="object-cover w-5 h-5"
           />
           <p className="font-secondary text-smaller truncate">
-            {selfPetter.petterBreed}
+            {petterBreed}
           </p>
         </div>
         <div className="flex items-center h-8 gap-2">
@@ -67,7 +61,7 @@ export default function InfosProfile() {
             className="object-cover w-5 h-5"
           />
           <p className="font-secondary text-smaller truncate">
-            {selfPetter.petterKind}
+            {petterKind}
           </p>
         </div>
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import api from "@/server/api";
-import { getItem } from "@/utils/localStorageUtils";
 import React, {
   ReactNode,
   createContext,
@@ -9,6 +8,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { useSelfContext } from "./selfContext";
 
 interface Comment {
   id: number;
@@ -23,6 +23,7 @@ interface TimeLineContextType {
   imageURL: string;
   setImageURL: (value: string) => void;
   setLikesCount: (value: number) => void;
+  setLikesCountId: (value: number) => void;
   timelineImageId: number | undefined;
   setTimelineImageId: (value: number | undefined) => void;
   commentsOpenModal: boolean;
@@ -34,6 +35,7 @@ interface TimeLineContextType {
   ) => Promise<void>;
 
   likesCount: number | undefined;
+  likesCountId: number | undefined;
 
   handleClickShowComment: (
     id: number,
@@ -52,16 +54,18 @@ interface TimeLineProviderProps {
 export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   children,
 }) => {
+  const { self } = useSelfContext();
   const [image, setImage] = useState<File | undefined>(undefined);
   const [imageURL, setImageURL] = useState("");
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
+  const [likesCountId, setLikesCountId] = useState<number | undefined>(undefined);
   const [commentsOpenModal, setCommentsOpenModal] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [timelineImageId, setTimelineImageId] = useState<number | undefined>(
     undefined
   );
 
-  useEffect(() => {
+ /*  useEffect(() => {
     if (image) {
       const url = URL.createObjectURL(image);
       setImageURL(url);
@@ -69,24 +73,27 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
         URL.revokeObjectURL(url);
       };
     }
-  }, [image]);
+  }, [image]); */
 
   async function handleClickLikeFunction(
     id: number,
     type: "timeline" | "image"
   ): Promise<void> {
-    const userId = getItem("userId");
-    const petterId = getItem("petterId");
+    if (!self.PetterInfo) {
+      console.log("Não identificamos o Petter logado.");
+      return;
+    }
 
     try {
       const payload = {
-        userId: Number(userId),
-        petterInfoId: Number(petterId),
+        userId: self.id,
+        petterInfoId: self.PetterInfo[0].id,
         [type === "timeline" ? "timelineId" : "imageId"]: id,
       };
 
       const response = await api.post("like-post-timeline", payload);
       setLikesCount(response.data.likeCount);
+      setLikesCountId(response.data.like.id);
     } catch (error) {
       console.log("Erro ao dar like", error);
     }
@@ -96,14 +103,17 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     id: number,
     type: "timeline" | "image"
   ): Promise<void> {
-    const userId = getItem("userId");
-    const petterId = getItem("petterId");
     setCommentsOpenModal(true);
+
+    if (!self.PetterInfo) {
+      console.log("Não identificamos o Petter logado.");
+      return;
+    }
 
     try {
       const params = {
-        userId: Number(userId),
-        petterInfoId: Number(petterId),
+        userId: self.id,
+        petterInfoId: self.PetterInfo[0].id,
         [type === "timeline" ? "timelineId" : "imageId"]: id,
       };
 
@@ -123,6 +133,8 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     comments,
     likesCount,
     setLikesCount,
+    likesCountId,
+    setLikesCountId,
     handleClickShowComment,
     commentsOpenModal,
     setCommentsOpenModal,

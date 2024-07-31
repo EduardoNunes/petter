@@ -1,13 +1,14 @@
-import { getItem } from "@/utils/localStorageUtils";
 import Image from "next/image";
 
-export default function HeaderProfile() {
-  const userName = getItem("petterName")?.split(" ")[0];
-  
+interface HeaderProfileProps {
+  petterName: string;
+}
+
+export default function HeaderProfile({ petterName }: HeaderProfileProps) {
   return (
     <div className="absolute top-2 flex items-center justify-between h-[7%] w-[90%]">
       <div>
-        <h1 className="text-extraLarge1">{userName}</h1>
+        <h1 className="text-extraLarge1">{petterName}</h1>
       </div>
       <div className="flex h-8 gap-2">
         <Image

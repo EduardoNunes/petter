@@ -6,21 +6,23 @@ import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
+import { setItem } from "@/utils/localStorageUtils";
 import { schemaRegisterCredentialsUser } from "@/validation/schemaRegisterCredentialsUser";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 
 export default function FormUserRegisterCredentials() {
-  const router = useRouter();
+  const { getSelf } = useSelfContext();
   const [tutorName, setTutorName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profileImage, setProfileImage] = useState("");
-  const [loggedBy, setLoggedBy] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [privacyPolicies, setPrivacyPolicies] = useState(false);
+
+  const router = useRouter();
 
   async function handleClickGoOn(event: SyntheticEvent) {
     event.preventDefault();
@@ -42,11 +44,10 @@ export default function FormUserRegisterCredentials() {
         setError(
           "Para prosseguirmos, você deve concordar com as políticas de privacidade"
         );
-
         return;
       }
 
-      const response = await api.post("/users-credentials", {
+      await api.post("/users-credentials", {
         name: tutorName,
         email,
         password,
@@ -54,13 +55,11 @@ export default function FormUserRegisterCredentials() {
         loggedBy: "credentials",
       });
 
-      if ((await response).status === 201) {
-        localStorage.setItem("tutorName", response.data.name);
-        localStorage.setItem("email", response.data.email);
-        localStorage.setItem("userId", response.data.id);
-        localStorage.setItem("loggedBy", response.data.loggedBy);
-        router.push("/register-user/register-infos");
-      }
+      setItem("email", email);
+      getSelf();
+
+      console.log("Informações registradas com sucesso");
+      router.push("/register-user/register-infos");
     } catch (error: any) {
       if (
         error.response &&

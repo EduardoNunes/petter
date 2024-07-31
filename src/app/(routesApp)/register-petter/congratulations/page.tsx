@@ -1,14 +1,19 @@
 "use client";
 
 import Button from "@/components/Button/Button";
-import "./color-fonte.css";
 import { useRouter } from "next/navigation";
-import { getItem } from "@/utils/localStorageUtils";
+import "./color-fonte.css";
+import { useSelfContext } from "@/context/selfContext";
+import { useEffect } from "react";
 
 export default function Congratulations() {
-  const namePetter = getItem('petterName');
+  const { self, getSelf } = useSelfContext();
   const profileImage = "";
   const router = useRouter();
+
+  useEffect(() => {
+    getSelf();
+  })
 
   const handleClickGoOn = () => {
     router.push("../home");
@@ -20,9 +25,20 @@ export default function Congratulations() {
         <p className="font-primary text-ultraLarge">Parabéns!</p>
       </div>
       <img src={profileImage} alt="" />
-      <p className="font-secondary font-bold">{`Seja muito bem vindo, ${namePetter}`}!</p>
-      <p className="font-secondary font-bold">Agora você é um Petter de verdade!</p>
-      <p className="font-secondary text-center"><br />Vamos conhecer o mundo dos <br />Petters e fazer amigos?</p>
+      <p className="font-secondary font-bold">
+        {`Seja muito bem vind@, ${
+          self.PetterInfo ? self.PetterInfo[0].petterName : ""
+        }`}
+        !
+      </p>
+      <p className="font-secondary font-bold">
+        Agora você é um Petter de verdade!
+      </p>
+      <p className="font-secondary text-center">
+        <br />
+        Vamos conhecer o mundo dos <br />
+        Petters e fazer amigos?
+      </p>
 
       <div className="absolute w-[90%] bottom-[3%]">
         <div onClick={handleClickGoOn}>
