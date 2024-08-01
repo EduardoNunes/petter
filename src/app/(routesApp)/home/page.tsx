@@ -14,7 +14,7 @@ export default function Home() {
 
   useEffect(() => {
     getSelf();
-  });
+  }, []);
 
   return (
     <div className="w-[90%] h-[86%]">
