@@ -53,7 +53,7 @@ export default function FormRegisterPetter() {
         console.log("Usuário não encontrado");
         return;
       }
-      
+
       formData.append("email", self.email);
       formData.append("petterName", petterName);
       formData.append("petterKind", petterKind);
@@ -72,7 +72,7 @@ export default function FormRegisterPetter() {
         },
       });
 
-      /* route.push("/register-petter/load-images"); */
+      route.push("/register-petter/load-images");
       setLoading(false);
       getSelf();
     } catch (error: any) {

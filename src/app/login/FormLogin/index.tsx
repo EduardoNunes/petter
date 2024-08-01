@@ -50,13 +50,14 @@ export default function FormLogin() {
         password,
       });
 
+      const { petterInfo, accessToken } = response.data;
+      console.log(response)
       setItem("email", email);
-      const { petterInfo } = response.data;
-
+      setItem("token", accessToken);
       if (petterInfo) {
         router.push("/home");
       } else {
-        router.push("/register-petter");
+        router.push("/register-petter/register-infos");
       }
     } catch (error: any) {
       if (

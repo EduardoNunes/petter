@@ -24,28 +24,34 @@ const dataGalleryImagesTemp = [
     image: "/dataTemp/dog8.jpg",
   },
   {
-    image:"/dataTemp/petter-sol.jpg",
+    image: "/dataTemp/petter-sol.jpg",
   },
   {
-    image:"/dataTemp/Simba.png",
+    image: "/dataTemp/Simba.png",
   },
   {
-    image:"/dataTemp/junin.jpg",
+    image: "/dataTemp/junin.jpg",
   },
   {
-    image:"/dataTemp/praia.jpg",
+    image: "/dataTemp/praia.jpg",
   },
   {
-    image:"/dataTemp/meu lugar ao sol.jpeg",
+    image: "/dataTemp/meu lugar ao sol.jpeg",
   },
   {
-    image:"/dataTemp/briga com tiranossauro.png",
+    image: "/dataTemp/briga com tiranossauro.png",
   },
   {
-    image:"/dataTemp/envergadura.jpg",
+    image: "/dataTemp/envergadura.jpg",
   },
   {
-    image:"/dataTemp/Minha vó.jpg",
+    image: "/dataTemp/Minha vó.jpg",
+  },
+  {
+    image: "/dataTemp/caramelo3.jpg",
+  },
+  {
+    image: "/dataTemp/poodle2.jpg",
   },
 ];
 
