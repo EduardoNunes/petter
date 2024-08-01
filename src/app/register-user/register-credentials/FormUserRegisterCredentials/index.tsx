@@ -4,15 +4,12 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
-import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
-import { setItem } from "@/utils/localStorageUtils";
 import { schemaRegisterCredentialsUser } from "@/validation/schemaRegisterCredentialsUser";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 
 export default function FormUserRegisterCredentials() {
-  const { getSelf } = useSelfContext();
   const [tutorName, setTutorName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,11 +52,8 @@ export default function FormUserRegisterCredentials() {
         loggedBy: "credentials",
       });
 
-      setItem("email", email);
-      getSelf();
-
       console.log("Informações registradas com sucesso");
-      router.push("/register-user/register-infos");
+      router.push("/login");
     } catch (error: any) {
       if (
         error.response &&
