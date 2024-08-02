@@ -8,6 +8,7 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import FormUserRegisterData from "./FormRegisterDataUser";
+import { getItem } from "@/utils/localStorageUtils";
 
 export default function RegisterUserInfos() {
   const { self, getSelf } = useSelfContext();
@@ -20,7 +21,7 @@ export default function RegisterUserInfos() {
   const router = useRouter();
 
   useEffect(() => {
-    const loggedBy = localStorage.getItem("loggedBy");
+    const loggedBy = getItem("loggedBy");
 
     if (loggedBy === "google") {
       fetchSession();
@@ -59,14 +60,20 @@ export default function RegisterUserInfos() {
     image: string,
     loggedBy: string
   ) {
+    const token = getItem("token");
+    
     try {
-      await api.post("/users-credentials", {
-        name,
-        email,
-        password,
-        profileImage: image,
-        loggedBy,
-      });
+      await api.post(
+        "/users-credentials",
+        {
+          name,
+          email,
+          password,
+          profileImage: image,
+          loggedBy,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       console.log("Informações de usuário cadastradas com sucesso.");
       router.push("/register-user/register-infos");
@@ -81,12 +88,10 @@ export default function RegisterUserInfos() {
       <div className="flex flex-col items-center mb-2">
         <Petter fontSize="extraLarge" />
         <p className="font-secondary font-bold text-medium text-center mb-[3%]">
-          Seja bem vindo{`(a)`},{" "}
-          {self.name?.split(" ")[0]}!
+          Seja bem vindo{`(a)`}, {self.name?.split(" ")[0]}!
         </p>
         <p className="font-secondary text-smaller text-center mb-[4%]">
-          Nos conte mais sobre você,{" "}
-          {self.name?.split(" ")[0]}. Queremos
+          Nos conte mais sobre você, {self.name?.split(" ")[0]}. Queremos
           conhecer melhor os amigos dos Petters!
         </p>
       </div>

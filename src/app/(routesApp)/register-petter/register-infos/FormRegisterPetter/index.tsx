@@ -4,8 +4,8 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
-import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
+import { getItem } from "@/utils/localStorageUtils";
 import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,6 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 
 export default function FormRegisterPetter() {
-  const { getSelf, self } = useSelfContext();
   const [checkNoData, setCheckNoData] = useState(false);
   const [petterName, setPetterName] = useState("");
   const [petterKind, setPetterKind] = useState("");
@@ -26,13 +25,15 @@ export default function FormRegisterPetter() {
 
   const route = useRouter();
 
-  useEffect(() => {
-    getSelf();
-  }, []);
-
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
-    console.log(self);
+    const email = getItem("email");
+    const token = getItem("token");
+
+    if (!email) {
+      setError("Email não encontrado");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -49,12 +50,7 @@ export default function FormRegisterPetter() {
         { abortEarly: false }
       );
 
-      if (!self.email) {
-        console.log("Usuário não encontrado");
-        return;
-      }
-
-      formData.append("email", self.email);
+      formData.append("email", email);
       formData.append("petterName", petterName);
       formData.append("petterKind", petterKind);
       formData.append("petterBreed", petterBreed);
@@ -69,12 +65,12 @@ export default function FormRegisterPetter() {
       await api.post("petter-infos", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
 
       route.push("/register-petter/load-images");
       setLoading(false);
-      getSelf();
     } catch (error: any) {
       if (
         error.response &&

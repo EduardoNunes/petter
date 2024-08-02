@@ -13,9 +13,9 @@ import { schemaRegisterInfosUser } from "@/validation/schemaRegisterInfosUser";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import AddressInfos from "./AddressInfos/AddressInfos";
+import { getItem } from "@/utils/localStorageUtils";
 
 export default function FormUserRegisterData() {
-  const { self, getSelf } = useSelfContext();
   const [selectedOption, setSelectOption] = useState("");
   const [date, setDate] = useState("");
   const [cep, setCep] = useState("");
@@ -37,6 +37,8 @@ export default function FormUserRegisterData() {
 
     try {
       setLoading(true);
+      const email = getItem("email");
+      const token = getItem("token");
 
       await schemaRegisterInfosUser.validate(
         {
@@ -53,22 +55,27 @@ export default function FormUserRegisterData() {
         { abortEarly: false }
       );
 
-      const response = await api.post("/user-infos", {
-        email: self.email,
-        date,
-        gender,
-        phone,
-        cep,
-        neighborhood,
-        ddd,
-        locality,
-        publicPlace,
-        uf,
-      });
+      await api.post(
+        "/user-infos",
+        {
+          email,
+          date,
+          gender,
+          phone,
+          cep,
+          neighborhood,
+          ddd,
+          locality,
+          publicPlace,
+          uf,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-      console.log("Informações cadastradas.", response.data);
+      console.log("Informações cadastradas com sucesso.");
       router.push("/notice");
-      getSelf();
     } catch (error: any) {
       if (
         error.response &&

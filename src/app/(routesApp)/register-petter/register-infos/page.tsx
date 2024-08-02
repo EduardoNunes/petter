@@ -10,7 +10,7 @@ export default function RegisterPetter() {
       <Header text={"Cadastro do Petter"} />
       <PetterColorful fontSize="extraLarge" />
       <p className="font-secondary text-small font-bold text-center mb-[3%]">
-        Oba! mais um Petter com a gente!
+        Oba! Mais um Petter com a gente!
         <br />
         Deixe-nos conhecê-lo!
       </p>

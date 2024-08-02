@@ -5,7 +5,6 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
-import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { setItem } from "@/utils/localStorageUtils";
 import { schemaLoginUser } from "@/validation/schemaLoginUser";
@@ -17,8 +16,6 @@ export default function FormLogin() {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const { getSelf } = useSelfContext();
 
   const router = useRouter();
 
@@ -34,8 +31,6 @@ export default function FormLogin() {
     event.preventDefault();
     setLoading(true);
 
-    getSelf();
-
     try {
       await schemaLoginUser.validate(
         {
@@ -50,14 +45,16 @@ export default function FormLogin() {
         password,
       });
 
-      const { petterInfo, accessToken } = response.data;
-      console.log(response)
+      const { userInfo, petterInfo, accessToken } = response.data;
       setItem("email", email);
       setItem("token", accessToken);
-      if (petterInfo) {
-        router.push("/home");
+
+      if (!userInfo) {
+        router.push("/register-user/register-infos");
+      } else if (petterInfo.length === 0) {
+        router.push("/notice");
       } else {
-        router.push("/register-petter/register-infos");
+        router.push("/home");
       }
     } catch (error: any) {
       if (

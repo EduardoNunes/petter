@@ -52,9 +52,11 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
 
   async function getSelf() {
     const emailStorage = getItem("email");
+    const token = getItem("token")
 
     try {
       const response = await api.get("/users-credentials/", {
+        headers: { Authorization: `Bearer ${token}` },
         params: { email: emailStorage },
       });
 
