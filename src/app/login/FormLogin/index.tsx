@@ -5,13 +5,13 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
-import api from "@/server/api";
-import { setItem } from "@/utils/localStorageUtils";
-import { schemaLoginUser } from "@/validation/schemaLoginUser";
+import { useSelfContext } from "@/context/selfContext";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 export default function FormLogin() {
+  const {self, getSelf } = useSelfContext();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,31 @@ export default function FormLogin() {
     event.preventDefault();
     setLoading(true);
 
-    try {
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    console.log("ENTROU SUBMIT2", result);
+
+    if (result?.error) {
+      console.log("ERROR", result);
+      setError(result.error);
+      setLoading(false);
+      return;
+    }
+
+    router.replace("/home");
+/*     if (!userInfo) {
+      router.push("/register-user/register-infos");
+    } else if (petterInfo.length === 0) {
+      router.push("/notice");
+    } else {
+      router.push("/home");
+    } */
+
+    /* try {
       await schemaLoginUser.validate(
         {
           email,
@@ -70,7 +94,7 @@ export default function FormLogin() {
       }
     } finally {
       setLoading(false);
-    }
+    } */
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +115,7 @@ export default function FormLogin() {
           text="Digite seu email."
           type="email"
           id="email"
+          name="email"
           autoComplete="email"
           onChange={handleEmailChange}
         />
@@ -101,6 +126,7 @@ export default function FormLogin() {
           text="Digite sua senha."
           type="password"
           id="password"
+          name="password"
           autoComplete="current-password"
           onChange={handlePasswordChange}
         />

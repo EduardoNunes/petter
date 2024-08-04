@@ -1,6 +1,7 @@
-import { SelfProvider } from "@/context/selfContext";
-import { TimeLineProvider } from "@/context/timeLineContext";
+"use client"
+
 import { StepProvider } from "@/context/useStepContext";
+import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({
   children,
@@ -8,8 +9,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex justify-center items-center h-[100vh] w-[100vw]">
-      <StepProvider>{children}</StepProvider>
-    </div>
+    <SessionProvider>
+      <div className="flex justify-center items-center h-[100vh] w-[100vw]">
+        <StepProvider>{children}</StepProvider>
+      </div>
+    </SessionProvider>
   );
 }
