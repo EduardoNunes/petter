@@ -4,16 +4,15 @@ import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import Select from "@/components/Select/Select";
-import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import viaCep from "@/server/api-viacep";
 import formatCep from "@/utils/formatCep";
 import formatPhone from "@/utils/formatPhone";
 import { schemaRegisterInfosUser } from "@/validation/schemaRegisterInfosUser";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import AddressInfos from "./AddressInfos/AddressInfos";
-import { getItem } from "@/utils/localStorageUtils";
 
 export default function FormUserRegisterData() {
   const [selectedOption, setSelectOption] = useState("");
@@ -37,8 +36,9 @@ export default function FormUserRegisterData() {
 
     try {
       setLoading(true);
-      const email = getItem("email");
-      const token = getItem("token");
+      const session = await getSession();
+      const token = session?.user.accessToken;
+      const email = session?.user.email;
 
       await schemaRegisterInfosUser.validate(
         {
@@ -143,6 +143,7 @@ export default function FormUserRegisterData() {
             text=""
             type="date"
             id="birth"
+            name="birth"
             autoComplete="date"
             onChange={handleChangeData}
           />
@@ -171,6 +172,7 @@ export default function FormUserRegisterData() {
               text="Digite seu gênero."
               type="text"
               id="gender"
+              name="gender"
               autoComplete="gender"
               value={gender}
               onChange={handleTypeGender}
@@ -183,6 +185,7 @@ export default function FormUserRegisterData() {
             text="Informe seu número de celular."
             type="tel"
             id="tel"
+            name="tel"
             autoComplete="tel"
             value={phone}
             onChange={handleTypePhone}
@@ -194,6 +197,7 @@ export default function FormUserRegisterData() {
             text="Digite seu cep."
             type="text"
             id="cep"
+            name="cep"
             autoComplete="cep"
             value={cep}
             onChange={handleChangeAddress}

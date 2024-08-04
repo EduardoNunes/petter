@@ -28,9 +28,6 @@ export default function RegisterUserInfos() {
     }
   }, []);
 
-  useEffect(() => {
-    getSelf();
-  }, []);
 
   async function fetchSession() {
     const session = await getSession();
@@ -42,14 +39,12 @@ export default function RegisterUserInfos() {
 
     const name = session.user?.name || "";
     const email = session.user?.email || "";
-    const image = session.user?.image || "";
+    const image = session.user?.profileImage || "";
 
     setTutorName(name);
     setEmail(email);
     setUserImage(image);
     setLoggedBy("google");
-
-    localStorage.setItem("email", email);
 
     postData(name, email, image, "google");
   }
@@ -60,7 +55,9 @@ export default function RegisterUserInfos() {
     image: string,
     loggedBy: string
   ) {
-    const token = getItem("token");
+
+    const session = await getSession();
+    const token = session?.user.accessToken;
     
     try {
       await api.post(

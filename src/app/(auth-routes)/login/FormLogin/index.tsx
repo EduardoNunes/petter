@@ -5,13 +5,12 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
-import { useSelfContext } from "@/context/selfContext";
-import { signIn } from "next-auth/react";
+import { setItem } from "@/utils/localStorageUtils";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 export default function FormLogin() {
-  const {self, getSelf } = useSelfContext();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -37,23 +36,33 @@ export default function FormLogin() {
       redirect: false,
     });
 
-    console.log("ENTROU SUBMIT2", result);
-
     if (result?.error) {
-      console.log("ERROR", result);
       setError(result.error);
       setLoading(false);
       return;
     }
 
-    router.replace("/home");
-/*     if (!userInfo) {
-      router.push("/register-user/register-infos");
-    } else if (petterInfo.length === 0) {
-      router.push("/notice");
+    const session = await getSession();
+    const user = session?.user;
+
+    console.log("USER AQUI", user);
+
+    if (user) {
+      setItem("token", user.accessToken);
+      console.log("0");
+      if (!user.userInfo) {
+        console.log("1");
+        router.push("/register-infos");
+      } else if (user.petterInfo.length === 0) {
+        console.log("2");
+        router.push("/notice");
+      } else {
+        console.log("3");
+        router.push("/home");
+      }
     } else {
-      router.push("/home");
-    } */
+      setLoading(false);
+    }
 
     /* try {
       await schemaLoginUser.validate(
@@ -62,39 +71,7 @@ export default function FormLogin() {
           password,
         },
         { abortEarly: false }
-      );
-
-      const response = await api.post("/auth/login", {
-        email,
-        password,
-      });
-
-      const { userInfo, petterInfo, accessToken } = response.data;
-      setItem("email", email);
-      setItem("token", accessToken);
-
-      if (!userInfo) {
-        router.push("/register-user/register-infos");
-      } else if (petterInfo.length === 0) {
-        router.push("/notice");
-      } else {
-        router.push("/home");
-      }
-    } catch (error: any) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
-      } else if (error.errors && error.errors.length > 0) {
-        setError(error.errors[0]);
-      } else {
-        setError(error.message || "Ocorreu um erro.");
-      }
-    } finally {
-      setLoading(false);
-    } */
+      ); */
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {

@@ -112,6 +112,7 @@ export default function FormUserRegisterCredentials() {
             text="Nome do tutor."
             type="text"
             id="tutor-name"
+            name="tutor"
             autoComplete="text"
             onChange={handleNameTutorChange}
           />
@@ -122,6 +123,7 @@ export default function FormUserRegisterCredentials() {
             text="Digite seu email."
             type="email"
             id="email"
+            name="email"
             autoComplete="email"
             onChange={handleEmailChange}
           />
@@ -132,6 +134,7 @@ export default function FormUserRegisterCredentials() {
             text="Digite sua senha."
             type="password"
             id="password"
+            name="password"
             autoComplete="current-password"
             onChange={handlePasswordChange}
           />
@@ -142,6 +145,7 @@ export default function FormUserRegisterCredentials() {
             text="Repita a senha."
             type="password"
             id="passwordRepeat"
+            name="passwordRepeat"
             autoComplete="current-password"
             onChange={handleConfirmPasswordChange}
           />

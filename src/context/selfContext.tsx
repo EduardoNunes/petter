@@ -2,6 +2,7 @@
 
 import api from "@/server/api";
 import { getItem } from "@/utils/localStorageUtils";
+import { getSession } from "next-auth/react";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
 interface SelfType {
@@ -51,13 +52,17 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const [numberImagesGallery, setNumberImagesGallery] = useState(0);
 
   async function getSelf() {
-    const emailStorage = getItem("email");
-    const token = getItem("token")
+    const session = await getSession();
+    const user = session?.user;
+
+    if (!user) {
+      return;
+    }
 
     try {
       const response = await api.get("/users-credentials/", {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { email: emailStorage },
+        headers: { Authorization: `Bearer ${user.accessToken}` },
+        params: { email: user.email },
       });
 
       const {
