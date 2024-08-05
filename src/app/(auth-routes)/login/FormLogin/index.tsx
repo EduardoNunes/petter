@@ -6,6 +6,7 @@ import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import { setItem } from "@/utils/localStorageUtils";
+import redirectToProperPage from "@/utils/RedirectTo";
 import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
@@ -23,12 +24,21 @@ export default function FormLogin() {
   ) => {
     event.preventDefault();
     setLoading(true);
-    router.push("/register-user/register-credentials");
+    router.push("/register-credentials");
   };
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setLoading(true);
+
+    /* try {
+      await schemaLoginUser.validate(
+        {
+          email,
+          password,
+        },
+        { abortEarly: false }
+      ); */
 
     const result = await signIn("credentials", {
       email,
@@ -49,29 +59,10 @@ export default function FormLogin() {
 
     if (user) {
       setItem("token", user.accessToken);
-      console.log("0");
-      if (!user.userInfo) {
-        console.log("1");
-        router.push("/register-infos");
-      } else if (user.petterInfo.length === 0) {
-        console.log("2");
-        router.push("/notice");
-      } else {
-        console.log("3");
-        router.push("/home");
-      }
+      await redirectToProperPage();
     } else {
       setLoading(false);
     }
-
-    /* try {
-      await schemaLoginUser.validate(
-        {
-          email,
-          password,
-        },
-        { abortEarly: false }
-      ); */
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
