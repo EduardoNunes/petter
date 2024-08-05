@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import FormUserRegisterData from "./FormRegisterDataUser";
 import { getItem } from "@/utils/localStorageUtils";
+import redirectTo from "@/utils/RedirectTo";
 
 export default function RegisterUserInfos() {
   const { self, getSelf } = useSelfContext();
@@ -21,13 +22,16 @@ export default function RegisterUserInfos() {
   const router = useRouter();
 
   useEffect(() => {
+    redirectTo(router);
+  }, []);
+
+  useEffect(() => {
     const loggedBy = getItem("loggedBy");
 
     if (loggedBy === "google") {
       fetchSession();
     }
   }, []);
-
 
   async function fetchSession() {
     const session = await getSession();
@@ -55,10 +59,9 @@ export default function RegisterUserInfos() {
     image: string,
     loggedBy: string
   ) {
-
     const session = await getSession();
     const token = session?.user.accessToken;
-    
+
     try {
       await api.post(
         "/users-credentials",

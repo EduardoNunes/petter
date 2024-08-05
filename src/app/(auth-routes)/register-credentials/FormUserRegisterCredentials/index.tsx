@@ -159,7 +159,7 @@ export default function FormUserRegisterCredentials() {
               onChange={handleClickPrivacyPolicies}
             />
             <p className="font-secondary mb-[3%]">
-              Aceito as políticas de privacidade.
+              Aceito as políticas de uso e privacidade.
             </p>
           </div>
         </Label>

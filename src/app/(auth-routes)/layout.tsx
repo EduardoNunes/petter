@@ -5,9 +5,16 @@ import { ReactNode } from "react";
 
 export default async function ProtectedRoutesLayout({ children }: { children: ReactNode }) {
   const session = await getServerSessionData();
-
+  
   if (session) {
-    return redirect("/home");
+    if (!session.user.userInfo) {
+      return redirect("/register-infos");
+    } else if (session.user.petterInfo.length === 0) {
+      console.log("ENTROU NO 2", session.user)
+      return redirect("/notice");
+    } else {
+      return redirect("/home");
+    }
   }
 
   return <PrivateLayout session={session}>{children}</PrivateLayout>;

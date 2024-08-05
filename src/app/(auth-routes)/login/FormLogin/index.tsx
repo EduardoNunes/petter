@@ -5,9 +5,8 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
-import { setItem } from "@/utils/localStorageUtils";
-import redirectToProperPage from "@/utils/RedirectTo";
-import { getSession, signIn } from "next-auth/react";
+import redirectTo from "@/utils/RedirectTo";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
@@ -52,17 +51,9 @@ export default function FormLogin() {
       return;
     }
 
-    const session = await getSession();
-    const user = session?.user;
+    router.push('/register-infos');
 
-    console.log("USER AQUI", user);
-
-    if (user) {
-      setItem("token", user.accessToken);
-      await redirectToProperPage();
-    } else {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {

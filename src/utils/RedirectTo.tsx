@@ -1,13 +1,17 @@
+"use client";
+
 import { getSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { setItem } from "./localStorageUtils";
 
-
-export default async function redirectToProperPage() {
-  const router = useRouter();
+export default async function redirectTo(router: any) {
   const session = await getSession();
   const user = session?.user;
-  
+
+  console.log("USER AQUI", user);
+
   if (user) {
+    setItem("token", user.accessToken);
+
     if (!user.userInfo) {
       router.push("/register-infos");
     } else if (user.petterInfo.length === 0) {
@@ -15,5 +19,9 @@ export default async function redirectToProperPage() {
     } else {
       router.push("/home");
     }
+  } else {
+    router.push("/login");
   }
+
+  return router;
 }
