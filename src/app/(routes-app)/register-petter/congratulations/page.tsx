@@ -1,18 +1,12 @@
 "use client";
 
 import Button from "@/components/Button/Button";
-import redirectTo from "@/utils/RedirectTo";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import "./color-fonte.css";
 
 export default function Congratulations() {
   const profileImage = "";
   const router = useRouter();
-
-  useEffect(() => {
-    redirectTo(router);
-  }, []);
 
   const handleClickGoOn = () => {
     router.push("../home");

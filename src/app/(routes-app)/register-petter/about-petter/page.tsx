@@ -5,19 +5,14 @@ import PetterColorful from "@/components/Petter/PetterColorful";
 import TextArea from "@/components/TextArea/TextArea";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
-import redirectTo from "@/utils/RedirectTo";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function AboutPetter() {
   const { handleToAddCurrentStep } = useStepContext();
   const [descriptionBio, setDescriptionBio] = useState<string>("");
   const router = useRouter();
-
-  useEffect(() => {
-    redirectTo(router);
-  }, []);
 
   const handleTextChange = (text: string) => {
     setDescriptionBio(text);

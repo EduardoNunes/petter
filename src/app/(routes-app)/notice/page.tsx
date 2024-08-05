@@ -6,9 +6,8 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import Petter from "@/components/Petter/PetterColorful";
-import redirectTo from "@/utils/RedirectTo";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Notice() {
   const [error, setError] = useState("");
@@ -21,10 +20,6 @@ export default function Notice() {
   ]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    redirectTo(router);
-  }, []);
 
   const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

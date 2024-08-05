@@ -1,4 +1,4 @@
-"use client";
+/* "use client";
 
 import { getSession } from "next-auth/react";
 import { setItem } from "./localStorageUtils";
@@ -7,7 +7,8 @@ export default async function redirectTo(router: any) {
   const session = await getSession();
   const user = session?.user;
 
-  console.log("USER AQUI", user);
+  console.log(session)
+  console.log("USER AQUIs", user?.userInfo);
 
   if (user) {
     setItem("token", user.accessToken);
@@ -24,4 +25,4 @@ export default async function redirectTo(router: any) {
   }
 
   return router;
-}
+} */
