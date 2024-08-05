@@ -3,20 +3,20 @@
 import Button from "@/components/Button/Button";
 import PetterColorful from "@/components/Petter/PetterColorful";
 import TextArea from "@/components/TextArea/TextArea";
-import { useSelfContext } from "@/context/selfContext";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
+import redirectTo from "@/utils/RedirectTo";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function AboutPetter() {
   const { handleToAddCurrentStep } = useStepContext();
-  const { self, getSelf } = useSelfContext();
   const [descriptionBio, setDescriptionBio] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
-    getSelf();
+    redirectTo(router);
   }, []);
 
   const handleTextChange = (text: string) => {
@@ -25,15 +25,19 @@ export default function AboutPetter() {
 
   async function onSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
+    const session = await getSession();
 
-    if (!self.PetterInfo) {
-      console.log("Petter não identificado.");
+    if (!session || session.user.petterInfo.length === 0) {
+      console.log("VC PRECISA ESTAR LOGADO");
       return;
     }
 
+    const user = session.user.id;
+    const petterInfoId = session.user.petterInfo;
+
     try {
       await api.patch(
-        `/petter-infos/${self.id}/${self.PetterInfo[0].id}/description-bio`,
+        `/petter-infos/${user}/${petterInfoId}/description-bio`,
         {
           descriptionBio: descriptionBio,
         }

@@ -1,19 +1,18 @@
 "use client";
 
 import Button from "@/components/Button/Button";
+import redirectTo from "@/utils/RedirectTo";
 import { useRouter } from "next/navigation";
-import "./color-fonte.css";
-import { useSelfContext } from "@/context/selfContext";
 import { useEffect } from "react";
+import "./color-fonte.css";
 
 export default function Congratulations() {
-  const { self, getSelf } = useSelfContext();
   const profileImage = "";
   const router = useRouter();
 
   useEffect(() => {
-    getSelf();
-  })
+    redirectTo(router);
+  }, []);
 
   const handleClickGoOn = () => {
     router.push("../home");
@@ -26,9 +25,7 @@ export default function Congratulations() {
       </div>
       <img src={profileImage} alt="" />
       <p className="font-secondary font-bold">
-        {`Seja muito bem vind@, ${
-          self.PetterInfo ? self.PetterInfo[0].petterName : ""
-        }`}
+        {`Seja muito bem vind@, ${"AJUSTAR"}`}
         !
       </p>
       <p className="font-secondary font-bold">

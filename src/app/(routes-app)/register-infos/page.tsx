@@ -4,12 +4,11 @@ import Header from "@/components/Header/Header";
 import Petter from "@/components/Petter/PetterColorful";
 import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
+import { getItem } from "@/utils/localStorageUtils";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import FormUserRegisterData from "./FormRegisterDataUser";
-import { getItem } from "@/utils/localStorageUtils";
-import redirectTo from "@/utils/RedirectTo";
 
 export default function RegisterUserInfos() {
   const { self, getSelf } = useSelfContext();
@@ -20,10 +19,6 @@ export default function RegisterUserInfos() {
   const [password, setPassword] = useState("");
 
   const router = useRouter();
-
-  useEffect(() => {
-    redirectTo(router);
-  }, []);
 
   useEffect(() => {
     const loggedBy = getItem("loggedBy");
