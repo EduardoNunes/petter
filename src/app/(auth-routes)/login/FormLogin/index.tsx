@@ -5,6 +5,7 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
+import redirectTo from "@/utils/RedirectTo";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
@@ -50,7 +51,7 @@ export default function FormLogin() {
       return;
     }
 
-    router.push('/register-infos');
+    redirectTo(router);
 
     setLoading(false);
   };

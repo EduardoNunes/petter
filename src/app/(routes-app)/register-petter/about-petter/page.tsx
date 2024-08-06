@@ -31,12 +31,9 @@ export default function AboutPetter() {
     const petterInfoId = session.user.petterInfo;
 
     try {
-      await api.patch(
-        `/petter-infos/${user}/${petterInfoId}/description-bio`,
-        {
-          descriptionBio: descriptionBio,
-        }
-      );
+      await api.patch(`/petter-infos/${user}/${petterInfoId}/description-bio`, {
+        descriptionBio: descriptionBio,
+      });
 
       handleToAddCurrentStep();
       router.push("/register-petter/congratulations");
@@ -46,7 +43,7 @@ export default function AboutPetter() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="w-[90%]">
+    <form onSubmit={onSubmit} className="w-[90%] h-[70%]">
       <PetterColorful fontSize={"extraLarge"} />
       <div className="flex flex-col items-center font-secondary mb-10">
         <p className="font-secondary">
@@ -62,7 +59,7 @@ export default function AboutPetter() {
         onTextChange={handleTextChange}
         value={descriptionBio}
         placeholder={"Fale sobre seu Petter"}
-        height="48"
+        height="44%"
       />
       <div className="absolute w-[90%] bottom-[3%]">
         <Button text="Continuar" type="internalButton" />

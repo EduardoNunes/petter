@@ -3,15 +3,15 @@
 import Button from "@/components/Button/Button";
 import ErrorWindow from "@/components/Error/ErrorWindown";
 import Loading from "@/components/Loading/Loading";
-import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
+import { refreshSession } from "@/utils/refreshSession";
 import { schemaRegisterPetterImage } from "@/validation/schemaRegisterPetterImages copy";
+import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 
 export default function FormLoadImages() {
-  const { self, getSelf } = useSelfContext();
   const [images, setImages] = useState<File[]>([]);
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,12 +22,12 @@ export default function FormLoadImages() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    getSelf();
-  }, []);
-  console.log(self)
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
+    const userData = await refreshSession();
+    const session = await getSession();
+    const token = session?.user.accessToken
+
     try {
       setLoading(true);
 
@@ -49,9 +49,9 @@ export default function FormLoadImages() {
         );
       }
 
-      if (self.PetterInfo) {
+      if (userData) {
         for await (const image of images) {
-          formData.append("petterId", self.PetterInfo[0].id.toString());
+          formData.append("petterId", userData.petterInfo[0].id.toString());
           formData.append("description", description);
           formData.append("images", image);
         }
@@ -62,10 +62,12 @@ export default function FormLoadImages() {
       const response = await api.post("petter-register-images", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`
         },
       });
 
       router.push("/register-petter/about-petter");
+      setLoading(false);
     } catch (error: any) {
       setLoading(false);
       console.log("As imagens n foram carregadas", error);
@@ -78,7 +80,9 @@ export default function FormLoadImages() {
       } else {
         setError(error.message || "Ocorreu um erro.");
       }
+      setLoading(false);
     }
+    setLoading(false);
   }
 
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -2,11 +2,9 @@
 
 import Header from "@/components/Header/Header";
 import PetterColorful from "@/components/Petter/PetterColorful";
-import { useRouter } from "next/router";
 import FormLoadImages from "./FormLoadImage";
 
 export default function LoadImages() {
-  const router = useRouter();
 
   return (
     <div className="flex flex-col items-center w-[90%] h-[84%]">

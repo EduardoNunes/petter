@@ -5,8 +5,8 @@ import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
-import { getItem } from "@/utils/localStorageUtils";
 import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
+import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -27,8 +27,15 @@ export default function FormRegisterPetter() {
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
-    const email = getItem("email");
-    const token = getItem("token");
+    const session = await getSession();
+
+    if (!session) {
+      console.log("Usuário deslogado");      
+      return;
+    }
+    
+    const token = session?.user.accessToken;
+    const email = session?.user.email;
 
     if (!email) {
       setError("Email não encontrado");
@@ -133,6 +140,7 @@ export default function FormRegisterPetter() {
           text="Nome do Petter."
           type="text"
           id="petter-name"
+          name="petterName"
           autoComplete="text"
           onChange={handleNamePetterChange}
         />
@@ -143,6 +151,7 @@ export default function FormRegisterPetter() {
           text="Ex: Cachorro, Gato."
           type="text"
           id="petter-name"
+          name="petterKind"
           autoComplete="text"
           onChange={handleKindPetterChange}
         />
@@ -153,6 +162,7 @@ export default function FormRegisterPetter() {
           text="Ex: Labrador, Golden, Siamês."
           type="text"
           id="petter-breed"
+          name="petterBreed"
           autoComplete="text"
           onChange={handleBreedPetterChange}
         />
@@ -168,6 +178,7 @@ export default function FormRegisterPetter() {
             text=""
             type="date"
             id="petter-birth"
+            name="petterBirth"
             autoComplete="date"
             onChange={handleBirthPetterChange}
             disabled={checkNoData}

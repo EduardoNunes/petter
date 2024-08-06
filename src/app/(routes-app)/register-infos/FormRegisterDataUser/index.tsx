@@ -88,7 +88,9 @@ export default function FormUserRegisterData() {
       } else {
         setError(error.message || "Ocorreu um erro.");
       }
+      setLoading(false);
     }
+    setLoading(false);
   }
 
   const handleChangeData = (event: ChangeEvent<HTMLInputElement>) => {

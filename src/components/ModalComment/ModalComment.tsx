@@ -92,7 +92,7 @@ export default function ModalComment() {
             onTextChange={handleTextChange}
             value={commentAdd}
             placeholder="Deixe seu comentário."
-            height="[46px]"
+            height="46px"
           />
           <button onClick={handleClickSendMessage}>
             <Image
