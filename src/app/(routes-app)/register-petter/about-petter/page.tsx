@@ -5,6 +5,7 @@ import PetterColorful from "@/components/Petter/PetterColorful";
 import TextArea from "@/components/TextArea/TextArea";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
+import { refreshSession } from "@/utils/refreshSession";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,19 +22,29 @@ export default function AboutPetter() {
   async function onSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     const session = await getSession();
+    const userData = await refreshSession();
 
-    if (!session || session.user.petterInfo.length === 0) {
+    const user = session?.user.id;
+    const token = session?.user.accessToken;
+    const petterInfoId = userData.petterInfo[0].id;
+
+    if (!session || !petterInfoId) {
       console.log("VC PRECISA ESTAR LOGADO");
       return;
     }
 
-    const user = session.user.id;
-    const petterInfoId = session.user.petterInfo;
-
     try {
-      await api.patch(`/petter-infos/${user}/${petterInfoId}/description-bio`, {
-        descriptionBio: descriptionBio,
-      });
+      await api.patch(
+        `/petter-infos/${user}/${petterInfoId}/description-bio`,
+        {
+          descriptionBio: descriptionBio,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       handleToAddCurrentStep();
       router.push("/register-petter/congratulations");
