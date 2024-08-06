@@ -13,6 +13,10 @@ pnpm dev
 # or
 bun dev
 ```
+para puxar informações do usuário
+getSelf() = puxa através do context Global selfContext fazendo requisição para um end-point protegido src/context/selfContext.tsx.
+refreshSession() = puxa através de uma rota de autenticação, de forma global também, porém utilizando o id do usuário logado tirado da session. src/utils/refreshSession.tsx.
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
