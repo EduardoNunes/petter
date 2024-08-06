@@ -10,7 +10,6 @@ export default async function ProtectedRoutesLayout({ children }: { children: Re
     if (!session.user.userInfo) {
       return redirect("/register-infos");
     } else if (session.user.petterInfo.length === 0) {
-      console.log("ENTROU NO 2", session.user)
       return redirect("/notice");
     } else {
       return redirect("/home");

@@ -7,7 +7,7 @@ async function fetchUserData(userId: number) {
     const user = await response.json();
     return user;
   } else {
-    throw new Error("Failed to fetch user data");
+    throw new Error("FALHA AO BUSCAR USUÁRIO");
   }
 }
 
@@ -21,7 +21,7 @@ export async function refreshSession() {
       return updatedUser;
       
     } catch (error) {
-      console.error("Failed to refresh session:", error);
+      console.error("Falha ao buscar o usuário:", error);
       /* await signOut(); */
     }
   }

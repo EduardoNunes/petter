@@ -7,9 +7,6 @@ export default async function redirectTo(router: any) {
   const session = await getSession();
   const user = session?.user;
 
-  console.log(session)
-  console.log("USER AQUIs", user);
-
   if (user) {
     setItem("token", user.accessToken);
 
