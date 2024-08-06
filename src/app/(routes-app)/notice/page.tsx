@@ -6,10 +6,12 @@ import ErrorWindow from "@/components/Error/ErrorWindown";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import Petter from "@/components/Petter/PetterColorful";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Notice() {
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [checkedList, setCheckedList] = useState<boolean[]>([
     false,
@@ -20,6 +22,18 @@ export default function Notice() {
   ]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const dataInfos = async () => {
+      const session = await getSession();
+
+      if (session) {
+        setName(session?.user.name);
+      }
+    };
+
+    dataInfos();
+  }, []);
 
   const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -46,7 +60,7 @@ export default function Notice() {
       <div className="flex flex-col items-center justify-around w-[90%] h-[70%]">
         <div className="flex flex-col items-center">
           <Petter fontSize="extraLarge" />
-          <h2 className="font-secondary text-center text-big mb-5">{`Sinta-se em casa, ${"EDU"}!`}</h2>
+          <h2 className="font-secondary text-center text-big mb-5">{`Sinta-se em casa, ${name.split(" ")[0]}!`}</h2>
         </div>
         <div className="flex flex-col overflow-auto">
           {[
