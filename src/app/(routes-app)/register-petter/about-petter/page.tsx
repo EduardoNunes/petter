@@ -8,12 +8,25 @@ import api from "@/server/api";
 import { refreshSession } from "@/utils/refreshSession";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AboutPetter() {
   const { handleToAddCurrentStep } = useStepContext();
   const [descriptionBio, setDescriptionBio] = useState<string>("");
+  const [petterName, setPetterName] = useState("");
+
   const router = useRouter();
+
+  useEffect(() => {
+    const dataInfos = async () => {
+      const session = await refreshSession();
+      if (session) {
+        setPetterName(session?.petterInfo[0].petterName);
+      }
+    };
+
+    dataInfos();
+  }, []);
 
   const handleTextChange = (text: string) => {
     setDescriptionBio(text);
@@ -58,13 +71,21 @@ export default function AboutPetter() {
       <PetterColorful fontSize={"extraLarge"} />
       <div className="flex flex-col items-center font-secondary mb-10">
         <p className="font-secondary">
-          Agora é hora de nos contar sobre seu Petter.
+          {`Agora é hora de nos contar sobre ${petterName.split(" ")[0]}`}.
         </p>
-        <p className="font-secondary">O que ele gosta de fazer? </p>
-        <p className="font-secondary">O que gosta de comer? </p>
-        <p className="font-secondary">Tem alguma profissão? </p>
-        <p className="font-secondary">Tem Petterzinhos? </p>
-        <p className="font-secondary">Seja criativo!</p>
+        <p className="font-secondary">{`O que ${
+          petterName.split(" ")[0]
+        } gosta de fazer?`}</p>
+        <p className="font-secondary">{`O que ${
+          petterName.split(" ")[0]
+        } gosta de comer?`}</p>
+        <p className="font-secondary">{`${
+          petterName.split(" ")[0]
+        } tem alguma profissão?`}</p>
+        <p className="font-secondary">{`${
+          petterName.split(" ")[0]
+        } tem Petterzinhos?`}</p>
+        <p className="font-secondary">{`Seja criativo!`}</p>
       </div>
       <TextArea
         onTextChange={handleTextChange}

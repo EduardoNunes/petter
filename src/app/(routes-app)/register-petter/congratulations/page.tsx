@@ -1,12 +1,27 @@
 "use client";
 
 import Button from "@/components/Button/Button";
+import { refreshSession } from "@/utils/refreshSession";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import "./color-fonte.css";
 
 export default function Congratulations() {
+  const [petterName, setPetterName] = useState("");
   const profileImage = "";
+
   const router = useRouter();
+
+  useEffect(() => {
+    const dataInfos = async () => {
+      const session = await refreshSession();
+      if (session) {
+        setPetterName(session?.petterInfo[0].petterName);
+      }
+    };
+
+    dataInfos();
+  }, []);
 
   const handleClickGoOn = () => {
     router.push("../home");
@@ -19,8 +34,7 @@ export default function Congratulations() {
       </div>
       <img src={profileImage} alt="" />
       <p className="font-secondary font-bold">
-        {`Seja muito bem vind@, ${"AJUSTAR"}`}
-        !
+        {`Seja muito bem vind@, ${petterName.split(" ")[0]}`}!
       </p>
       <p className="font-secondary font-bold">
         Agora você é um Petter de verdade!
