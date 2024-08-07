@@ -1,5 +1,6 @@
 import Button from "@/components/Button/Button";
 import CheckBox from "@/components/CheckBox/CheckBox";
+import errorResponse from "@/components/Error/ErrorResponse";
 import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
@@ -7,7 +8,7 @@ import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
 import { schemaRegisterCredentialsUser } from "@/validation/schemaRegisterCredentialsUser";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 
 export default function FormUserRegisterCredentials() {
   const [tutorName, setTutorName] = useState("");
@@ -53,23 +54,15 @@ export default function FormUserRegisterCredentials() {
       console.log("Informações registradas com sucesso");
       router.push("/login");
     } catch (error: any) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
-      } else if (error.errors && error.errors.length > 0) {
-        setError(error.errors[0]);
-      } else {
-        setError(error.message || "Ocorreu um erro.");
-      }
+      const resposta = errorResponse(error);
+      setError(resposta);
     } finally {
       setLoading(false);
     }
   }
 
-  const handleClickGoToLogin = () => {
+  const handleClickGoToLogin = (event: SyntheticEvent) => {
+    event.preventDefault();
     router.push("/login");
   };
 
