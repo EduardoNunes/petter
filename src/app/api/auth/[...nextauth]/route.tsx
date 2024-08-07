@@ -1,3 +1,4 @@
+import errorResponse from "@/components/Error/ErrorResponse";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -35,11 +36,12 @@ const nextAuthOptions: NextAuthOptions = {
           if (user && response.ok) {
             return user;
           } else {
-            return null;
+            throw new Error(user.message || 'Erro ao fazer login');
           }
-        } catch (error) {
-          console.error("Error in authorize function:", error);
-          return null;
+        } catch (error: any) {
+          errorResponse(error);
+          console.error("Deu ruim aqui:", error.message);
+          throw new Error(error.message || 'Erro ao fazer login');
         }
       },
     }),

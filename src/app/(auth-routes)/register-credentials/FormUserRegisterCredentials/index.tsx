@@ -54,11 +54,12 @@ export default function FormUserRegisterCredentials() {
       console.log("Informações registradas com sucesso");
       router.push("/login");
     } catch (error: any) {
-      const resposta = errorResponse(error);
-      setError(resposta);
-    } finally {
       setLoading(false);
+      const response = errorResponse(error);
+      setError(response);
     }
+
+    setLoading(false);
   }
 
   const handleClickGoToLogin = (event: SyntheticEvent) => {
@@ -127,7 +128,7 @@ export default function FormUserRegisterCredentials() {
               onChange={() => setPrivacyPolicies(!privacyPolicies)}
             />
             <p className="font-secondary mb-[3%]">
-              Aceito as políticas de uso e privacidade.
+              Aceito todas as políticas de uso.
             </p>
           </div>
         </Label>

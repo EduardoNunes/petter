@@ -1,14 +1,16 @@
 "use client";
 
 import Button from "@/components/Button/Button";
+import errorResponse from "@/components/Error/ErrorResponse";
 import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import redirectTo from "@/utils/RedirectTo";
+import { schemaLoginUser } from "@/validation/schemaLoginUser";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 
 export default function FormLogin() {
   const [email, setEmail] = useState<string>("");
@@ -30,38 +32,29 @@ export default function FormLogin() {
     event.preventDefault();
     setLoading(true);
 
-    /* try {
-      await schemaLoginUser.validate(
-        {
-          email,
-          password,
-        },
-        { abortEarly: false }
-      ); */
+    await schemaLoginUser.validate(
+      {
+        email,
+        password,
+      },
+      { abortEarly: false }
+    );
 
-    const result = await signIn("credentials", {
+    const response = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
 
-    if (result?.error) {
-      setError(result.error);
-      setLoading(false);
-      return;
-    }
-
     redirectTo(router);
 
+    if (response?.error) {
+      console.log("ERRO", response);
+      setError(response.error);
+      setLoading(false);
+    }
+
     setLoading(false);
-  };
-
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
   };
 
   return (
@@ -76,7 +69,7 @@ export default function FormLogin() {
           id="email"
           name="email"
           autoComplete="email"
-          onChange={handleEmailChange}
+          onChange={(event) => setEmail(event.target.value)}
         />
       </div>
       <div className="mb-2">
@@ -87,7 +80,7 @@ export default function FormLogin() {
           id="password"
           name="password"
           autoComplete="current-password"
-          onChange={handlePasswordChange}
+          onChange={(event) => setPassword(event.target.value)}
         />
         <button className="w-full mt-2 mb-8 text-right font-secondary text-azulEscuro font-bold">
           Esqueci minha senha.
