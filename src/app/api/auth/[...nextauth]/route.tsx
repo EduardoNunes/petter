@@ -2,6 +2,11 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
+interface User {
+  id: string;
+  accessToken: string;
+}
+
 const nextAuthOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -51,7 +56,28 @@ const nextAuthOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token.user) {
-        session.user = token.user as any;
+        try {
+          const response = await fetch(
+            `http://localhost:3001/auth/user/${(token.user as User).id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          const updatedUser = await response.json();
+
+          session.user = {
+            ...updatedUser,
+            accessToken: (token.user as User).accessToken,
+          };
+          
+        } catch (error) {
+          console.error("Error fetching updated user data:", error);
+          session.user = token.user as any;
+        }
       }
       return session;
     },
