@@ -11,22 +11,40 @@ export const schemaRegisterCredentialsUser = yup.object().shape({
   name: yup
     .string()
     .required("O nome é obrigatório.")
-    .test(
-      "min-two-words",
-      "Digite seu nome completo.",
-      (value) => {
-        if (!value) return false;
-        const words = value.trim().split(" ");
-        return words.length >= 2;
-      }
-    ),
+    .test("min-two-words", "Digite seu nome completo.", (value) => {
+      if (!value) return false;
+      const words = value.trim().split(" ");
+      return words.length >= 2;
+    }),
   email: yup
     .string()
     .email("O e-mail deve ser válido.")
-    .required("O e-mail é obrigatório."),
+    .required("O e-mail é obrigatório.")
+    .test(
+      "no-leading-trailing-dots",
+      "O e-mail não pode começar ou terminar com um ponto.",
+      (value) => {
+        if (!value) return true;
+        return !/^\.|\.$/.test(value);
+      }
+    )
+    .test(
+      "no-consecutive-dots",
+      "O e-mail não pode conter pontos consecutivos.",
+      (value) => {
+        if (!value) return true;
+        return !/\.\./.test(value);
+      }
+    ),
   password: yup
     .string()
     .min(8, "A senha deve ter no mínimo 8 caracteres.")
+    .matches(/[a-zA-Z]/, "A senha deve ter no mínimo uma letra.")
+    .matches(/\d/, "A senha deve ter no mínimo um número.")
+    .matches(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "A senha deve ter no mínimo um caractere especial."
+    )
     .required("A senha é obrigatória."),
   confirmPassword: yup
     .string()
