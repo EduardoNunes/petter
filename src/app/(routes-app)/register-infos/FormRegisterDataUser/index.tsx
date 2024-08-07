@@ -1,4 +1,6 @@
 import Button from "@/components/Button/Button";
+import errorResponse from "@/components/Error/ErrorResponse";
+import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
@@ -12,7 +14,6 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import AddressInfos from "./AddressInfos/AddressInfos";
-import MessageToast from "@/components/Error/MessageToast";
 
 export default function FormUserRegisterData() {
   const [selectedOption, setSelectOption] = useState("");
@@ -33,9 +34,9 @@ export default function FormUserRegisterData() {
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
+    setLoading(true);
 
     try {
-      setLoading(true);
       const session = await getSession();
       const token = session?.user.accessToken;
       const email = session?.user.email;
@@ -74,32 +75,15 @@ export default function FormUserRegisterData() {
         }
       );
 
-      console.log("Informações cadastradas com sucesso.");
+      setToast("Informações cadastradas com sucesso.");
       router.push("/notice");
     } catch (error: any) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setToast(error.response.data.message);
-      } else if (error.errors && error.errors.length > 0) {
-        setToast(error.errors[0]);
-      } else {
-        setToast(error.message || "Ocorreu um erro.");
-      }
-      setLoading(false);
+      const response = errorResponse(error);
+      setToast(response);
     }
+    
     setLoading(false);
   }
-
-  const handleChangeData = (event: ChangeEvent<HTMLInputElement>) => {
-    setDate(event.target.value);
-  };
-
-  const handleTypeGender = (event: ChangeEvent<HTMLInputElement>) => {
-    setGender(event.target.value);
-  };
 
   const handleTypePhone = (event: ChangeEvent<HTMLInputElement>) => {
     const newPhone = event.target.value;
@@ -120,10 +104,11 @@ export default function FormUserRegisterData() {
           setUf(response.uf || "");
           setShowAddressInfos(true);
         } catch (error) {
-          console.error("Erro ao obter dados do CEP:", error);
+          setToast("CEP não encontrado:");
         }
       }
     };
+
     fetchAddress();
   }, [cep]);
 
@@ -147,7 +132,7 @@ export default function FormUserRegisterData() {
             id="birth"
             name="birth"
             autoComplete="date"
-            onChange={handleChangeData}
+            onChange={(event) => setDate(event.target.value)}
           />
         </div>
         <div className="flex mb-2">
@@ -177,7 +162,7 @@ export default function FormUserRegisterData() {
               name="gender"
               autoComplete="gender"
               value={gender}
-              onChange={handleTypeGender}
+              onChange={(event) => setGender(event.target.value)}
             />
           )}
         </div>

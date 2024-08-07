@@ -21,7 +21,7 @@ export default function FormUserRegisterCredentials() {
 
   const router = useRouter();
 
-  async function handleClickGoOn(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
@@ -52,9 +52,11 @@ export default function FormUserRegisterCredentials() {
       });
 
       console.log("Informações registradas com sucesso");
+
       setToast(
         "Cadastro realizado com sucesso. Direcionando para página de login."
       );
+      
       setTimeout(() => {
         router.push("/login");
       }, 3000);
@@ -69,13 +71,14 @@ export default function FormUserRegisterCredentials() {
 
   const handleClickGoToLogin = (event: SyntheticEvent) => {
     event.preventDefault();
+    setLoading(true);
     router.push("/login");
   };
 
   return (
     <form
       className="h-full mb-6 mt-2 overflow-y-auto"
-      onSubmit={handleClickGoOn}
+      onSubmit={handleSubmit}
     >
       {toast !== "" && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
