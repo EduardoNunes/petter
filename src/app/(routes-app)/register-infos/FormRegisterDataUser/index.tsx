@@ -1,5 +1,4 @@
 import Button from "@/components/Button/Button";
-import ErrorWindow from "@/components/Error/ErrorWindown";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
@@ -13,6 +12,7 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import AddressInfos from "./AddressInfos/AddressInfos";
+import MessageToast from "@/components/Error/MessageToast";
 
 export default function FormUserRegisterData() {
   const [selectedOption, setSelectOption] = useState("");
@@ -25,7 +25,7 @@ export default function FormUserRegisterData() {
   const [uf, setUf] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
-  const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
   const [showAddressInfos, setShowAddressInfos] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -82,11 +82,11 @@ export default function FormUserRegisterData() {
         error.response.data &&
         error.response.data.message
       ) {
-        setError(error.response.data.message);
+        setToast(error.response.data.message);
       } else if (error.errors && error.errors.length > 0) {
-        setError(error.errors[0]);
+        setToast(error.errors[0]);
       } else {
-        setError(error.message || "Ocorreu um erro.");
+        setToast(error.message || "Ocorreu um erro.");
       }
       setLoading(false);
     }
@@ -136,7 +136,7 @@ export default function FormUserRegisterData() {
 
   return (
     <form className="h-[100%] mb-6 mt-2" onSubmit={onSubmit}>
-      {error && <ErrorWindow textError={error} setError={setError} />}
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
       <div className="overflow-hidden" style={{ height: "100% - [120px]" }}>
         <div className="mb-2">

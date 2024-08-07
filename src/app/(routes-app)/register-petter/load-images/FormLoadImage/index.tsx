@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/Button/Button";
-import ErrorWindow from "@/components/Error/ErrorWindown";
+import MessageToast from "@/components/Error/MessageToast";
 import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
 import { refreshSession } from "@/utils/refreshSession";
@@ -15,7 +15,7 @@ export default function FormLoadImages() {
   const [images, setImages] = useState<File[]>([]);
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
   );
@@ -26,7 +26,7 @@ export default function FormLoadImages() {
     event.preventDefault();
     const userData = await refreshSession();
     const session = await getSession();
-    const token = session?.user.accessToken
+    const token = session?.user.accessToken;
 
     try {
       setLoading(true);
@@ -34,7 +34,7 @@ export default function FormLoadImages() {
       const formData = new FormData();
 
       if (images.length === 0) {
-        setError("Carregue pelo menos uma imagem do Petter.");
+        setToast("Carregue pelo menos uma imagem do Petter.");
         return;
       }
 
@@ -62,7 +62,7 @@ export default function FormLoadImages() {
       const response = await api.post("petter-register-images", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -76,9 +76,9 @@ export default function FormLoadImages() {
         error.response.data &&
         error.response.data.message
       ) {
-        setError(error.response.data.message);
+        setToast(error.response.data.message);
       } else {
-        setError(error.message || "Ocorreu um erro.");
+        setToast(error.message || "Ocorreu um erro.");
       }
       setLoading(false);
     }
@@ -117,7 +117,7 @@ export default function FormLoadImages() {
       onSubmit={onSubmit}
       className="flex flex-col items-start h-full w-full overflow-auto pb-4"
     >
-      {error && <ErrorWindow textError={error} setError={setError} />}
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
       <label
         htmlFor="fileInput"

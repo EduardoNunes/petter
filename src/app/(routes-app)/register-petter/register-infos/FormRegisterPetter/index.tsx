@@ -1,6 +1,6 @@
 import Button from "@/components/Button/Button";
 import CheckBox from "@/components/CheckBox/CheckBox";
-import ErrorWindow from "@/components/Error/ErrorWindown";
+import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
@@ -21,7 +21,7 @@ export default function FormRegisterPetter() {
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [profileUrl, setProfileUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
 
   const route = useRouter();
 
@@ -30,15 +30,15 @@ export default function FormRegisterPetter() {
     const session = await getSession();
 
     if (!session) {
-      console.log("Usuário deslogado");      
+      console.log("Usuário deslogado");
       return;
     }
-    
+
     const token = session?.user.accessToken;
     const email = session?.user.email;
 
     if (!email) {
-      setError("Email não encontrado");
+      setToast("Email não encontrado");
       return;
     }
 
@@ -84,11 +84,11 @@ export default function FormRegisterPetter() {
         error.response.data &&
         error.response.data.message
       ) {
-        setError(error.response.data.message);
+        setToast(error.response.data.message);
       } else if (error.errors && error.errors.length > 0) {
-        setError(error.errors[0]);
+        setToast(error.errors[0]);
       } else {
-        setError(error.message || "Ocorreu um erro.");
+        setToast(error.message || "Ocorreu um erro.");
       }
       setLoading(false);
     }
@@ -132,7 +132,7 @@ export default function FormRegisterPetter() {
 
   return (
     <form className="h-[84%] overflow-auto w-full" onSubmit={onSubmit}>
-      {error && <ErrorWindow textError={error} setError={setError} />}
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
       <div className="mb-3">
         <Label labelHtmlFor="petter-name">Nome do Petter</Label>

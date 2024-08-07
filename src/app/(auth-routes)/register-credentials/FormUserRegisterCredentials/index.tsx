@@ -1,7 +1,7 @@
 import Button from "@/components/Button/Button";
 import CheckBox from "@/components/CheckBox/CheckBox";
 import errorResponse from "@/components/Error/ErrorResponse";
-import ErrorWindow from "@/components/Error/ErrorWindown";
+import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
@@ -15,7 +15,7 @@ export default function FormUserRegisterCredentials() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
   const [loading, setLoading] = useState(false);
   const [privacyPolicies, setPrivacyPolicies] = useState(false);
 
@@ -38,7 +38,7 @@ export default function FormUserRegisterCredentials() {
       );
 
       if (!privacyPolicies) {
-        setError(
+        setToast(
           "Para prosseguirmos, você deve concordar com as políticas de privacidade"
         );
         return;
@@ -52,11 +52,16 @@ export default function FormUserRegisterCredentials() {
       });
 
       console.log("Informações registradas com sucesso");
-      router.push("/login");
+      setToast(
+        "Cadastro realizado com sucesso. Direcionando para página de login."
+      );
+      setTimeout(() => {
+        router.push("/login");
+      }, 3000);
     } catch (error: any) {
       setLoading(false);
       const response = errorResponse(error);
-      setError(response);
+      setToast(response);
     }
 
     setLoading(false);
@@ -72,7 +77,7 @@ export default function FormUserRegisterCredentials() {
       className="h-full mb-6 mt-2 overflow-y-auto"
       onSubmit={handleClickGoOn}
     >
-      {error !== "" && <ErrorWindow textError={error} setError={setError} />}
+      {toast !== "" && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
       <div className="overflow-y-auto" style={{ height: "82%" }}>
         <div className="mb-3">

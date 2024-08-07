@@ -1,8 +1,7 @@
 "use client";
 
 import Button from "@/components/Button/Button";
-import errorResponse from "@/components/Error/ErrorResponse";
-import ErrorWindow from "@/components/Error/ErrorWindown";
+import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
@@ -16,7 +15,7 @@ export default function FormLogin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
 
   const router = useRouter();
 
@@ -50,7 +49,7 @@ export default function FormLogin() {
 
     if (response?.error) {
       console.log("ERRO", response);
-      setError(response.error);
+      setToast(response.error);
       setLoading(false);
     }
 
@@ -60,7 +59,7 @@ export default function FormLogin() {
   return (
     <form>
       {loading && <Loading />}
-      {error && <ErrorWindow textError={error} setError={setError} />}
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
       <div className="mb-3">
         <Label labelHtmlFor="email">Email</Label>
         <Input
