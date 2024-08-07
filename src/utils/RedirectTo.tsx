@@ -7,12 +7,12 @@ export default async function redirectTo(router: any) {
   const session = await getSession();
   const user = session?.user;
 
-  if (user) {
+  if (user?.accessToken) {
     setItem("token", user.accessToken);
 
     if (!user.userInfo) {
       router.push("/register-infos");
-    } else if (user.petterInfo.length === 0) {
+    } else if (user.petterInfo && user.petterInfo.length === 0) {
       router.push("/notice");
     } else {
       router.push("/home");
