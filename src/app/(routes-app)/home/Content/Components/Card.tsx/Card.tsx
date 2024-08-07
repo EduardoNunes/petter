@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import api from "@/server/api";
 import Image from "next/image";
 import { useTimeLineContext } from "@/context/timeLineContext";
+import { getSession } from "next-auth/react";
 
 interface ImageType {
   id: number;
@@ -20,14 +21,21 @@ export default function Card() {
     handleClickLikeFunction,
     likesCount,
     likesCountId,
+    commentsCount,
     handleClickShowComment,
     setTimelineImageId,
   } = useTimeLineContext();
 
   useEffect(() => {
     async function loadTimeline() {
+      const session = await getSession();
+      const token = session?.user.accessToken;
+
       try {
-        const response = await api.get("show-card-timeline/top-10-images");
+        const response = await api.get("show-card-timeline/top-10-images", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
         const images = response.data.top10ImagesWithCounts;
         setImageSrc(images);
       } catch (error) {
@@ -35,7 +43,7 @@ export default function Card() {
       }
     }
     loadTimeline();
-  }, [likesCount, likesCountId]);
+  }, [likesCount, likesCountId, commentsCount]);
 
   const handleClickLike =
     (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {

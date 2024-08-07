@@ -1,13 +1,8 @@
 "use client";
 
 import api from "@/server/api";
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { getSession } from "next-auth/react";
+import React, { ReactNode, createContext, useContext, useState } from "react";
 import { useSelfContext } from "./selfContext";
 
 interface Comment {
@@ -24,6 +19,7 @@ interface TimeLineContextType {
   setImageURL: (value: string) => void;
   setLikesCount: (value: number) => void;
   setLikesCountId: (value: number) => void;
+  setCommentsCount: (value: number) => void;
   timelineImageId: number | undefined;
   setTimelineImageId: (value: number | undefined) => void;
   commentsOpenModal: boolean;
@@ -36,6 +32,7 @@ interface TimeLineContextType {
 
   likesCount: number | undefined;
   likesCountId: number | undefined;
+  commentsCount: number | undefined;
 
   handleClickShowComment: (
     id: number,
@@ -58,14 +55,19 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   const [image, setImage] = useState<File | undefined>(undefined);
   const [imageURL, setImageURL] = useState("");
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
-  const [likesCountId, setLikesCountId] = useState<number | undefined>(undefined);
+  const [likesCountId, setLikesCountId] = useState<number | undefined>(
+    undefined
+  );
+  const [commentsCount, setCommentsCount] = useState<number | undefined>(
+    undefined
+  );
   const [commentsOpenModal, setCommentsOpenModal] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [timelineImageId, setTimelineImageId] = useState<number | undefined>(
     undefined
   );
 
- /*  useEffect(() => {
+  /*  useEffect(() => {
     if (image) {
       const url = URL.createObjectURL(image);
       setImageURL(url);
@@ -85,13 +87,18 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     }
 
     try {
+      const session = await getSession();
+      const token = session?.user.accessToken;
       const payload = {
         userId: self.id,
         petterInfoId: self.PetterInfo[0].id,
         [type === "timeline" ? "timelineId" : "imageId"]: id,
       };
 
-      const response = await api.post("like-post-timeline", payload);
+      const response = await api.post("like-post-timeline", payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
       setLikesCount(response.data.likeCount);
       setLikesCountId(response.data.like.id);
     } catch (error) {
@@ -111,14 +118,21 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     }
 
     try {
+      const session = await getSession();
+      const token = session?.user.accessToken;
       const params = {
         userId: self.id,
         petterInfoId: self.PetterInfo[0].id,
         [type === "timeline" ? "timelineId" : "imageId"]: id,
       };
 
-      const response = await api.get("comment-post-timeline", { params });
+      const response = await api.get("comment-post-timeline", {
+        headers: { Authorization: `Bearer ${token}` },
+        params,
+      });
+
       setComments(response.data);
+      setCommentsCount(response.data.length);
     } catch (error) {
       console.log("Eerro ao mostrar os comentários", error);
     }
@@ -135,6 +149,8 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     setLikesCount,
     likesCountId,
     setLikesCountId,
+    commentsCount,
+    setCommentsCount,
     handleClickShowComment,
     commentsOpenModal,
     setCommentsOpenModal,
