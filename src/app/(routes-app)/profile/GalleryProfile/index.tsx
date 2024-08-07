@@ -1,5 +1,6 @@
 import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
+import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -13,9 +14,15 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
 
   useEffect(() => {
     async function loadImagesProfile() {
+      const session = await getSession();
+      const token = session?.user.accessToken
+      
       try {
         const response = await api.get(
-          `show-images-profile/top-20-images?petterId=${petterId}`
+          `show-images-profile/top-20-images?petterId=${petterId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
 
         setImageSrc(response.data);

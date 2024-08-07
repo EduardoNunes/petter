@@ -23,7 +23,7 @@ export default function RegisterUserInfos() {
     const dataInfos = async () => {
       const session = await getSession();
 
-      if (session) {
+      if (session && session.user.name) {
         setName(session?.user.name);
       }
     };
@@ -39,6 +39,7 @@ export default function RegisterUserInfos() {
     }
   }, []);
 
+  //Essa função é p caso o usuário tenha logado com o google, ela chama a função seguinte postData
   async function fetchSession() {
     const session = await getSession();
 

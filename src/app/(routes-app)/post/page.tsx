@@ -3,9 +3,14 @@
 import { useStepContext } from "@/context/useStepContext";
 import PostStepComment from "./PostStepComment/PostStepComment";
 import PostStepSelectImage from "./PostStepSelectImage";
+import { useEffect } from "react";
 
 export default function Post() {
-  const { currentStep } = useStepContext();
+  const { currentStep, setCurrentStep } = useStepContext();
+
+  useEffect(() => {
+    setCurrentStep(0);
+  }, []);
 
   return (
     <div className="w-[90%] h-[86%]">

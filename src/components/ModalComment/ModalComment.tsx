@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import TextArea from "../TextArea/TextArea";
 import "./animation.css";
+import { getSession } from "next-auth/react";
 
 export default function ModalComment() {
   const { self } = useSelfContext();
@@ -29,6 +30,9 @@ export default function ModalComment() {
   };
 
   const handleClickSendMessage = async () => {
+    const session = await getSession();
+    const token = session?.user.accessToken;
+
     if (!self.PetterInfo) {
       console.log("Petter que vai comentar não identificado.");
       return;
@@ -42,9 +46,11 @@ export default function ModalComment() {
         timelineId: timelineImageId,
       };
 
-      const response = await api.post("comment-post-timeline", data);
-      
-      console.log("Comentário salvo com sucesso.", response.data);
+      await api.post("comment-post-timeline", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log("Comentário salvo com sucesso.");
 
       await handleClickShowComment(Number(timelineImageId), "timeline");
       setCommentAdd("");

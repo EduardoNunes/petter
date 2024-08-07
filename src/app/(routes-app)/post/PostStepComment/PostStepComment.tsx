@@ -8,6 +8,7 @@ import api from "@/server/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
+import { getSession } from "next-auth/react";
 
 export default function PostStepComment() {
   const { image } = useTimeLineContext();
@@ -17,7 +18,7 @@ export default function PostStepComment() {
   const router = useRouter();
 
   useEffect(() => {
-    getSelf()
+    getSelf();
   }, []);
 
   const handleTextChange = (text: string) => {
@@ -26,6 +27,9 @@ export default function PostStepComment() {
 
   async function handleClickSubmit(event: { preventDefault: () => void }) {
     event.preventDefault();
+
+    const session = await getSession();
+    const token = session?.user.accessToken;
 
     if (!self.id || !self.PetterInfo) {
       console.error("User ID or Petter ID is missing");
@@ -49,6 +53,7 @@ export default function PostStepComment() {
       await api.post("petter-image-timeline", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -74,7 +79,7 @@ export default function PostStepComment() {
           value={commentText}
           onTextChange={handleTextChange}
           placeholder="Descrição da imagem"
-          height="44"
+          height="30vh"
         />
       </div>
       <div className="absolute w-[90%] bottom-[3%]">
