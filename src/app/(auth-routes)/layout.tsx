@@ -9,7 +9,7 @@ export default async function ProtectedRoutesLayout({ children }: { children: Re
   if (session) {
     if (!session.user.userInfo) {
       return redirect("/register-infos");
-    } else if (session.user.petterInfo.length === 0) {
+    } else if (session.user.petterInfo?.length === 0) {
       return redirect("/notice");
     } else {
       return redirect("/home");
