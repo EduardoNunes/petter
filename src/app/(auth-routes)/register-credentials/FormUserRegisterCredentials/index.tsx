@@ -13,7 +13,6 @@ export default function FormUserRegisterCredentials() {
   const [tutorName, setTutorName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profileImage, setProfileImage] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,7 +20,7 @@ export default function FormUserRegisterCredentials() {
 
   const router = useRouter();
 
-  async function handleClickGoOn(event: SyntheticEvent) {
+  async function handleClickGoOn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
@@ -48,7 +47,6 @@ export default function FormUserRegisterCredentials() {
         name: tutorName,
         email,
         password,
-        profileImage,
         loggedBy: "credentials",
       });
 
@@ -71,30 +69,7 @@ export default function FormUserRegisterCredentials() {
     }
   }
 
-  const handleNameTutorChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTutorName(event.target.value);
-  };
-
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleConfirmPasswordChange = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    setConfirmPassword(event.target.value);
-  };
-
-  const handleClickPrivacyPolicies = () => {
-    setPrivacyPolicies(!privacyPolicies);
-  };
-
-  const handleClickGoToLogin = (event: SyntheticEvent) => {
-    event.preventDefault();
+  const handleClickGoToLogin = () => {
     router.push("/login");
   };
 
@@ -114,7 +89,7 @@ export default function FormUserRegisterCredentials() {
             id="tutor-name"
             name="tutor"
             autoComplete="text"
-            onChange={handleNameTutorChange}
+            onChange={(event) => setTutorName(event.target.value)}
           />
         </div>
         <div className="mb-3">
@@ -125,7 +100,7 @@ export default function FormUserRegisterCredentials() {
             id="email"
             name="email"
             autoComplete="email"
-            onChange={handleEmailChange}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div className="mb-3">
@@ -136,7 +111,7 @@ export default function FormUserRegisterCredentials() {
             id="password"
             name="password"
             autoComplete="current-password"
-            onChange={handlePasswordChange}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         <div>
@@ -147,7 +122,7 @@ export default function FormUserRegisterCredentials() {
             id="passwordRepeat"
             name="passwordRepeat"
             autoComplete="current-password"
-            onChange={handleConfirmPasswordChange}
+            onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </div>
       </div>
@@ -156,7 +131,7 @@ export default function FormUserRegisterCredentials() {
           <div className="flex items-start justify-center gap-5">
             <CheckBox
               checked={privacyPolicies}
-              onChange={handleClickPrivacyPolicies}
+              onChange={() => setPrivacyPolicies(!privacyPolicies)}
             />
             <p className="font-secondary mb-[3%]">
               Aceito as políticas de uso e privacidade.
