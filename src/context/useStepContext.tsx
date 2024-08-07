@@ -5,6 +5,7 @@ import React, { ReactNode, createContext, useContext, useState } from "react";
 
 interface StepContextType {
   currentStep: number;
+  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   handleToAddCurrentStep: () => void;
   handleToDecreaseCurrentStep: () => void;
 }
@@ -33,6 +34,7 @@ export const StepProvider: React.FC<StepProviderProps> = ({ children }) => {
 
   const contextValue: StepContextType = {
     currentStep,
+    setCurrentStep,
     handleToAddCurrentStep,
     handleToDecreaseCurrentStep,
   };
