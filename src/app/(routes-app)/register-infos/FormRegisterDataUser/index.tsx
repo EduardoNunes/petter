@@ -167,7 +167,7 @@ export default function FormUserRegisterData() {
           )}
         </div>
         <div className="mb-2">
-          <Label labelHtmlFor="tel">Número de telefone</Label>
+          <Label labelHtmlFor="tel">Número de celular</Label>
           <Input
             text="Informe seu número de celular."
             type="tel"
