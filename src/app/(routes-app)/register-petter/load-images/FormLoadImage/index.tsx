@@ -1,19 +1,22 @@
 "use client";
 
 import Button from "@/components/Button/Button";
+import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
 import Loading from "@/components/Loading/Loading";
 import api from "@/server/api";
-import { refreshSession } from "@/utils/refreshSession";
 import { schemaRegisterPetterImage } from "@/validation/schemaRegisterPetterImages copy";
 import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useState } from "react";
 
+interface PetterInfo {
+  id: number;
+}
+
 export default function FormLoadImages() {
   const [images, setImages] = useState<File[]>([]);
-  const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
@@ -24,9 +27,9 @@ export default function FormLoadImages() {
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
-    const userData = await refreshSession();
     const session = await getSession();
     const token = session?.user.accessToken;
+    const petterInfo = session?.user.petterInfo as PetterInfo[];
 
     try {
       setLoading(true);
@@ -44,43 +47,33 @@ export default function FormLoadImages() {
             name: image.name,
             size: image.size,
             type: image.type,
+            file: image,
           },
           { abortEarly: false }
         );
       }
 
-      if (userData) {
+      if (petterInfo && petterInfo.length > 0) {
         for await (const image of images) {
-          formData.append("petterId", userData.petterInfo[0].id.toString());
-          formData.append("description", description);
+          formData.append("petterId", petterInfo[0]?.id?.toString());
+          formData.append("description", "");
           formData.append("images", image);
         }
-      } else {
-        return;
       }
 
-      const response = await api.post("petter-register-images", formData, {
+      await api.post("petter-register-images", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
 
-      router.push("/register-petter/about-petter");
-      setLoading(false);
+      setToast("Sucesso");
+      router.replace("/register-petter/about-petter");
     } catch (error: any) {
+      const response = errorResponse(error);
       setLoading(false);
-      console.log("As imagens n foram carregadas", error);
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setToast(error.response.data.message);
-      } else {
-        setToast(error.message || "Ocorreu um erro.");
-      }
-      setLoading(false);
+      setToast(response);
     }
     setLoading(false);
   }
@@ -133,7 +126,7 @@ export default function FormLoadImages() {
           name="images"
           onChange={uploadImage}
           multiple
-          accept=".jpg, .jpeg"
+          accept=".jpg, .jpeg, .png"
           capture="user"
         />
       </label>
