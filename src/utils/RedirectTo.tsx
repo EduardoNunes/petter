@@ -11,14 +11,14 @@ export default async function redirectTo(router: any) {
     setItem("token", user.accessToken);
 
     if (!user.userInfo) {
-      router.push("/register-infos");
+      router.replace("/register-infos");
     } else if (user.petterInfo && user.petterInfo.length === 0) {
-      router.push("/notice");
+      router.replace("/notice");
     } else {
-      router.push("/home");
+      router.replace("/home");
     }
   } else {
-    router.push("/login");
+    router.replace("/login");
   }
 
   return router;

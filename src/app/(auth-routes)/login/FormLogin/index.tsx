@@ -17,14 +17,14 @@ export default function FormLogin() {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState("");
 
-  const router = useRouter();
+  const route = useRouter();
 
   const handleClickGoRegisterUser = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
     setLoading(true);
-    router.push("/register-credentials");
+    route.push("/register-credentials");
   };
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -45,7 +45,7 @@ export default function FormLogin() {
       redirect: false,
     });
 
-    redirectTo(router);
+    redirectTo(route);
 
     if (response?.error) {
       console.log("ERRO", response);
