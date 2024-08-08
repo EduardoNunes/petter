@@ -13,28 +13,68 @@ pnpm dev
 # or
 bun dev
 ```
-para puxar informações do usuário
-getSelf() = puxa através do context Global selfContext fazendo requisição para um end-point protegido src/context/selfContext.tsx.
-refreshSession() = puxa através de uma rota de autenticação, de forma global também, porém utilizando o id do usuário logado tirado da session. src/utils/refreshSession.tsx.
 
+getSession() = pega informações do usuário direto da atualização de callback do api/route
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+Fluxos:
+Página de apresentação: Dura 3 segundos e redireciona para Login.
 
-To learn more about Next.js, take a look at the following resources:
+Cadastro de usuário
+    1 - registro das crecenciais email, senha e aceitação dos termos de uso. (Sucesso redireciona p login).
+    2 - Login.
+    3 - Registro das informações pessoais.
+    4 - Página de validação de boas práticas.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Cadastro de Petter
+    1 - Registro das informações do petter e da imagem de profile.
+    2 - Upload de imagens de profile.
+    3 - Registro da descrição da Bio.
+    4 - Pagina de conclusão (Congratulatios).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Timeline (Home).
+    1 - Cabeçalho TIMELINE (NÃO FUNCIONAL AINDA).
+    2 - Content TIMELINE: possui um card com cabeçalho, content e footer
+        2.1 - Header (NÃO FUNCIONAL AINDA)
+        2.2 - Content: Imagens publicadas por algum usuário com Petter cadastrado.
+        2.3 - Footer.
+            2.3.1 - Botão de curtir (somente altera o número de curtidas).
+            2.3.2 - Botão de comentário (abre Modal com lista de comentários).
+                2.3.2.1 - Modal de comentários: @components/ModalComment.
+                        2.3.2.1.1 - X: Botão de saída do modal
+                        2.3.2.1.2 - Content: Local de exibição das imagens ordenada N > M
+                        2.3.2.1.3 - Input: Input para enviar comentário em nome do Petter logado.
+                            2.3.2.1.3.1 - Send: Botão de submeter comentário que deve aparecer imediatamente no topo do Content (2.2)
+            2.3.3 - Descrição da imagem criada no momento da postagem pelo usuário.
+    3 - Footer TIMELINE.
+        3.1 - Home: Botão que direciona para a timeline.
+        3.2 - Petinder: (NÃO FUNCIONAL AINDA).
+        3.3 - ADD: Botão que leva para a adição de nova imagem na timeline em 2 STEPS.
+            3.3.1: STEP 1: Selecionar imagem.
+                3.3.1.1 - Header:
+                    3.3.1.1.1 - X: Botão de sair. Direciona para timeline.
+                    3.3.1.1.2 - Title: Título do Step atual
+                    3.3.1.1.3 - Botão Continuar: Somente é exibido após uma imagem ser selecionada.
+                3.3.1.2 - Content: Local de exibição da imagem selecionada, nenhuma por default.
+                3.3.1.3 - Galery: Exibição das imagens em PNG, JPG, JPEG da galeria do dispositivo do usuário em 4 colunas.
+                3.3.1.4 - Botão de aproximar imagem selecionada exibida no content(3.3.1.2) (Quebrado, aproxima mas n envia aproximada).
+            3.3.2: STEP 2:
+                3.3.2.1 - Header: Igual ao Header(3.3.1.1), porém sem o Botão Continuar(3.3.1.1.3).
+                3.3.2.2 - Content: Exibição da imagem selecionada.
+                3.3.2.3 - Caixa de texto: Local para o usuário informar a descrição da imagem que será exibida na timeline.
+                3.3.2.4 - Botão Publicar: Publica a imagem na timeline.
+        3.4 - PetterShopp: (NÃO FUNCIONAL AINDA).
+        3.5 - Profile: Botão que leva ao perfil do Petter.
+            3.5.1 - Header Profile (NÃO FUNCIONAL AINDA);
+            3.5.2 - Infos Profile: Exibe informações básicas do Petter:
+                3.5.2.1 - Imagem de perfil cadastrada no momento de cadastro do PetterInfos.
+                3.5.2.2 - Posts: Quantidade de postagens na galeria do perfil do Petter.
+                3.5.2.3 - Amigos: (NÃO FUNCIONAL AINDA).
+                3.5.2.4 - Paw One: Raça do petter.
+                3.5.2.5 - Paw Two: Tipo de animal do Petter.
+            3.5.3 - Bio: Descrição do Petter inserida pelo usuário da conta.
+            3.5.4 - Editar Perfil: Botão de editar perfil (QUEBRADO)
+            3.5.5 - Galery: Galeria que mostra as imagens do Petter adicionadas pelo usuário.
