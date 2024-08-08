@@ -1,7 +1,6 @@
 "use client";
 
 import api from "@/server/api";
-import { getItem } from "@/utils/localStorageUtils";
 import { getSession } from "next-auth/react";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
