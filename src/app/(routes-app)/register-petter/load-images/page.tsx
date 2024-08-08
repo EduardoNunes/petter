@@ -4,16 +4,22 @@ import Header from "@/components/Header/Header";
 import PetterColorful from "@/components/Petter/PetterColorful";
 import FormLoadImages from "./FormLoadImage";
 import { useEffect, useState } from "react";
-import { refreshSession } from "@/utils/refreshSession";
+import { getSession } from "next-auth/react";
+
+interface PetterInfo {
+  petterName: string;
+}
 
 export default function LoadImages() {
   const [petterName, setPetterName] = useState("");
 
   useEffect(() => {
     const dataInfos = async () => {
-      const session = await refreshSession();
-      if (session) {
-        setPetterName(session?.petterInfo[0].petterName);
+      const session = await getSession();
+      const petterInfo = session?.user.petterInfo as PetterInfo[];
+
+      if (petterInfo) {
+        setPetterName(petterInfo[0].petterName);
       }
     };
 

@@ -1,22 +1,30 @@
 "use client";
 
 import Button from "@/components/Button/Button";
-import { refreshSession } from "@/utils/refreshSession";
+import Loading from "@/components/Loading/Loading";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./color-fonte.css";
 
+interface PetterInfo {
+  petterName: string;
+}
+
 export default function Congratulations() {
   const [petterName, setPetterName] = useState("");
+  const [loading, setLoading] = useState(false);
   const profileImage = "";
 
   const router = useRouter();
 
   useEffect(() => {
     const dataInfos = async () => {
-      const session = await refreshSession();
+      const session = await getSession();
+      const petterInfo = session?.user.petterInfo as PetterInfo[];
+
       if (session) {
-        setPetterName(session?.petterInfo[0].petterName);
+        setPetterName(petterInfo[0].petterName);
       }
     };
 
@@ -24,11 +32,13 @@ export default function Congratulations() {
   }, []);
 
   const handleClickGoOn = () => {
-    router.push("../home");
+    setLoading(true);
+    router.replace("../home");
   };
 
   return (
     <div className="flex flex-col items-center justify-start h-[50%]">
+      {loading && <Loading />}
       <div className="colorful">
         <p className="font-primary text-ultraLarge">Parabéns!</p>
       </div>
