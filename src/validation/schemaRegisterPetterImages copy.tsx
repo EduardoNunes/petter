@@ -11,8 +11,8 @@ export const schemaRegisterPetterImage = yup.object().shape({
   size: yup
     .number()
     .required("Imagem vazia.")
-    .max(20000000, "O tamanho da imagem não pode exceder 20MB."),
+    .max(30000000, "O tamanho da imagem não pode exceder 30MB."),
   type: yup
     .string()
-    .oneOf(["image/jpeg", "image/jpg"], "Formato de arquivo inválido."),
+    .oneOf(["image/jpeg", "image/jpg", "image/png"], "Formato de arquivo inválido."),
 });

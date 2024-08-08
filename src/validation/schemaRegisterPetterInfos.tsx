@@ -28,4 +28,19 @@ export const schemaRegisterPetterInfos = yup.object().shape({
         return date >= minDate && date <= today;
       }
     ),
+  profileImageFile: yup
+    .mixed()
+    .required("Selecione uma imagem para o perfil do Petter.")
+    .test(
+      "fileType",
+      "Formato de arquivo inválido. Somente JPEG, JPG, PNG são permitidos.",
+      (value: any) => {
+        return (
+          value && ["image/jpeg", "image/jpg", "image/png"].includes(value.type)
+        );
+      }
+    )
+    .test("fileSize", "O arquivo não pode ter mais de 30MB.", (value: any) => {
+      return value && value.size && value.size <= 30 * 1024 * 1024;
+    }),
 });
