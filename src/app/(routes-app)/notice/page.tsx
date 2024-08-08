@@ -43,7 +43,7 @@ export default function Notice() {
       router.push("/register-petter/register-infos");
     } else {
       setLoading(false);
-      setToast("Leia e marque todos os itens.");
+      setToast("Paraprossegui você deve ler e marcar todos os itens.");
     }
   };
 
