@@ -7,7 +7,7 @@ interface MessageToastProps {
 
 const MessageToast: React.FC<MessageToastProps> = ({ textError, setToast }) => {
   const [isVisible, setIsVisible] = useState(true);
-  const sucesso = textError.includes("sucesso");
+  const sucesso = textError.includes("ucesso"); // sem o S por ele poder variar em maiúsculo e minúsculo
 
   const hideMessageToast = () => {
     setTimeout(() => {
