@@ -2,7 +2,7 @@ import { getServerSessionData } from "@/utils/getServerSession";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-export default async function AboutPetterLayout({
+export default async function LoadImagesLayout({
   children,
 }: {
   children: ReactNode;

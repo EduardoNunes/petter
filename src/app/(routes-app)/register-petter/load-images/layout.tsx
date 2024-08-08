@@ -9,8 +9,6 @@ export default async function LoadImagesLayout({
 }) {
   const session = await getServerSessionData();
 
-  console.log("SESSION", session?.user);
-
   if (session?.user.petterInfo?.length === 0) {
     return redirect("/register-petter/register-infos");
   }

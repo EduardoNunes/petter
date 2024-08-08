@@ -1,54 +1,66 @@
 "use client";
 
 import Button from "@/components/Button/Button";
+import errorResponse from "@/components/Error/ErrorResponse";
+import MessageToast from "@/components/Error/MessageToast";
+import Loading from "@/components/Loading/Loading";
 import PetterColorful from "@/components/Petter/PetterColorful";
 import TextArea from "@/components/TextArea/TextArea";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
-import { refreshSession } from "@/utils/refreshSession";
+import { schemaAboutPetter } from "@/validation/schemaAboutPetter";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+interface PetterInfo {
+  petterName: string;
+  id: number;
+}
 
 export default function AboutPetter() {
   const { handleToAddCurrentStep } = useStepContext();
   const [descriptionBio, setDescriptionBio] = useState<string>("");
   const [petterName, setPetterName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState("");
+  const [caracteres, setCaracteres] = useState(355);
 
   const router = useRouter();
 
   useEffect(() => {
     const dataInfos = async () => {
-      const session = await refreshSession();
+      const session = await getSession();
+      const petterInfo = session?.user.petterInfo as PetterInfo[];
+
       if (session) {
-        setPetterName(session?.petterInfo[0].petterName);
+        setPetterName(petterInfo[0].petterName);
       }
     };
 
     dataInfos();
   }, []);
 
-  const handleTextChange = (text: string) => {
-    setDescriptionBio(text);
-  };
-
   async function onSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
+    setLoading(true);
     const session = await getSession();
-    const userData = await refreshSession();
 
     const user = session?.user.id;
     const token = session?.user.accessToken;
-    const petterInfoId = userData.petterInfo[0].id;
+    const petterInfoId = session?.user.petterInfo as PetterInfo[];
 
-    if (!session || !petterInfoId) {
-      console.log("VC PRECISA ESTAR LOGADO");
-      return;
-    }
 
     try {
+      await schemaAboutPetter.validate(
+        {
+          descriptionBio,
+        },
+        { abortEarly: false }
+      );
+
       await api.patch(
-        `/petter-infos/${user}/${petterInfoId}/description-bio`,
+        `/petter-infos/${user}/${petterInfoId[0].id}/description-bio`,
         {
           descriptionBio: descriptionBio,
         },
@@ -60,14 +72,29 @@ export default function AboutPetter() {
       );
 
       handleToAddCurrentStep();
-      router.push("/register-petter/congratulations");
-    } catch (error) {
-      console.error("ERROR", error);
+      router.replace("/register-petter/congratulations");
+    } catch (error: any) {
+      setLoading(false);
+      const response = errorResponse(error);
+      setLoading(false);
+      setToast(response);
     }
+    setLoading(false);
   }
+
+  const handleTextChange = (text: string) => {
+    if (text.length <= 355) {
+      setDescriptionBio(text);
+      setCaracteres(355 - text.length);
+    } else {
+      setToast("Número máximo de caracteres atingido.");
+    }
+  };
 
   return (
     <form onSubmit={onSubmit} className="w-[90%] h-[70%]">
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
+      {loading && <Loading />}
       <PetterColorful fontSize={"extraLarge"} />
       <div className="flex flex-col items-center font-secondary mb-10">
         <p className="font-secondary">
@@ -87,6 +114,7 @@ export default function AboutPetter() {
         } tem Petterzinhos?`}</p>
         <p className="font-secondary">{`Seja criativo!`}</p>
       </div>
+      {<p>{caracteres}</p>}
       <TextArea
         onTextChange={handleTextChange}
         value={descriptionBio}
