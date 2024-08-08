@@ -1,5 +1,6 @@
 import Button from "@/components/Button/Button";
 import CheckBox from "@/components/CheckBox/CheckBox";
+import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
@@ -10,7 +11,7 @@ import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 
 export default function FormRegisterPetter() {
   const [checkNoData, setCheckNoData] = useState(false);
@@ -27,10 +28,11 @@ export default function FormRegisterPetter() {
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
+    setLoading(true);
     const session = await getSession();
 
     if (!session) {
-      console.log("Usuário deslogado");
+      console.log("Erro de session rpri, entre em contato com o suporte");
       return;
     }
 
@@ -38,13 +40,11 @@ export default function FormRegisterPetter() {
     const email = session?.user.email;
 
     if (!email) {
-      setToast("Email não encontrado");
+      setToast("Erro de email rpri, entre em contato com o suporte");
       return;
     }
 
     try {
-      setLoading(true);
-
       const formData = new FormData();
 
       await schemaRegisterPetterInfos.validate(
@@ -53,6 +53,7 @@ export default function FormRegisterPetter() {
           petterKind,
           petterBreed,
           petterBirth,
+          profileImageFile,
         },
         { abortEarly: false }
       );
@@ -66,7 +67,9 @@ export default function FormRegisterPetter() {
       if (profileImageFile) {
         formData.append("profileImageFile", profileImageFile);
       } else {
-        console.error("Invalid image type:", profileImageFile);
+        setToast(`Imagem inválida: ${profileImageFile}`);
+        setLoading(false);
+        return;
       }
 
       await api.post("petter-infos", formData, {
@@ -76,40 +79,15 @@ export default function FormRegisterPetter() {
         },
       });
 
-      route.push("/register-petter/load-images");
-      setLoading(false);
+      setToast("Sucesso");
+      route.replace("/register-petter/load-images");
     } catch (error: any) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setToast(error.response.data.message);
-      } else if (error.errors && error.errors.length > 0) {
-        setToast(error.errors[0]);
-      } else {
-        setToast(error.message || "Ocorreu um erro.");
-      }
+      const response = errorResponse(error);
       setLoading(false);
+      setToast(response);
     }
     setLoading(false);
   }
-
-  const handleNamePetterChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPetterName(event.target.value);
-  };
-
-  const handleKindPetterChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPetterKind(event.target.value);
-  };
-
-  const handleBreedPetterChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPetterBreed(event.target.value);
-  };
-
-  const handleBirthPetterChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPetterBirth(event.target.value);
-  };
 
   const handleClickNoDataCheck = () => {
     setCheckNoData(!checkNoData);
@@ -142,7 +120,7 @@ export default function FormRegisterPetter() {
           id="petter-name"
           name="petterName"
           autoComplete="text"
-          onChange={handleNamePetterChange}
+          onChange={(event) => setPetterName(event.target.value)}
         />
       </div>
       <div className="mb-3">
@@ -153,7 +131,7 @@ export default function FormRegisterPetter() {
           id="petter-name"
           name="petterKind"
           autoComplete="text"
-          onChange={handleKindPetterChange}
+          onChange={(event) => setPetterKind(event.target.value)}
         />
       </div>
       <div className="mb-3">
@@ -164,7 +142,7 @@ export default function FormRegisterPetter() {
           id="petter-breed"
           name="petterBreed"
           autoComplete="text"
-          onChange={handleBreedPetterChange}
+          onChange={(event) => setPetterBreed(event.target.value)}
         />
       </div>
       <div className="flex mb-2">
@@ -180,7 +158,7 @@ export default function FormRegisterPetter() {
             id="petter-birth"
             name="petterBirth"
             autoComplete="date"
-            onChange={handleBirthPetterChange}
+            onChange={(event) => setPetterBirth(event.target.value)}
             disabled={checkNoData}
           />
         </div>
@@ -204,7 +182,7 @@ export default function FormRegisterPetter() {
             name="images"
             onChange={uploadImage}
             multiple
-            accept=".jpg, .jpeg"
+            accept=".jpg, .jpeg, .png"
             capture="user"
           />
         </label>
