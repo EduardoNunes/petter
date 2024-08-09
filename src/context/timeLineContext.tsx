@@ -13,10 +13,6 @@ interface Comment {
 }
 
 interface TimeLineContextType {
-  image: File | undefined;
-  setImage: (value: File | undefined) => void;
-  imageURL: string;
-  setImageURL: (value: string) => void;
   setLikesCount: (value: number) => void;
   setLikesCountId: (value: number) => void;
   setLikedByMe: (value: boolean) => void;
@@ -54,8 +50,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   children,
 }) => {
   const { self } = useSelfContext();
-  const [image, setImage] = useState<File | undefined>(undefined);
-  const [imageURL, setImageURL] = useState("");
+
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
   const [likesCountId, setLikesCountId] = useState<number | undefined>(
     undefined
@@ -135,10 +130,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   }
 
   const contextValue = {
-    image,
-    setImage,
-    imageURL,
-    setImageURL,
+
     handleClickLikeFunction,
     comments,
     likesCount,

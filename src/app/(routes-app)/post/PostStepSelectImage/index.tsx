@@ -1,11 +1,11 @@
 import Header from "@/components/Header/Header";
+import { usePostTimelineContext } from "@/context/postTimelineContext";
 import SelectedImage from "../SelectedImage/SelectedImage";
 import EnframeImages from "./EnframeImage/EnframeImages";
 import LoadGallery from "./LoadGalery/LoadGalery";
-import { useTimeLineContext } from "@/context/timeLineContext";
 
 export default function PostStepSelectImage() {
-  const { image } = useTimeLineContext();
+  const { image } = usePostTimelineContext();
 
   return (
     <div className="flex flex-col items-center h-full w-full">

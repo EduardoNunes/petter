@@ -1,10 +1,10 @@
-import { useTimeLineContext } from "@/context/timeLineContext";
+import { usePostTimelineContext } from "@/context/postTimelineContext";
 import { useEnframeContext } from "@/context/useEnframeContext";
 import Image from "next/image";
 
 export default function SelectedImage() {
   const { enframe } = useEnframeContext();
-  const { imageURL } = useTimeLineContext();
+  const { imageURL } = usePostTimelineContext();
 
   return (
     <div className="flex items-center h-[50%] w-full mb-4 bg-slate-500">

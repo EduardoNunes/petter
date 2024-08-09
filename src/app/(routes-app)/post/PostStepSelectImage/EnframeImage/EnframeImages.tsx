@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function EnframeImages() {
   const { enframe, setEnframe } = useEnframeContext();
-  
+
   const handleClickEnframe = () => {
     enframe === "content" ? setEnframe("full") : setEnframe("content");
   };

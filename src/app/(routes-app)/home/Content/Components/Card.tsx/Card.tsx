@@ -55,7 +55,6 @@ export default function Card() {
         const images = response.data.top10ImagesWithCounts;
 
         setImageSrc(images);
-        setLoading(false);
       } catch (error: any) {
         const response = errorResponse(error);
         setLoading(false);
