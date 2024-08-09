@@ -19,6 +19,7 @@ interface TimeLineContextType {
   setImageURL: (value: string) => void;
   setLikesCount: (value: number) => void;
   setLikesCountId: (value: number) => void;
+  setLikedByMe: (value: boolean) => void;
   setCommentsCount: (value: number) => void;
   timelineImageId: number | undefined;
   setTimelineImageId: (value: number | undefined) => void;
@@ -32,6 +33,7 @@ interface TimeLineContextType {
 
   likesCount: number | undefined;
   likesCountId: number | undefined;
+  likedByMe: boolean | undefined;
   commentsCount: number | undefined;
 
   handleClickShowComment: (
@@ -58,6 +60,9 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   const [likesCountId, setLikesCountId] = useState<number | undefined>(
     undefined
   );
+  const [likedByMe, setLikedByMe] = useState<boolean | undefined>(
+    undefined
+  );
   const [commentsCount, setCommentsCount] = useState<number | undefined>(
     undefined
   );
@@ -66,16 +71,6 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   const [timelineImageId, setTimelineImageId] = useState<number | undefined>(
     undefined
   );
-
-  /*  useEffect(() => {
-    if (image) {
-      const url = URL.createObjectURL(image);
-      setImageURL(url);
-      return () => {
-        URL.revokeObjectURL(url);
-      };
-    }
-  }, [image]); */
 
   async function handleClickLikeFunction(
     id: number,
@@ -98,9 +93,10 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
       const response = await api.post("like-post-timeline", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
+      
       setLikesCount(response.data.likeCount);
       setLikesCountId(response.data.like.id);
+      setLikedByMe(response.data.like.liked);
     } catch (error) {
       console.log("Erro ao dar like", error);
     }
@@ -149,6 +145,8 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     setLikesCount,
     likesCountId,
     setLikesCountId,
+    likedByMe,
+    setLikedByMe,
     commentsCount,
     setCommentsCount,
     handleClickShowComment,

@@ -52,8 +52,6 @@ export default function FormLogin() {
       setToast(response.error);
       setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (

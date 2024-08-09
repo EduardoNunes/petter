@@ -1,22 +1,26 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface FooterCardProps {
   likesCount: number;
   commentsCount: number;
   descriptionCard: string;
+  likedByMe: Array<any> | undefined;
   handleClickComment: (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleClickLike: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  petterLoggedId: number | undefined;
 }
 
 const FooterCard: React.FC<FooterCardProps> = ({
   likesCount,
   commentsCount,
   descriptionCard,
+  likedByMe,
   handleClickComment,
   handleClickLike,
+  petterLoggedId,
 }) => {
-  
+
   return (
     <div className="flex flex-col mb-4">
       <div className="flex items-center h-9 pl-2 pr-2 gap-3">
@@ -25,7 +29,11 @@ const FooterCard: React.FC<FooterCardProps> = ({
           onClick={(e) => handleClickLike(e)}
         >
           <Image
-            src="/images/paw-love.png"
+            src={`${
+              likedByMe?.some((item) => item.petterInfoId === petterLoggedId)
+                ? "/images/paw-love-pink.png"
+                : "/images/paw-love.png"
+            }`}
             width={28}
             height={28}
             alt="Paw Love"
