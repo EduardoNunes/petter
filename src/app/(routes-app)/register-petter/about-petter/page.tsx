@@ -76,7 +76,6 @@ export default function AboutPetter() {
     } catch (error: any) {
       setLoading(false);
       const response = errorResponse(error);
-      setLoading(false);
       setToast(response);
     }
     setLoading(false);

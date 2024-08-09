@@ -14,7 +14,9 @@ pnpm dev
 bun dev
 ```
 
-getSession() = pega informações do usuário direto da atualização de callback do api/route
+getSession() = pega informações do usuário direto da atualização de callback do api/route. Melhor para pegar informações primordias como credenciais id do usuário, token ou para informações atualizadas.
+
+getSelf() = pega informações do usuário atráves de um context. Melhor para informações periféricas como petterInfos e userInfos.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

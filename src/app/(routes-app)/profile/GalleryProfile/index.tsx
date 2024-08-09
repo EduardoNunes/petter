@@ -1,4 +1,6 @@
-import { useSelfContext } from "@/context/selfContext";
+import MessageToast from "@/components/Error/MessageToast";
+import Loading from "@/components/Loading/Loading";
+import { useProfileContext } from "@/context/profileContext";
 import api from "@/server/api";
 import { getSession } from "next-auth/react";
 import Image from "next/image";
@@ -9,14 +11,18 @@ interface GalleryProfileProps {
 }
 
 export default function GalleryProfile({ petterId }: GalleryProfileProps) {
-  const { setNumberImagesGallery } = useSelfContext();
+  const { setNumberImagesGallery } = useProfileContext();
   const [imageSrc, setImageSrc] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState("");
 
   useEffect(() => {
+    setLoading(true);
+
     async function loadImagesProfile() {
       const session = await getSession();
-      const token = session?.user.accessToken
-      
+      const token = session?.user.accessToken;
+
       try {
         const response = await api.get(
           `show-images-profile/top-20-images?petterId=${petterId}`,
@@ -27,9 +33,11 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
 
         setImageSrc(response.data);
         setNumberImagesGallery(response.data.length);
-      } catch (error) {
-        console.log("Deu ruim em carregar imagens da grade do perfil", error);
+      } catch (error: any) {
+        setLoading(false);
+        setToast(error);
       }
+      setLoading(false);
     }
 
     loadImagesProfile();
@@ -37,6 +45,8 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
 
   return (
     <div className="grid grid-cols-3 gap-1">
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
+      {loading && <Loading />}
       {imageSrc.map((image, index) => (
         <div key={index} className="relative w-[28vw] h-[28vw]">
           <Image
