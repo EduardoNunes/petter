@@ -1,4 +1,4 @@
-import { useSelfContext } from "@/context/selfContext";
+import { useProfileContext } from "@/context/profileContext";
 import Image from "next/image";
 
 interface InfosProfileProps {
@@ -12,7 +12,7 @@ export default function InfosProfile({
   petterKind,
   petterBreed,
 }: InfosProfileProps) {
-  const { numberImagesGallery } = useSelfContext();
+  const { numberImagesGallery } = useProfileContext();
   const friends = "0";
 
   return (
@@ -48,9 +48,7 @@ export default function InfosProfile({
             alt="Profile Image"
             className="object-cover w-5 h-5"
           />
-          <p className="font-secondary text-smaller truncate">
-            {petterBreed}
-          </p>
+          <p className="font-secondary text-smaller truncate">{petterBreed}</p>
         </div>
         <div className="flex items-center h-8 gap-2">
           <Image
@@ -60,9 +58,7 @@ export default function InfosProfile({
             alt="Profile Image"
             className="object-cover w-5 h-5"
           />
-          <p className="font-secondary text-smaller truncate">
-            {petterKind}
-          </p>
+          <p className="font-secondary text-smaller truncate">{petterKind}</p>
         </div>
       </div>
     </div>

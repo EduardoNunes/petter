@@ -36,8 +36,6 @@ interface SelfContextType {
   self: SelfType;
   setSelf: (value: SelfType) => void;
   getSelf: () => Promise<void>;
-  numberImagesGallery: number;
-  setNumberImagesGallery: (value: number) => void;
 }
 
 const SelfContext = createContext<SelfContextType | null>(null);
@@ -48,7 +46,6 @@ interface SelfProviderProps {
 
 export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const [self, setSelf] = useState<SelfType>({});
-  const [numberImagesGallery, setNumberImagesGallery] = useState(0);
 
   async function getSelf() {
     const session = await getSession();
@@ -94,8 +91,6 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
     self,
     setSelf,
     getSelf,
-    numberImagesGallery,
-    setNumberImagesGallery,
   };
 
   return (
