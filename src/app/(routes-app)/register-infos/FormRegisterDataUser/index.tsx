@@ -81,7 +81,7 @@ export default function FormUserRegisterData() {
       const response = errorResponse(error);
       setToast(response);
     }
-    
+
     setLoading(false);
   }
 
@@ -92,6 +92,7 @@ export default function FormUserRegisterData() {
   };
 
   useEffect(() => {
+    setLoading(true);
     const fetchAddress = async () => {
       if (cep.length === 9) {
         try {
@@ -104,9 +105,11 @@ export default function FormUserRegisterData() {
           setUf(response.uf || "");
           setShowAddressInfos(true);
         } catch (error) {
+          setLoading(false);
           setToast("CEP não encontrado:");
         }
       }
+      setLoading(false);
     };
 
     fetchAddress();
