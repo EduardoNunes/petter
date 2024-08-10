@@ -2,15 +2,15 @@ import { getServerSessionData } from "@/utils/getServerSession";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-export default async function LoadImagesLayout({
+export default async function RegisterInfosLayout({
   children,
 }: {
   children: ReactNode;
 }) {
   const session = await getServerSessionData();
 
-  if (session?.user.petterInfo?.length === 0) {
-    return redirect("/register-petter/register-infos");
+  if (session?.user.userInfo) {
+    return redirect("/pages/notice");
   }
 
   return children;

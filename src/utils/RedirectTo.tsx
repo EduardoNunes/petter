@@ -8,11 +8,11 @@ export default async function redirectTo(router: any) {
 
   if (user?.accessToken) {
     if (!user.userInfo) {
-      router.replace("/register-infos");
+      router.replace("/registers/register-infos");
     } else if (user.petterInfo && user.petterInfo.length === 0) {
-      router.replace("/notice");
+      router.replace("/pages/notice");
     } else {
-      router.replace("/home");
+      router.replace("/pages/home");
     }
   } else {
     router.replace("/login");

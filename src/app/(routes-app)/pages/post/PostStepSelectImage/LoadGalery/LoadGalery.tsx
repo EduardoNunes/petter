@@ -3,7 +3,7 @@ import Loading from "@/components/Loading/Loading";
 import { usePostTimelineContext } from "@/context/postTimelineContext";
 import Image from "next/image";
 import { useState } from "react";
-import dataGalleryImagesTemp from "../../../../../../public/dataTemp/dataGalleryTemp";
+import dataGalleryImagesTemp from "../../../../../../../public/dataTemp/dataGalleryTemp";
 
 export default function LoadGallery() {
   const { setImageURL, setImage } = usePostTimelineContext();

@@ -33,7 +33,7 @@ export default function Congratulations() {
 
   const handleClickGoOn = () => {
     setLoading(true);
-    router.replace("../home");
+    router.replace("../../pages/home");
   };
 
   return (

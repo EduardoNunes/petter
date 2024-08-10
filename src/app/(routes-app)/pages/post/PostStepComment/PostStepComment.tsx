@@ -1,17 +1,17 @@
 import Button from "@/components/Button/Button";
 import Header from "@/components/Header/Header";
 import TextArea from "@/components/TextArea/TextArea";
+import { usePostTimelineContext } from "@/context/postTimelineContext";
 import { useSelfContext } from "@/context/selfContext";
-import { useTimeLineContext } from "@/context/timeLineContext";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
+import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
-import { getSession } from "next-auth/react";
 
 export default function PostStepComment() {
-  const { image } = useTimeLineContext();
+  const { image } = usePostTimelineContext();
   const { handleToDecreaseCurrentStep } = useStepContext();
   const { getSelf, self } = useSelfContext();
   const [commentText, setCommentText] = useState<string>("");

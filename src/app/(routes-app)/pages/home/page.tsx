@@ -1,7 +1,7 @@
 "use client";
 
 import ModalComment from "@/components/ModalComment/ModalComment";
-import Footer from "../../../components/Footer/Footer";
+import Footer from "../../../../components/Footer/Footer";
 import ContentHome from "./Content/Content";
 import HeaderHome from "./HeaderHome/HeaderHome";
 import { useTimeLineContext } from "@/context/timeLineContext";

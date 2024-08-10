@@ -10,23 +10,23 @@ export default function Footer() {
   const [loading, setLoading] = useState(false);
 
   const handleClickGoHome = () => {
-    if (window.location.pathname !== "/home") {
+    if (window.location.pathname !== "/pages/home") {
       setLoading(true);
-      router.push("/home");
+      router.push("/pages/home");
     }
   };
 
   const handleClickGoPost = () => {
-    if (window.location.pathname !== "/post") {
+    if (window.location.pathname !== "/pages/post") {
       setLoading(true);
-      router.push("/post");
+      router.push("/pages/post");
     }
   };
 
   const handleClickGoProfile = () => {
-    if (window.location.pathname !== "/profile") {
+    if (window.location.pathname !== "/pages/profile") {
       setLoading(true);
-      router.push("/profile");
+      router.push("/pages/profile");
     }
   };
 

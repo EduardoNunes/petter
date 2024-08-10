@@ -30,13 +30,13 @@ export default function FormLoadImages() {
     const session = await getSession();
     const token = session?.user.accessToken;
     const petterInfo = session?.user.petterInfo as PetterInfo[];
-
+    setLoading(true);
+    
     try {
-      setLoading(true);
-
       const formData = new FormData();
 
       if (images.length === 0) {
+        setLoading(false);
         setToast("Carregue pelo menos uma imagem do Petter.");
         return;
       }
@@ -61,15 +61,16 @@ export default function FormLoadImages() {
         }
       }
 
-      await api.post("petter-register-images", formData, {
+      const response = await api.post("petter-register-images", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
 
+      console.log("RESPONSE", response)
       setToast("Sucesso");
-      router.replace("/register-petter/about-petter");
+      router.replace("/registers/register-petter/about-petter");
     } catch (error: any) {
       const response = errorResponse(error);
       setLoading(false);

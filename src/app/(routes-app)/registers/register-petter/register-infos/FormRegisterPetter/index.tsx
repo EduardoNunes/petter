@@ -80,7 +80,7 @@ export default function FormRegisterPetter() {
       });
 
       setToast("Sucesso");
-      route.replace("/register-petter/load-images");
+      route.replace("/registers/register-petter/load-images");
     } catch (error: any) {
       const response = errorResponse(error);
       setLoading(false);

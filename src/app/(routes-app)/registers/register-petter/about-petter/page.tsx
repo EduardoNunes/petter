@@ -50,7 +50,6 @@ export default function AboutPetter() {
     const token = session?.user.accessToken;
     const petterInfoId = session?.user.petterInfo as PetterInfo[];
 
-
     try {
       await schemaAboutPetter.validate(
         {
@@ -72,7 +71,7 @@ export default function AboutPetter() {
       );
 
       handleToAddCurrentStep();
-      router.replace("/register-petter/congratulations");
+      router.replace("/registers/register-petter/congratulations");
     } catch (error: any) {
       setLoading(false);
       const response = errorResponse(error);

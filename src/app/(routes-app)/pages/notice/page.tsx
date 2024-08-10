@@ -40,7 +40,7 @@ export default function Notice() {
     setLoading(true);
 
     if (checkedList.every((check) => check === true)) {
-      router.push("/register-petter/register-infos");
+      router.push("/registers/register-petter/register-infos");
     } else {
       setLoading(false);
       setToast("Paraprossegui você deve ler e marcar todos os itens.");

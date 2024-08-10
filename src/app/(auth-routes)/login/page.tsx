@@ -13,7 +13,7 @@ export default function Login() {
 
   const handleClickGoogleLogin = () => {
     setLoading(true);
-    signIn("google", { callbackUrl: "/home" });
+    signIn("google", { callbackUrl: "/pages/home" });
   };
 
   return (
