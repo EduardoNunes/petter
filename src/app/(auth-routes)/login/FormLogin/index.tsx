@@ -48,7 +48,6 @@ export default function FormLogin() {
     redirectTo(route);
 
     if (response?.error) {
-      console.log("ERRO", response);
       setToast(response.error);
       setLoading(false);
     }
