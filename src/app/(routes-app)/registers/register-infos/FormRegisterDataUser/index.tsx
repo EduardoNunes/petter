@@ -7,7 +7,7 @@ import Loading from "@/components/Loading/Loading";
 import Select from "@/components/Select/Select";
 import api from "@/server/api";
 import viaCep from "@/server/api-viacep";
-import formatCep from "../../../../../utils/formatCep";
+import formatCep from "@/utils/formatCep";
 import formatPhone from "@/utils/formatPhone";
 import { schemaRegisterInfosUser } from "@/validation/schemaRegisterInfosUser";
 import { getSession } from "next-auth/react";
@@ -118,7 +118,7 @@ export default function FormUserRegisterData() {
   const handleChangeAddress = async (event: ChangeEvent<HTMLInputElement>) => {
     const newCep = event.target.value;
     if (newCep.length <= 9) {
-      formatCep(newCep, setCep);
+      setCep(formatCep(newCep));
     }
   };
 

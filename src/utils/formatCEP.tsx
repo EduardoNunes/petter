@@ -2,7 +2,7 @@ interface formatCep {
   cep: string;
 }
 
-export default function formatCep(cep: string, setCep: (cep: string) => void) {
+export default function formatCep(cep: string) {
   let digitos = cep.replace(/\D/g, "");
   let formatted = "";
 
@@ -11,7 +11,6 @@ export default function formatCep(cep: string, setCep: (cep: string) => void) {
   } else {
     formatted = digitos;
   }
-  setCep(formatted);
 
-  return setCep(formatted);
+  return formatted;
 }
