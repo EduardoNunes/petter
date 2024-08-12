@@ -6,15 +6,17 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./color-fonte.css";
+import Image from "next/image";
 
 interface PetterInfo {
   petterName: string;
+  profileImage: string;
 }
 
 export default function Congratulations() {
   const [petterName, setPetterName] = useState("");
   const [loading, setLoading] = useState(false);
-  const profileImage = "";
+  const [profileImage, setProfileImage] = useState("");
 
   const router = useRouter();
 
@@ -25,11 +27,12 @@ export default function Congratulations() {
 
       if (session) {
         setPetterName(petterInfo[0].petterName);
+        setProfileImage(petterInfo[0].profileImage);
       }
     };
 
     dataInfos();
-  }, []);
+  }, [setPetterName, setProfileImage]);
 
   const handleClickGoOn = () => {
     setLoading(true);
@@ -42,7 +45,13 @@ export default function Congratulations() {
       <div className="colorful">
         <p className="font-primary text-ultraLarge">Parabéns!</p>
       </div>
-      <img src={profileImage} alt="" />
+      <Image
+        src={profileImage || "/images/paw.png"}
+        width={40}
+        height={40}
+        alt="Profile Image"
+        className="object-cover w-28 h-28 rounded-full border-lime-950 border-solid border-[3px] mb-8"
+      />
       <p className="font-secondary font-bold">
         {`Seja muito bem vind@, ${petterName.split(" ")[0]}`}!
       </p>
