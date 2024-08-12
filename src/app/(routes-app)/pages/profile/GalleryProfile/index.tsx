@@ -41,7 +41,7 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
     }
 
     loadImagesProfile();
-  }, [petterId]);
+  }, [petterId, setNumberImagesGallery]);
 
   return (
     <div className="grid grid-cols-3 gap-1">
