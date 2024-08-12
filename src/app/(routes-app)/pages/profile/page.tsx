@@ -18,6 +18,7 @@ export default function Profile() {
 
   useEffect(() => {
     getSelf();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const petterInfo = self.PetterInfo && self.PetterInfo[0];

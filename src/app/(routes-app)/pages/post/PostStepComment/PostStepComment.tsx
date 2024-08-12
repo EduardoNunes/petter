@@ -19,6 +19,7 @@ export default function PostStepComment() {
 
   useEffect(() => {
     getSelf();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTextChange = (text: string) => {

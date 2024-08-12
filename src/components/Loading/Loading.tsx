@@ -9,6 +9,7 @@ export default function Loading() {
         width={142}
         alt="icone Google"
         className="p-4 rounded-full"
+        unoptimized
       />
     </div>
   );

@@ -1,8 +1,8 @@
 import errorResponse from "@/components/Error/ErrorResponse";
 import type { NextAuthOptions } from "next-auth";
+import { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import NextAuth, { getServerSession } from "next-auth";
 
 interface User {
   id: string;

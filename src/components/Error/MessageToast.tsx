@@ -18,6 +18,7 @@ const MessageToast: React.FC<MessageToastProps> = ({ textError, setToast }) => {
 
   React.useEffect(() => {
     hideMessageToast();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!isVisible) {

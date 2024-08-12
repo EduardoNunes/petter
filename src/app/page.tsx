@@ -13,6 +13,7 @@ export default function Opening() {
     setTimeout(() => {
       router.push("/login");
     }, 3000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

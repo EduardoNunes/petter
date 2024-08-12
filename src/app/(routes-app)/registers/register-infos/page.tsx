@@ -37,6 +37,7 @@ export default function RegisterUserInfos() {
     if (loggedBy === "google") {
       fetchSession();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //Essa função é p caso o usuário tenha logado com o google, ela chama a função seguinte postData
