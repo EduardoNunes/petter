@@ -7,13 +7,13 @@ import Loading from "@/components/Loading/Loading";
 import Select from "@/components/Select/Select";
 import api from "@/server/api";
 import viaCep from "@/server/api-viacep";
+import formatCep from "@/utils/formatCEP";
 import formatPhone from "@/utils/formatPhone";
 import { schemaRegisterInfosUser } from "@/validation/schemaRegisterInfosUser";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import AddressInfos from "./AddressInfos/AddressInfos";
-import formatCep from "@/utils/formatCep";
 
 export default function FormUserRegisterData() {
   const [selectedOption, setSelectOption] = useState("");
