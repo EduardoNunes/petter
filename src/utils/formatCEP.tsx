@@ -1,7 +1,3 @@
-interface formatCep {
-  cep: string;
-}
-
 export default function formatCep(cep: string) {
   let digitos = cep.replace(/\D/g, "");
   let formatted = "";
