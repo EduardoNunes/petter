@@ -11,5 +11,7 @@ export default function formatCep(cep: string, setCep: (cep: string) => void) {
   } else {
     formatted = digitos;
   }
+  setCep(formatted);
+
   return setCep(formatted);
 }
