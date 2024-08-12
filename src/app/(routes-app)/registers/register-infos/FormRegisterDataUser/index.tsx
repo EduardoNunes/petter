@@ -118,7 +118,7 @@ export default function FormUserRegisterData() {
   const handleChangeAddress = async (event: ChangeEvent<HTMLInputElement>) => {
     const newCep = event.target.value;
     if (newCep.length <= 9) {
-      setCep(formatCep(newCep));
+      setCep((newCep));
     }
   };
 
