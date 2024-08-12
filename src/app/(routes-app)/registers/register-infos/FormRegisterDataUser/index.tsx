@@ -13,6 +13,7 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import AddressInfos from "./AddressInfos/AddressInfos";
+import formatCep from "@/utils/formatCep";
 
 export default function FormUserRegisterData() {
   const [selectedOption, setSelectOption] = useState("");
@@ -117,7 +118,7 @@ export default function FormUserRegisterData() {
   const handleChangeAddress = async (event: ChangeEvent<HTMLInputElement>) => {
     const newCep = event.target.value;
     if (newCep.length <= 9) {
-      setCep((newCep));
+      setCep(formatCep(newCep));
     }
   };
 
