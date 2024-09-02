@@ -7,11 +7,11 @@ import FormUserRegisterCredentials from "./FormUserRegisterCredentials";
 
 export default function RegisterUserCredentials() {
   return (
-    <div className="flex flex-col w-[90%] h-full">
+    <div className="flex flex-col w-[90%] h-full overflow-hidden">
       <Header showArrow={true} text="Cadastro do tutor" />
       <Petter fontSize="extraLarge" />
 
-      <div className="flex flex-col w-full mb-2 overflow-y-auto">
+      <div className="flex flex-col w-full mb-2  overflow-y-auto">
         <InfosUserRegisterCredentials />
         <FormUserRegisterCredentials />
       </div>

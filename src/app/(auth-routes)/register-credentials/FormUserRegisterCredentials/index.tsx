@@ -77,12 +77,12 @@ export default function FormUserRegisterCredentials() {
 
   return (
     <form
-      className="flex flex-col justify-between my-2 overflow-y-auto"
+      className="flex flex-col justify-between my-2"
       onSubmit={handleSubmit}
     >
       {toast !== "" && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
-      <div className="h-auto">
+      <div className="">
         <div className="mb-3">
           <Label labelHtmlFor="tutor-name">Tutor do Petter</Label>
           <Input
@@ -128,7 +128,7 @@ export default function FormUserRegisterCredentials() {
           />
         </div>
       </div>
-      <div className="w-full">
+      <div className="">
         <Label labelHtmlFor="checkbox">
           <div className="flex items-start justify-center gap-5">
             <CheckBox
