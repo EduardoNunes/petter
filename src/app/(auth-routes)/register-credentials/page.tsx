@@ -9,12 +9,12 @@ export default function RegisterUserCredentials() {
   return (
     <div className="flex flex-col w-[90%] h-full">
       <Header showArrow={true} text="Cadastro do tutor" />
+      <Petter fontSize="extraLarge" />
 
-      <div className="flex flex-col items-center mb-2">
-        <Petter fontSize="extraLarge" />
+      <div className="flex flex-col w-full mb-2 overflow-y-auto">
         <InfosUserRegisterCredentials />
+        <FormUserRegisterCredentials />
       </div>
-      <FormUserRegisterCredentials />
     </div>
   );
 }
