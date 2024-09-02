@@ -54,37 +54,39 @@ export default function FormLogin() {
   };
 
   return (
-    <form>
+    <form className="flex flex-col justify-between h-full">
       {loading && <Loading />}
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      <div className="mb-3">
-        <Label labelHtmlFor="email">Email</Label>
-        <Input
-          text="Digite seu email."
-          type="email"
-          id="email"
-          name="email"
-          autoComplete="email"
-          onChange={(event) => setEmail(event.target.value)}
-        />
+      <div>
+        <div className="mb-3">
+          <Label labelHtmlFor="email">Email</Label>
+          <Input
+            text="Digite seu email."
+            type="email"
+            id="email"
+            name="email"
+            autoComplete="email"
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
+        <div className="mb-2">
+          <Label labelHtmlFor="password">Senha</Label>
+          <Input
+            text="Digite sua senha."
+            type="password"
+            id="password"
+            name="password"
+            autoComplete="current-password"
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <button className="w-full mb-4 text-right font-secondary text-azulEscuro font-bold">
+            Esqueci minha senha.
+          </button>
+        </div>
       </div>
-      <div className="mb-2">
-        <Label labelHtmlFor="password">Senha</Label>
-        <Input
-          text="Digite sua senha."
-          type="password"
-          id="password"
-          name="password"
-          autoComplete="current-password"
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <button className="w-full mt-2 mb-8 text-right font-secondary text-azulEscuro font-bold">
-          Esqueci minha senha.
-        </button>
-      </div>
-      <div className="bottom-[4vh] w-full">
+      <div className="w-full">
         <Button text="Entrar" type="internalButton" onClick={handleSubmit} />
-        <div className="flex items-center justify-center mt-[3%] gap-1">
+        <div className="flex items-center justify-center mt-[3%] mb-2 gap-1">
           <p className="text-center font-secondary">Não tem conta? </p>
           <button
             type="button"
