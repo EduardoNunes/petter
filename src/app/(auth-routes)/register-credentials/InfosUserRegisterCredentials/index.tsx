@@ -16,10 +16,10 @@ export default function InfosUserRegisterCredentials() {
   return (
     <div>
       {loading && <Loading />}
-      <p className="font-secondary font-bold text-medium text-center mb-[3%]">
+      <p className="font-secondary font-bold text-medium text-center mb-2">
         Vamos fazer o seu cadastro, Tutor.
       </p>
-      <p className="font-secondary text-smaller text-center mb-[4%]">
+      <p className="font-secondary text-smaller text-center mb-3">
         É importante saber um pouco sobre os tutores dos Petters.
       </p>
 

@@ -30,7 +30,7 @@ export default function Header({
   };
 
   return (
-    <div className="absolute flex justify-center items-center top-2 w-[90%] h-10 bg-red">
+    <div className="relative flex justify-center items-center mt-2 w-full h-10 bg-red">
       {showExit && (
         <button
           className="absolute left-0 cursor-pointer"
