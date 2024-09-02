@@ -11,7 +11,7 @@ export default function RegisterUserCredentials() {
       <Header showArrow={true} text="Cadastro do tutor" />
       <Petter fontSize="extraLarge" />
 
-      <div className="flex flex-col w-full mb-2  overflow-y-auto">
+      <div className="flex flex-col w-full h-full mb-2  overflow-y-auto">
         <InfosUserRegisterCredentials />
         <FormUserRegisterCredentials />
       </div>

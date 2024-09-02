@@ -77,7 +77,7 @@ export default function FormUserRegisterCredentials() {
 
   return (
     <form
-      className="flex flex-col justify-between my-2"
+      className="flex flex-col justify-between h-full my-2"
       onSubmit={handleSubmit}
     >
       {toast !== "" && <MessageToast textError={toast} setToast={setToast} />}
@@ -135,7 +135,7 @@ export default function FormUserRegisterCredentials() {
               checked={privacyPolicies}
               onChange={() => setPrivacyPolicies(!privacyPolicies)}
             />
-            <p className="font-secondary mb-[3%]">
+            <p className="font-secondary mb-2">
               Aceito todas as políticas de uso.
             </p>
           </div>
