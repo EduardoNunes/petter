@@ -77,7 +77,7 @@ export default function FormUserRegisterCredentials() {
 
   return (
     <form
-      className="flex flex-col justify-between my-2"
+      className="flex flex-col justify-between my-2 overflow-y-auto"
       onSubmit={handleSubmit}
     >
       {toast !== "" && <MessageToast textError={toast} setToast={setToast} />}
