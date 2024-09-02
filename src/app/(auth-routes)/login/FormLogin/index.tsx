@@ -82,7 +82,7 @@ export default function FormLogin() {
           Esqueci minha senha.
         </button>
       </div>
-      <div className="absolute bottom-[4vh] w-[90%]">
+      <div className="bottom-[4vh] w-full">
         <Button text="Entrar" type="internalButton" onClick={handleSubmit} />
         <div className="flex items-center justify-center mt-[3%] gap-1">
           <p className="text-center font-secondary">Não tem conta? </p>
