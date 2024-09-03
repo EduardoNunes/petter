@@ -98,12 +98,14 @@ export default function RegisterUserInfos() {
         <p className="font-secondary font-bold text-medium text-center mb-[3%]">
           Seja bem vindo{`(a)`}, {name.split(" ")[0]}!
         </p>
-        <p className="font-secondary text-smaller text-center">
-          Nos conte mais sobre você, {name.split(" ")[0]}. Queremos
-          conhecer melhor os amigos dos Petters!
-        </p>
       </div>
-      <FormUserRegisterData />
+      <div>
+        <p className="font-secondary text-smaller text-center">
+          Nos conte mais sobre você, {name.split(" ")[0]}. Queremos conhecer
+          melhor os amigos dos Petters!
+        </p>
+        <FormUserRegisterData />
+      </div>
     </div>
   );
 }
