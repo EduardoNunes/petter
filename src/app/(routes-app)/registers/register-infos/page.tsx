@@ -99,7 +99,7 @@ export default function RegisterUserInfos() {
           Seja bem vindo{`(a)`}, {name.split(" ")[0]}!
         </p>
       </div>
-      <div>
+      <div className="overflow-y-auto">
         <p className="font-secondary text-smaller text-center">
           Nos conte mais sobre você, {name.split(" ")[0]}. Queremos conhecer
           melhor os amigos dos Petters!
