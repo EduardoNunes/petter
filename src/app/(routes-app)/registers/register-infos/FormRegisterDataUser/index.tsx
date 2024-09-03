@@ -126,7 +126,7 @@ export default function FormUserRegisterData() {
     <form className="flex flex-col justify-between h-full mb-6 mt-2 overflow-auto" onSubmit={onSubmit}>
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
-      <div className="overflow-hidden" style={{ height: "100% - [120px]" }}>
+      <div className="h-[300px]">
         <div className="mb-2">
           <Label labelHtmlFor="birth">Sua data de nascimento</Label>
           <Input
