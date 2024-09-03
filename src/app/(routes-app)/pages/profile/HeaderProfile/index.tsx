@@ -28,7 +28,7 @@ export default function HeaderProfile({ petterName }: HeaderProfileProps) {
           width={32}
           height={32}
           alt="Home"
-          className=""
+          className="h-auto w-auto"
         />
         <Image
           src="/images/menu-hamburguer.png"
@@ -40,8 +40,8 @@ export default function HeaderProfile({ petterName }: HeaderProfileProps) {
         <button onClick={logout}>
           <Image
             src="/images/logout.png"
-            width={39}
-            height={39}
+            width={32}
+            height={32}
             alt="Logout"
             className="h-auto w-auto"
           />
