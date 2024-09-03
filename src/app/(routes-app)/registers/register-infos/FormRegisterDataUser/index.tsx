@@ -129,7 +129,7 @@ export default function FormUserRegisterData() {
     >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
-      <div className="overflow-hidden" style={{ height: "100% - [120px]" }}>
+      <div className="h-[300px]">
         <div className="mb-2">
           <Label labelHtmlFor="birth">Sua data de nascimento</Label>
           <Input
