@@ -23,7 +23,8 @@ export const nextAuthOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const response = await fetch("https://api-petter-back.onrender.com/auth/login", {
+          /* const response = await fetch("https://api-petter-back.onrender.com/auth/login", { */
+            const response = await fetch("http://localhost:3001/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -61,7 +62,8 @@ export const nextAuthOptions: NextAuthOptions = {
       if (token.user) {
         try {
           const response = await fetch(
-            `https://api-petter-back.onrender.com/auth/user/${(token.user as User).id}`,
+            /* `https://api-petter-back.onrender.com/auth/user/${(token.user as User).id}`, */
+            `http://localhost:3001/auth/user/${(token.user as User).id}`,
             {
               method: "GET",
               headers: {

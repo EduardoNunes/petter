@@ -1,10 +1,22 @@
+import { signOut } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface HeaderProfileProps {
   petterName: string;
 }
 
 export default function HeaderProfile({ petterName }: HeaderProfileProps) {
+  const router = useRouter();
+
+  async function logout() {
+    await signOut({
+      redirect: false,
+    });
+
+    router.replace("/login");
+  }
+
   return (
     <div className="absolute top-2 flex items-center justify-between h-[7%] w-[90%]">
       <div>
@@ -25,6 +37,15 @@ export default function HeaderProfile({ petterName }: HeaderProfileProps) {
           alt="Home"
           className="h-auto w-auto"
         />
+        <button onClick={logout}>
+          <Image
+            src="/images/logout.png"
+            width={39}
+            height={39}
+            alt="Logout"
+            className="h-auto w-auto"
+          />
+        </button>
       </div>
     </div>
   );
