@@ -123,7 +123,7 @@ export default function FormUserRegisterData() {
   };
 
   return (
-    <form className="h-[100%] mb-6 mt-2" onSubmit={onSubmit}>
+    <form className="flex flex-col justify-between h-full mb-6 mt-2" onSubmit={onSubmit}>
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
       <div className="overflow-hidden" style={{ height: "100% - [120px]" }}>
@@ -203,7 +203,7 @@ export default function FormUserRegisterData() {
           )}
         </div>
       </div>
-      <div className="absolute bottom-2 w-[90%]">
+      <div className="w-full">
         <Button text="Continuar" type="internalButton" />
       </div>
     </form>

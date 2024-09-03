@@ -91,7 +91,7 @@ export default function RegisterUserInfos() {
   }
 
   return (
-    <div className="flex flex-col w-[90%] h-[86%]">
+    <div className="flex flex-col justify-start w-[90%] h-full">
       <Header text="Cadastro do Tutor" />
       <div className="flex flex-col items-center mb-2">
         <Petter fontSize="extraLarge" />
