@@ -206,7 +206,7 @@ export default function FormUserRegisterData() {
           )}
         </div>
       </div>
-      <div className="w-full">
+      <div className="w-full mb-2">
         <Button text="Continuar" type="internalButton" />
       </div>
     </form>
