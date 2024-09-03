@@ -123,7 +123,10 @@ export default function FormUserRegisterData() {
   };
 
   return (
-    <form className="flex flex-col justify-between h-full mb-6 mt-2 overflow-auto" onSubmit={onSubmit}>
+    <form
+      className="flex flex-col justify-between h-full mb-6 mt-2 overflow-y-auto"
+      onSubmit={onSubmit}
+    >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
       <div className="overflow-hidden" style={{ height: "100% - [120px]" }}>
