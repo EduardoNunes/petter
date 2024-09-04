@@ -76,7 +76,7 @@ export default function FormUserRegisterData() {
       );
 
       setToast("Informações cadastradas com sucesso.");
-      router.push("/pages/notice");
+      router.push("/registers/notice");
     } catch (error: any) {
       const response = errorResponse(error);
       setToast(response);

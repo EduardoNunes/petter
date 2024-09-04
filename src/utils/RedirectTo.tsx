@@ -10,7 +10,7 @@ export default async function redirectTo(router: any) {
     if (!user.userInfo) {
       router.replace("/registers/register-infos");
     } else if (user.petterInfo && user.petterInfo.length === 0) {
-      router.replace("/pages/notice");
+      router.replace("/registers/notice");
     } else {
       router.replace("/pages/home");
     }
