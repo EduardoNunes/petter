@@ -92,14 +92,16 @@ export default function RegisterUserInfos() {
 
   return (
     <div className="flex flex-col justify-start w-[90%] h-full">
-      <Header text="Cadastro do Tutor" />
-      <div className="flex flex-col items-center">
-        <Petter fontSize="extraLarge" />
-        <p className="font-secondary font-bold text-medium text-center mb-[3%]">
-          Seja bem vindo{`(a)`}, {name.split(" ")[0]}!
-        </p>
+      <div className="h-[173px]">
+        <Header text="Cadastro do Tutor" />
+        <div className="flex flex-col items-center">
+          <Petter fontSize="extraLarge" />
+          <p className="font-secondary font-bold text-medium text-center mb-[3%]">
+            Seja bem vindo{`(a)`}, {name.split(" ")[0]}!
+          </p>
+        </div>
       </div>
-      <div className="overflow-y-auto">
+      <div className="overflow-y-auto" style={{ height: "calc(100% - 173px)" }}>
         <p className="font-secondary text-smaller text-center">
           Nos conte mais sobre você, {name.split(" ")[0]}. Queremos conhecer
           melhor os amigos dos Petters!

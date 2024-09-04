@@ -125,11 +125,12 @@ export default function FormUserRegisterData() {
   return (
     <form
       className="flex flex-col justify-between h-full my-6"
+      style={{ height: "calc(100% - 68px)" }}
       onSubmit={onSubmit}
     >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
-      <div className="h-[300px]">
+      <div>
         <div className="mb-2">
           <Label labelHtmlFor="birth">Sua data de nascimento</Label>
           <Input
@@ -184,7 +185,7 @@ export default function FormUserRegisterData() {
             onChange={handleTypePhone}
           />
         </div>
-        <div className="h-[24vh]">
+        <div className="">
           <Label labelHtmlFor="cep">CEP</Label>
           <Input
             text="Digite seu cep."
