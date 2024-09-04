@@ -20,6 +20,7 @@ export default function Notice() {
     false,
     false,
     false,
+    false,
   ]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -67,8 +68,7 @@ export default function Notice() {
               name.split(" ")[0]
             }!`}</h2>
             <p className="font-secondary text-smaller text-center w-4/5">
-              Leia e marque as políticas de boas práticas se deseja se juntar ao
-              nosso universo Petter.
+              Leia e aceite as políticas de boas práticas se deseja prosseguir.
             </p>
             <hr className="w-4/5 mt-3" />
           </div>
@@ -80,7 +80,7 @@ export default function Notice() {
             "Não forneça informações pessoais a usuários suspeitos.",
             "Respeite todos. Estamos todos em busca de boas amizades e boas experiências.",
             "Ajude a comunidade. Sempre denuncie maus comportamentos.",
-            "Publique conteúdos onde somente os Petters são os protagonistas.",
+            "Publique conteúdos em que os Petters são os protagonistas.",
           ].map((text, index) => (
             <Label key={index} labelHtmlFor={`checkbox-${index}`}>
               <div className="flex gap-5">
