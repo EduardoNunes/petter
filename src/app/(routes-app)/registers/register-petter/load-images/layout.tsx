@@ -12,6 +12,10 @@ export default async function LoadImagesLayout({
   if (session?.user.petterInfo?.length === 0) {
     return redirect("/registers/register-petter/register-infos");
   }
+  console.log("IMAGES", session?.user);
+  if (session?.user.petterImage) {
+    return redirect("/registers/register-petter/about-petter");
+  }
 
   return children;
 }
