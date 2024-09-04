@@ -3,6 +3,7 @@
 import Button from "@/components/Button/Button";
 import CheckBox from "@/components/CheckBox/CheckBox";
 import MessageToast from "@/components/Error/MessageToast";
+import Header from "@/components/Header/Header";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import Petter from "@/components/Petter/PetterColorful";
@@ -35,7 +36,7 @@ export default function Notice() {
     dataInfos();
   }, []);
 
-  const handleClickGoHome = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickGoAhead = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setLoading(true);
 
@@ -43,7 +44,7 @@ export default function Notice() {
       router.push("/registers/register-petter/register-infos");
     } else {
       setLoading(false);
-      setToast("Paraprossegui você deve ler e marcar todos os itens.");
+      setToast("Para prosseguir você deve ler e marcar todos os itens.");
     }
   };
 
@@ -54,15 +55,23 @@ export default function Notice() {
   };
 
   return (
-    <div className="flex justify-center items-center w-[100vw] h-[100vh]">
+    <div className="flex justify-center items-center w-full h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
-      <div className="flex flex-col items-center justify-around w-[90%] h-[70%]">
-        <div className="flex flex-col items-center">
-          <Petter fontSize="extraLarge" />
-          <h2 className="font-secondary text-center text-big mb-5">{`Sinta-se em casa, ${
-            name.split(" ")[0]
-          }!`}</h2>
+      <div className="flex flex-col items-center justify-between w-[90%] h-full">
+        <div>
+          <Header text="Boas práticas" />
+          <div className="flex flex-col items-center mb-6">
+            <Petter fontSize="extraLarge" />
+            <h2 className="font-secondary text-center text-big mb-1">{`Sinta-se em casa, ${
+              name.split(" ")[0]
+            }!`}</h2>
+            <p className="font-secondary text-smaller text-center w-4/5">
+              Leia e marque as políticas de boas práticas se deseja se juntar ao
+              nosso universo Petter.
+            </p>
+            <hr className="w-4/5 mt-3" />
+          </div>
         </div>
         <div className="flex flex-col overflow-auto">
           {[
@@ -71,6 +80,7 @@ export default function Notice() {
             "Não forneça informações pessoais a usuários suspeitos.",
             "Respeite todos. Estamos todos em busca de boas amizades e boas experiências.",
             "Ajude a comunidade. Sempre denuncie maus comportamentos.",
+            "Publique conteúdos onde somente os Petters são os protagonistas.",
           ].map((text, index) => (
             <Label key={index} labelHtmlFor={`checkbox-${index}`}>
               <div className="flex gap-5">
@@ -84,11 +94,12 @@ export default function Notice() {
             </Label>
           ))}
         </div>
-        <div className="absolute bottom-[6%] w-[90%]">
+
+        <div className="w-full my-2">
           <Button
             text="Continuar"
             type="internalButton"
-            onClick={handleClickGoHome}
+            onClick={handleClickGoAhead}
           />
         </div>
       </div>
