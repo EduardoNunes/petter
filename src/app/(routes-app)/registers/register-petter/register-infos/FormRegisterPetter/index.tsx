@@ -178,7 +178,7 @@ export default function FormRegisterPetter() {
             className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-4"
           >
             <span className="flex items-center h-10 font-secondary font-bold">
-              Selecionar imagem de perfil
+              Selecionar a imagem do perfil
             </span>
             <input
               id="fileInput"
