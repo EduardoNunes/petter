@@ -124,7 +124,7 @@ export default function FormUserRegisterData() {
 
   return (
     <form
-      className="flex flex-col justify-between h-full my-6 overflow-y-auto"
+      className="flex flex-col justify-between h-full my-6"
       style={{ height: "calc(100% - 68px)" }}
       onSubmit={onSubmit}
     >
@@ -142,13 +142,13 @@ export default function FormUserRegisterData() {
             onChange={(event) => setDate(event.target.value)}
           />
         </div>
-        <div className="flex mb-2">
+        <div className="flex items-center mb-2">
           <div>
             <Label labelHtmlFor="gender">Gênero</Label>
             <Select
               selectedOption={selectedOption}
-              option1="masculino"
-              option2="feminino"
+              option1="Homem cis"
+              option2="Mulher cis"
               option3="outro"
               option4="prefiro não informar"
               handleSelectChange={(e) => {
@@ -170,6 +170,7 @@ export default function FormUserRegisterData() {
               autoComplete="gender"
               value={gender}
               onChange={(event) => setGender(event.target.value)}
+              style={"mb-0"}
             />
           )}
         </div>
