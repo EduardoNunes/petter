@@ -129,18 +129,18 @@ export default function FormRegisterPetter() {
           />
         </div>
         <div className="mb-3">
-          <Label labelHtmlFor="kind-petter">Tipo do Petter</Label>
+          <Label labelHtmlFor="petter-kind">Tipo do Petter</Label>
           <Input
             text="Ex: Cachorro, Gato."
             type="text"
-            id="petter-name"
+            id="petter-kind"
             name="petterKind"
             autoComplete="text"
             onChange={(event) => setPetterKind(event.target.value)}
           />
         </div>
         <div className="mb-3">
-          <Label labelHtmlFor="breed-petter">Raça</Label>
+          <Label labelHtmlFor="petter-breed">Raça</Label>
           <Input
             text="Ex: Labrador, Golden, Siamês."
             type="text"
@@ -156,7 +156,7 @@ export default function FormRegisterPetter() {
               checkNoData ? "opacity-25" : ""
             }`}
           >
-            <Label labelHtmlFor="birth">Data de nascimento.</Label>
+            <Label labelHtmlFor="petter-birth">Data de nascimento.</Label>
             <Input
               text=""
               type="date"

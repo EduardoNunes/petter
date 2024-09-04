@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from "react";
 
 interface SelectProps {
+  id?: string;
   selectedOption: string;
   option1: string;
   option2: string;
@@ -10,6 +11,7 @@ interface SelectProps {
 }
 
 const Select: React.FC<SelectProps> = ({
+  id,
   selectedOption,
   option1,
   option2,
@@ -19,7 +21,7 @@ const Select: React.FC<SelectProps> = ({
 }) => {
   return (
     <select
-      id="selectOption"
+      id={id}
       value={selectedOption}
       onChange={handleSelectChange}
       className="font-secondary"

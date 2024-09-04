@@ -144,8 +144,9 @@ export default function FormUserRegisterData() {
         </div>
         <div className="flex items-center mb-2">
           <div>
-            <Label labelHtmlFor="gender">Gênero</Label>
+            <Label labelHtmlFor="gender-select">Gênero</Label>
             <Select
+              id="gender-select"
               selectedOption={selectedOption}
               option1="Homem cis"
               option2="Mulher cis"
