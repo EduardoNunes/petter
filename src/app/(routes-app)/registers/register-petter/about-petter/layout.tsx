@@ -13,5 +13,9 @@ export default async function LoadImagesLayout({
     return redirect("/registers/register-petter/register-infos");
   }
 
+  if (!session?.user.petterImage) {
+    return redirect("/registers/register-petter/load-images");
+  }
+
   return children;
 }
