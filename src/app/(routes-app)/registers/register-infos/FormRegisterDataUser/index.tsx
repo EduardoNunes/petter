@@ -124,7 +124,7 @@ export default function FormUserRegisterData() {
 
   return (
     <form
-      className="flex flex-col justify-between h-full my-6"
+      className="flex flex-col justify-between h-full my-6 overflow-y-auto"
       style={{ height: "calc(100% - 68px)" }}
       onSubmit={onSubmit}
     >

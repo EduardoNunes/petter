@@ -101,7 +101,7 @@ export default function RegisterUserInfos() {
           </p>
         </div>
       </div>
-      <div className="overflow-y-auto" style={{ height: "calc(100% - 173px)" }}>
+      <div style={{ height: "calc(100% - 173px)" }}>
         <p className="font-secondary text-smaller text-center">
           Nos conte mais sobre você, {name.split(" ")[0]}. Queremos conhecer
           melhor os amigos dos Petters!
