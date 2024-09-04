@@ -109,94 +109,100 @@ export default function FormRegisterPetter() {
   };
 
   return (
-    <form className="w-full" onSubmit={onSubmit}>
+    <form
+      className="flex flex-col justify-between w-full"
+      style={{ height: "calc(100% - 60px)" }}
+      onSubmit={onSubmit}
+    >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
-      <div className="mb-3">
-        <Label labelHtmlFor="petter-name">Nome do Petter</Label>
-        <Input
-          text="Nome do Petter."
-          type="text"
-          id="petter-name"
-          name="petterName"
-          autoComplete="text"
-          onChange={(event) => setPetterName(event.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <Label labelHtmlFor="kind-petter">Tipo do Petter</Label>
-        <Input
-          text="Ex: Cachorro, Gato."
-          type="text"
-          id="petter-name"
-          name="petterKind"
-          autoComplete="text"
-          onChange={(event) => setPetterKind(event.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <Label labelHtmlFor="breed-petter">Raça</Label>
-        <Input
-          text="Ex: Labrador, Golden, Siamês."
-          type="text"
-          id="petter-breed"
-          name="petterBreed"
-          autoComplete="text"
-          onChange={(event) => setPetterBreed(event.target.value)}
-        />
-      </div>
-      <div className="flex mb-2">
-        <div
-          className={`flex flex-col items-center w-[50%] ${
-            checkNoData ? "opacity-25" : ""
-          }`}
-        >
-          <Label labelHtmlFor="birth">Data de nascimento.</Label>
+      <div>
+        <div className="mb-3">
+          <Label labelHtmlFor="petter-name">Nome do Petter</Label>
           <Input
-            text=""
-            type="date"
-            id="petter-birth"
-            name="petterBirth"
-            autoComplete="date"
-            onChange={(event) => setPetterBirth(event.target.value)}
-            disabled={checkNoData}
+            text="Nome do Petter."
+            type="text"
+            id="petter-name"
+            name="petterName"
+            autoComplete="text"
+            onChange={(event) => setPetterName(event.target.value)}
           />
         </div>
-        <div className="flex items-center w-[50%] h-[72px] pl-4">
-          <CheckBox checked={checkNoData} onChange={handleClickNoDataCheck} />
-          <p className="w-[90%] font-secondary ml-3">Não sei a data.</p>
+        <div className="mb-3">
+          <Label labelHtmlFor="kind-petter">Tipo do Petter</Label>
+          <Input
+            text="Ex: Cachorro, Gato."
+            type="text"
+            id="petter-name"
+            name="petterKind"
+            autoComplete="text"
+            onChange={(event) => setPetterKind(event.target.value)}
+          />
         </div>
-      </div>
-      <div className="flex mt-6">
-        <label
-          htmlFor="fileInput"
-          className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-4"
-        >
-          <span className="flex items-center h-10 font-secondary font-bold">
-            Selecionar imagem de perfil
-          </span>
-          <input
-            id="fileInput"
-            type="file"
-            className="block w-0 h-0 font-secondary"
-            name="images"
-            onChange={uploadImage}
-            multiple
-            accept=".jpg, .jpeg, .png"
-            capture="user"
+        <div className="mb-3">
+          <Label labelHtmlFor="breed-petter">Raça</Label>
+          <Input
+            text="Ex: Labrador, Golden, Siamês."
+            type="text"
+            id="petter-breed"
+            name="petterBreed"
+            autoComplete="text"
+            onChange={(event) => setPetterBreed(event.target.value)}
           />
-        </label>
-      </div>
-      <div className="flex justify-center w-full mb-4">
-        {profileImageFile && (
-          <Image
-            src={profileUrl}
-            width={150}
-            height={150}
-            alt="Profile Image"
-            className="object-cover w-24 h-24 rounded-full border-lime-950 border-solid border-[3px]"
-          />
-        )}
+        </div>
+        <div className="flex mb-2">
+          <div
+            className={`flex flex-col items-center w-[50%] ${
+              checkNoData ? "opacity-25" : ""
+            }`}
+          >
+            <Label labelHtmlFor="birth">Data de nascimento.</Label>
+            <Input
+              text=""
+              type="date"
+              id="petter-birth"
+              name="petterBirth"
+              autoComplete="date"
+              onChange={(event) => setPetterBirth(event.target.value)}
+              disabled={checkNoData}
+            />
+          </div>
+          <div className="flex items-center w-[50%] h-[72px] pl-4">
+            <CheckBox checked={checkNoData} onChange={handleClickNoDataCheck} />
+            <p className="w-[90%] font-secondary ml-3">Não sei a data.</p>
+          </div>
+        </div>
+        <div className="flex mt-6">
+          <label
+            htmlFor="fileInput"
+            className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-4"
+          >
+            <span className="flex items-center h-10 font-secondary font-bold">
+              Selecionar imagem de perfil
+            </span>
+            <input
+              id="fileInput"
+              type="file"
+              className="block w-0 h-0 font-secondary"
+              name="images"
+              onChange={uploadImage}
+              multiple
+              accept=".jpg, .jpeg, .png"
+              capture="user"
+            />
+          </label>
+        </div>
+        <div className="flex justify-center w-full mb-4">
+          {profileImageFile && (
+            <Image
+              src={profileUrl}
+              width={150}
+              height={150}
+              alt="Profile Image"
+              className="object-cover w-24 h-24 rounded-full border-lime-950 border-solid border-[3px]"
+            />
+          )}
+        </div>
       </div>
       <div className="w-full mb-2">
         <Button text="Continuar" type="internalButton" />
