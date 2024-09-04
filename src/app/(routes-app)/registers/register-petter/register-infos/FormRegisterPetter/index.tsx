@@ -109,7 +109,7 @@ export default function FormRegisterPetter() {
   };
 
   return (
-    <form className="h-[84%] overflow-auto w-full" onSubmit={onSubmit}>
+    <form className="w-full" onSubmit={onSubmit}>
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
       <div className="mb-3">
@@ -170,7 +170,7 @@ export default function FormRegisterPetter() {
       <div className="flex mt-6">
         <label
           htmlFor="fileInput"
-          className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-[6%]"
+          className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-4"
         >
           <span className="flex items-center h-10 font-secondary font-bold">
             Selecionar imagem de perfil
@@ -187,20 +187,18 @@ export default function FormRegisterPetter() {
           />
         </label>
       </div>
-      <div className="flex justify-center w-full">
-        <div className="w-24 h-24 mb-10">
-          {profileImageFile && (
-            <Image
-              src={profileUrl}
-              width={150}
-              height={150}
-              alt="Profile Image"
-              className="object-cover w-full h-full rounded-full border-lime-950 border-solid border-[3px]"
-            />
-          )}
-        </div>
+      <div className="flex justify-center w-full mb-4">
+        {profileImageFile && (
+          <Image
+            src={profileUrl}
+            width={150}
+            height={150}
+            alt="Profile Image"
+            className="object-cover w-24 h-24 rounded-full border-lime-950 border-solid border-[3px]"
+          />
+        )}
       </div>
-      <div className="absolute bottom-4 w-[90%]">
+      <div className="w-full mb-2">
         <Button text="Continuar" type="internalButton" />
       </div>
     </form>
