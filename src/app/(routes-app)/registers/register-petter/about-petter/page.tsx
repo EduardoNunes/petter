@@ -131,6 +131,7 @@ export default function AboutPetter() {
               value={descriptionBio}
               placeholder={"Fale sobre seu Petter"}
               height="80%"
+              style="min-h-[225px]"
             />
           </div>
         </div>
