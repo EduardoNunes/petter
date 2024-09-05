@@ -5,6 +5,7 @@ import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { schemaRegisterCredentialsUser } from "@/validation/schemaRegisterCredentialsUser";
 import { useRouter } from "next/navigation";
@@ -16,7 +17,7 @@ export default function FormUserRegisterCredentials() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [toast, setToast] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useSelfContext();
   const [privacyPolicies, setPrivacyPolicies] = useState(false);
 
   const router = useRouter();
@@ -81,7 +82,6 @@ export default function FormUserRegisterCredentials() {
       onSubmit={handleSubmit}
     >
       {toast !== "" && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
       <div className="">
         <div className="mb-3">
           <Label labelHtmlFor="tutor-name">Tutor do Petter</Label>
@@ -128,7 +128,7 @@ export default function FormUserRegisterCredentials() {
           />
         </div>
       </div>
-      <div className="">
+      <div className="mt-4">
         <Label labelHtmlFor="checkbox">
           <div className="flex items-start justify-center gap-5">
             <CheckBox

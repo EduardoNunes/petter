@@ -7,6 +7,7 @@ import Header from "@/components/Header/Header";
 import Loading from "@/components/Loading/Loading";
 import PetterColorful from "@/components/Petter/PetterColorful";
 import TextArea from "@/components/TextArea/TextArea";
+import { useSelfContext } from "@/context/selfContext";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
 import { schemaAboutPetter } from "@/validation/schemaAboutPetter";
@@ -23,11 +24,15 @@ export default function AboutPetter() {
   const { handleToAddCurrentStep } = useStepContext();
   const [descriptionBio, setDescriptionBio] = useState<string>("");
   const [petterName, setPetterName] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
   const [caracteres, setCaracteres] = useState(355);
 
   const router = useRouter();
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     const dataInfos = async () => {
@@ -78,7 +83,6 @@ export default function AboutPetter() {
       const response = errorResponse(error);
       setToast(response);
     }
-    setLoading(false);
   }
 
   const handleTextChange = (text: string) => {
@@ -102,7 +106,10 @@ export default function AboutPetter() {
           <Header text="Fale sobre seu Petter" />
           <PetterColorful fontSize={"extraLarge"} />
         </div>
-        <div className="overflow-y-auto" style={{ height: "calc(100% - 140px)" }}>
+        <div
+          className="overflow-y-auto"
+          style={{ height: "calc(100% - 140px)" }}
+        >
           <div>
             <div className="flex flex-col items-center font-secondary mb-2">
               <p className="font-secondary">

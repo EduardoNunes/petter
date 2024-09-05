@@ -1,6 +1,8 @@
+import { useSelfContext } from "@/context/selfContext";
 import { useStepContext } from "@/context/useStepContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 interface HeaderProps {
   showExit?: boolean;
@@ -19,18 +21,22 @@ export default function Header({
 }: HeaderProps) {
   const { handleToDecreaseCurrentStep, handleToAddCurrentStep } =
     useStepContext();
+  const { loading, setLoading } = useSelfContext();
   const router = useRouter();
 
   const handleClickGoTo = () => {
+    setLoading(true);
+
     router.push(`${routeToGo}`);
     const pic = localStorage.getItem("SelectedPic");
+
     if (pic) {
       localStorage.removeItem("SelectedPic");
     }
   };
 
   return (
-    <div className="relative flex justify-center items-center mt-2 w-full h-10 bg-red">
+    <div className="relative flex justify-center items-center w-full h-10">
       {showExit && (
         <button
           className="absolute left-0 cursor-pointer"

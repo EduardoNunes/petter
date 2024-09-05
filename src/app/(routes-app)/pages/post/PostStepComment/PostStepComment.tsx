@@ -9,12 +9,16 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
+import errorResponse from "@/components/Error/ErrorResponse";
+import MessageToast from "@/components/Error/MessageToast";
 
 export default function PostStepComment() {
   const { image } = usePostTimelineContext();
   const { handleToDecreaseCurrentStep } = useStepContext();
-  const { getSelf, self } = useSelfContext();
+  const { getSelf, self, setLoading } = useSelfContext();
   const [commentText, setCommentText] = useState<string>("");
+  const [toast, setToast] = useState("");
+
   const router = useRouter();
 
   useEffect(() => {
@@ -28,6 +32,7 @@ export default function PostStepComment() {
 
   async function handleClickSubmit(event: { preventDefault: () => void }) {
     event.preventDefault();
+    setLoading(true);
 
     const session = await getSession();
     const token = session?.user.accessToken;
@@ -62,15 +67,17 @@ export default function PostStepComment() {
         handleToDecreaseCurrentStep();
       }, 1000);
 
-      console.log("Imagem postada na timeline");
       router.push("home");
-    } catch (error) {
-      console.error("ERROR", error);
+    } catch (error: any) {
+      const response = errorResponse(error);
+      setLoading(false);
+      setToast(response);
     }
   }
 
   return (
     <>
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
       <Header text="Nova divulgação" showArrow={true} showContinue={false} />
 
       {image && <SelectedImage />}

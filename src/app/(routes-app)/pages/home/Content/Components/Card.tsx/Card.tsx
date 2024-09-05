@@ -1,14 +1,14 @@
 "use client";
 
-import FooterCard from "./FooterCard/FooterCard";
-import { useEffect, useState } from "react";
-import api from "@/server/api";
-import Image from "next/image";
-import { useTimeLineContext } from "@/context/timeLineContext";
-import { getSession } from "next-auth/react";
-import Loading from "@/components/Loading/Loading";
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
+import { useSelfContext } from "@/context/selfContext";
+import { useTimeLineContext } from "@/context/timeLineContext";
+import api from "@/server/api";
+import { getSession } from "next-auth/react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import FooterCard from "./FooterCard/FooterCard";
 
 interface ImageType {
   id: number;
@@ -35,7 +35,7 @@ export default function Card() {
     handleClickShowComment,
     setTimelineImageId,
   } = useTimeLineContext();
-  const [loading, setLoading] = useState(true);
+  const { setLoading} = useSelfContext();
   const [toast, setToast] = useState("");
   const [petterLoggedId, setPetterLoggedId] = useState<number | undefined>(undefined) ;
 
@@ -81,7 +81,6 @@ export default function Card() {
   return (
     <div className="flex flex-col relative w-full h-full overflow-auto">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
       {!imageSrc || imageSrc.length === 0
         ? ""
         : imageSrc.map((image, index) => (

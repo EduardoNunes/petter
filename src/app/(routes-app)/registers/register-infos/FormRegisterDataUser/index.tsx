@@ -3,8 +3,8 @@ import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
-import Loading from "@/components/Loading/Loading";
 import Select from "@/components/Select/Select";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import viaCep from "@/server/api-viacep";
 import formatCep from "@/utils/formatCEP";
@@ -28,7 +28,7 @@ export default function FormUserRegisterData() {
   const [phone, setPhone] = useState("");
   const [toast, setToast] = useState("");
   const [showAddressInfos, setShowAddressInfos] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useSelfContext();
 
   const router = useRouter();
 
@@ -129,7 +129,6 @@ export default function FormUserRegisterData() {
       onSubmit={onSubmit}
     >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
       <div>
         <div className="mb-2">
           <Label labelHtmlFor="birth">Sua data de nascimento</Label>
@@ -209,7 +208,7 @@ export default function FormUserRegisterData() {
           )}
         </div>
       </div>
-      <div className="w-full mb-2">
+      <div className="w-full">
         <Button text="Continuar" type="internalButton" />
       </div>
     </form>

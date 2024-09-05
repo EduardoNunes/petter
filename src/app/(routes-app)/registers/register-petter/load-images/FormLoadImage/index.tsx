@@ -3,7 +3,7 @@
 import Button from "@/components/Button/Button";
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
-import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { schemaRegisterPetterImage } from "@/validation/schemaRegisterPetterImages copy";
 import { getSession } from "next-auth/react";
@@ -17,7 +17,7 @@ interface PetterInfo {
 
 export default function FormLoadImages() {
   const [images, setImages] = useState<File[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
@@ -116,7 +116,6 @@ export default function FormLoadImages() {
       style={{ height: "calc(100% - 216px)" }}
     >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
       <div className="flex flex-col items-center w-full overflow-auto">
         <label
           htmlFor="fileInput"
@@ -166,7 +165,7 @@ export default function FormLoadImages() {
           ))}
         </div>
       </div>
-      <div className="w-full my-2">
+      <div className="w-full mt-2">
         <Button text="Continuar" type="internalButton" />
       </div>
     </form>

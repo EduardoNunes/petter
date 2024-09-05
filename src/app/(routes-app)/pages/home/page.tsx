@@ -7,10 +7,15 @@ import HeaderHome from "./HeaderHome/HeaderHome";
 import { useTimeLineContext } from "@/context/timeLineContext";
 import { useSelfContext } from "@/context/selfContext";
 import { useEffect } from "react";
+import Loading from "@/components/Loading/Loading";
 
 export default function Home() {
   const { commentsOpenModal } = useTimeLineContext();
-  const { getSelf } = useSelfContext();
+  const { getSelf, loading, setLoading } = useSelfContext();
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     getSelf();
@@ -20,6 +25,7 @@ export default function Home() {
   return (
     <div className="w-[90%] h-[86%]">
       {commentsOpenModal && <ModalComment />}
+      {loading && <Loading />}
       <HeaderHome />
       <ContentHome />
       <Footer />

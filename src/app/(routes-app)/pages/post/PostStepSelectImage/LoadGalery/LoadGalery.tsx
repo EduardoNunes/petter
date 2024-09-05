@@ -1,13 +1,13 @@
 import MessageToast from "@/components/Error/MessageToast";
-import Loading from "@/components/Loading/Loading";
 import { usePostTimelineContext } from "@/context/postTimelineContext";
+import { useSelfContext } from "@/context/selfContext";
 import Image from "next/image";
 import { useState } from "react";
 import dataGalleryImagesTemp from "../../../../../../../public/dataTemp/dataGalleryTemp";
 
 export default function LoadGallery() {
   const { setImageURL, setImage } = usePostTimelineContext();
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
 
   const handleImageClick = async (imageUrl: string) => {
@@ -33,7 +33,6 @@ export default function LoadGallery() {
   return (
     <div className="grid grid-cols-4 gap-4 mt-8">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
       {dataGalleryImagesTemp.map((item, index) => (
         <div
           key={index}

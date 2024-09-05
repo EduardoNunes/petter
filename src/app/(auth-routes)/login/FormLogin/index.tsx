@@ -56,7 +56,7 @@ export default function FormLogin() {
   };
 
   return (
-    <form className="flex flex-col justify-between h-full">
+    <form className="flex flex-col justify-between h-full mb-2">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       <div>
         <div className="mb-3">
@@ -87,7 +87,7 @@ export default function FormLogin() {
       </div>
       <div className="w-full">
         <Button text="Entrar" type="internalButton" onClick={handleSubmit} />
-        <div className="flex items-center justify-center mt-[3%] mb-2 gap-1">
+        <div className="flex items-center justify-center mt-[3%] gap-1">
           <p className="text-center font-secondary">Não tem conta? </p>
           <button
             type="button"

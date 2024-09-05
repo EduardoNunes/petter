@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./color-fonte.css";
 import Image from "next/image";
+import { useSelfContext } from "@/context/selfContext";
 
 interface PetterInfo {
   petterName: string;
@@ -15,10 +16,14 @@ interface PetterInfo {
 
 export default function Congratulations() {
   const [petterName, setPetterName] = useState("");
-  const [loading, setLoading] = useState(false);
+  const {loading, setLoading} = useSelfContext();
   const [profileImage, setProfileImage] = useState("");
 
   const router = useRouter();
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     const dataInfos = async () => {

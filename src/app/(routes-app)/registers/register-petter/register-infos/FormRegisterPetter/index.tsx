@@ -5,6 +5,7 @@ import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
 import { getSession } from "next-auth/react";
@@ -21,7 +22,7 @@ export default function FormRegisterPetter() {
   const [petterBirth, setPetterBirth] = useState("");
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [profileUrl, setProfileUrl] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
 
   const route = useRouter();
@@ -115,7 +116,6 @@ export default function FormRegisterPetter() {
       onSubmit={onSubmit}
     >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
       <div>
         <div className="mb-3">
           <Label labelHtmlFor="petter-name">Nome do Petter</Label>
@@ -204,7 +204,7 @@ export default function FormRegisterPetter() {
           )}
         </div>
       </div>
-      <div className="w-full mb-2">
+      <div className="w-full">
         <Button text="Continuar" type="internalButton" />
       </div>
     </form>
