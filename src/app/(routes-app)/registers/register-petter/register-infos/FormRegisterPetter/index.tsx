@@ -129,18 +129,18 @@ export default function FormRegisterPetter() {
           />
         </div>
         <div className="mb-3">
-          <Label labelHtmlFor="kind-petter">Tipo do Petter</Label>
+          <Label labelHtmlFor="petter-kind">Tipo do Petter</Label>
           <Input
             text="Ex: Cachorro, Gato."
             type="text"
-            id="petter-name"
+            id="petter-kind"
             name="petterKind"
             autoComplete="text"
             onChange={(event) => setPetterKind(event.target.value)}
           />
         </div>
         <div className="mb-3">
-          <Label labelHtmlFor="breed-petter">Raça</Label>
+          <Label labelHtmlFor="petter-breed">Raça</Label>
           <Input
             text="Ex: Labrador, Golden, Siamês."
             type="text"
@@ -156,7 +156,7 @@ export default function FormRegisterPetter() {
               checkNoData ? "opacity-25" : ""
             }`}
           >
-            <Label labelHtmlFor="birth">Data de nascimento.</Label>
+            <Label labelHtmlFor="petter-birth">Data de nascimento.</Label>
             <Input
               text=""
               type="date"
@@ -178,7 +178,7 @@ export default function FormRegisterPetter() {
             className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-4"
           >
             <span className="flex items-center h-10 font-secondary font-bold">
-              Selecionar imagem de perfil
+              Selecionar a imagem do perfil
             </span>
             <input
               id="fileInput"

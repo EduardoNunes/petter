@@ -3,6 +3,7 @@
 import Button from "@/components/Button/Button";
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
+import Header from "@/components/Header/Header";
 import Loading from "@/components/Loading/Loading";
 import PetterColorful from "@/components/Petter/PetterColorful";
 import TextArea from "@/components/TextArea/TextArea";
@@ -90,36 +91,51 @@ export default function AboutPetter() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="w-[90%] h-[70%]">
+    <form onSubmit={onSubmit} className="w-[90%] h-full pb-2">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
-      <PetterColorful fontSize={"extraLarge"} />
-      <div className="flex flex-col items-center font-secondary mb-10">
-        <p className="font-secondary">
-          {`Agora é hora de nos contar sobre ${petterName.split(" ")[0]}`}.
-        </p>
-        <p className="font-secondary">{`O que ${
-          petterName.split(" ")[0]
-        } gosta de fazer?`}</p>
-        <p className="font-secondary">{`O que ${
-          petterName.split(" ")[0]
-        } gosta de comer?`}</p>
-        <p className="font-secondary">{`${
-          petterName.split(" ")[0]
-        } tem alguma profissão?`}</p>
-        <p className="font-secondary">{`${
-          petterName.split(" ")[0]
-        } tem Petterzinhos?`}</p>
-        <p className="font-secondary">{`Seja criativo!`}</p>
+      <div
+        className="flex flex-col pb-4"
+        style={{ height: "calc(100% - 40px)" }}
+      >
+        <div>
+          <Header text="Fale sobre seu Petter" />
+          <PetterColorful fontSize={"extraLarge"} />
+        </div>
+        <div className="overflow-y-auto" style={{ height: "calc(100% - 172px)" }}>
+          <div>
+            <div className="flex flex-col items-center font-secondary mb-2">
+              <p className="font-secondary">
+                {`Agora é hora de nos contar sobre ${petterName.split(" ")[0]}`}
+                .
+              </p>
+              <p className="font-secondary">{`O que ${
+                petterName.split(" ")[0]
+              } gosta de fazer?`}</p>
+              <p className="font-secondary">{`O que ${
+                petterName.split(" ")[0]
+              } gosta de comer?`}</p>
+              <p className="font-secondary">{`${
+                petterName.split(" ")[0]
+              } tem alguma profissão?`}</p>
+              <p className="font-secondary">{`${
+                petterName.split(" ")[0]
+              } tem Petterzinhos?`}</p>
+              <p className="font-secondary">{`Seja criativo!`}</p>
+            </div>
+          </div>
+          <div style={{ height: "calc(100% - 152px)" }}>
+            {<p>{caracteres}</p>}
+            <TextArea
+              onTextChange={handleTextChange}
+              value={descriptionBio}
+              placeholder={"Fale sobre seu Petter"}
+              height="80%"
+            />
+          </div>
+        </div>
       </div>
-      {<p>{caracteres}</p>}
-      <TextArea
-        onTextChange={handleTextChange}
-        value={descriptionBio}
-        placeholder={"Fale sobre seu Petter"}
-        height="44%"
-      />
-      <div className="absolute w-[90%] bottom-[3%]">
+      <div className="w-full">
         <Button text="Continuar" type="internalButton" />
       </div>
     </form>

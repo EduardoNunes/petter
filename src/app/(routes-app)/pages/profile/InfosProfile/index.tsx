@@ -24,7 +24,7 @@ export default function InfosProfile({
           height={40}
           alt="Profile Image"
           priority={true}
-          className="object-cover w-full h-full rounded-full border-lime-950 border-solid border-[3px]"
+          className="object-cover w-24 h-24 rounded-full border-lime-950 border-solid border-[3px]"
         />
       </div>
       <div>

@@ -10,7 +10,7 @@ export default async function RegisterInfosLayout({
   const session = await getServerAuthSession();
 
   if (session?.user.userInfo) {
-    return redirect("/pages/notice");
+    return redirect("/registers/notice");
   }
 
   return children;

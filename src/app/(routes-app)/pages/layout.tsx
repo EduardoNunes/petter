@@ -13,8 +13,12 @@ export default async function PagesLayout({
     return redirect("/registers/register-infos");
   }
 
-  if (!session?.user.petterInfo) {
+  if (!session?.user.petterInfo && session?.user.petterInfo?.length === 0) {
     return redirect("/registers/register-petter/register-infos");
+  }
+
+  if (!session?.user.petterImage) {
+    return redirect("/registers/register-petter/load-images");
   }
 
   return children;

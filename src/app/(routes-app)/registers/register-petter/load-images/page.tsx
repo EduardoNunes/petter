@@ -27,14 +27,16 @@ export default function LoadImages() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center w-[90%] h-[84%]">
-      <Header text={"Cadastro do Petter"} />
-      <PetterColorful fontSize="extraLarge" />
-      <p className="font-secondary font-bold text-medium text-center mt-[3%] mb-[5%]">
-        {`Carregue as melhores`}
-        <br />
-        {`fotos de ${petterName.split(" ")[0]}`}.
-      </p>
+    <div className="flex flex-col items-center w-[90%] h-[100vh]">
+      <div>
+        <Header text={"Cadastro do Petter"} />
+        <PetterColorful fontSize="extraLarge" />
+        <p className="font-secondary font-bold text-medium text-center mt-2 mb-4">
+          {`Carregue as melhores`}
+          <br />
+          {`fotos de ${petterName.split(" ")[0]}`}.
+        </p>
+      </div>
       <FormLoadImages />
     </div>
   );

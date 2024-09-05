@@ -14,7 +14,7 @@ export default async function ProtectedRoutesLayout({
     if (!session.user.userInfo) {
       return redirect("/registers/register-infos");
     } else if (session.user.petterInfo?.length === 0) {
-      return redirect("/pages/notice");
+      return redirect("/registers/notice");
     } else {
       return redirect("/pages/home");
     }
