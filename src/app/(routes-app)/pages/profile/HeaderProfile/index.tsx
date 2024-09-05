@@ -1,15 +1,14 @@
-import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 interface HeaderProfileProps {
   petterName: string;
 }
 
 export default function HeaderProfile({ petterName }: HeaderProfileProps) {
-  const [loading, setLoading] = useState(false);
+  const {loading, setLoading} = useSelfContext();
   const router = useRouter();
 
   async function logout() {
@@ -25,8 +24,7 @@ export default function HeaderProfile({ petterName }: HeaderProfileProps) {
   }
 
   return (
-    <div className="absolute top-2 flex items-center justify-between h-[7%] w-[90%]">
-      {loading && <Loading />}
+    <div className="flex items-center justify-between h-[62px] w-full">
       <div>
         <h1 className="text-extraLarge1">{petterName}</h1>
       </div>
