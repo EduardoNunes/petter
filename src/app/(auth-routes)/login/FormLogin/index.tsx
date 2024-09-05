@@ -4,7 +4,7 @@ import Button from "@/components/Button/Button";
 import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
-import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import redirectTo from "@/utils/RedirectTo";
 import { schemaLoginUser } from "@/validation/schemaLoginUser";
 import { signIn } from "next-auth/react";
@@ -14,7 +14,7 @@ import { useState } from "react";
 export default function FormLogin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
 
   const route = useRouter();
@@ -57,7 +57,6 @@ export default function FormLogin() {
 
   return (
     <form className="flex flex-col justify-between h-full">
-      {loading && <Loading />}
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       <div>
         <div className="mb-3">
