@@ -31,25 +31,27 @@ export default function FormLogin() {
     event.preventDefault();
     setLoading(true);
 
-    await schemaLoginUser.validate(
-      {
+    try {
+      await schemaLoginUser.validate({
         email,
         password,
-      },
-      { abortEarly: false }
-    );
+      });
 
-    const response = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+      const response = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-    redirectTo(route);
-
-    if (response?.error) {
-      setToast(response.error);
+      if (response?.error) {
+        setLoading(false);
+        setToast(response.error);
+      } else {
+        redirectTo(route);
+      }
+    } catch (validationError: any) {
       setLoading(false);
+      setToast(validationError.message);
     }
   };
 
