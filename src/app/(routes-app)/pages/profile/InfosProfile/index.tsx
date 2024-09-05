@@ -48,7 +48,9 @@ export default function InfosProfile({
             alt="Profile Image"
             className="object-cover w-5 h-5"
           />
-          <p className="font-secondary text-smaller truncate">{petterBreed}</p>
+          <p className="font-secondary text-smaller truncate" title={petterBreed}>
+            {petterBreed}
+          </p>
         </div>
         <div className="flex items-center h-8 gap-2">
           <Image
@@ -58,7 +60,7 @@ export default function InfosProfile({
             alt="Profile Image"
             className="object-cover w-5 h-5"
           />
-          <p className="font-secondary text-smaller truncate">{petterKind}</p>
+          <p className="font-secondary text-smaller truncate" title={petterKind}>{petterKind}</p>
         </div>
       </div>
     </div>

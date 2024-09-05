@@ -30,7 +30,7 @@ export default function Footer() {
   };
 
   return (
-    <div className="absolute flex items-center justify-between bottom-0 h-[7%] w-[90%] pl-2 pr-2">
+    <div className="flex items-center justify-between h-[62px] w-full">
       <button onClick={handleClickGoHome}>
         <Image
           src="/images/home.png"

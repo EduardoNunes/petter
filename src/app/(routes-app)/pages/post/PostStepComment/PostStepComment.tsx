@@ -76,7 +76,7 @@ export default function PostStepComment() {
   }
 
   return (
-    <>
+    <div className="flex flex-col justify-between h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       <Header text="Nova divulgação" showArrow={true} showContinue={false} />
 
@@ -90,13 +90,13 @@ export default function PostStepComment() {
           height="30vh"
         />
       </div>
-      <div className="absolute w-[90%] bottom-[3%]">
+      <div className="w-full">
         <Button
           text={"Publicar"}
           type="internalButton"
           onClick={handleClickSubmit}
         />
       </div>
-    </>
+    </div>
   );
 }

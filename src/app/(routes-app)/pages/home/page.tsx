@@ -23,11 +23,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-[90%] h-[86%]">
+    <div className="flex flex-col w-[90%] h-full">
       {commentsOpenModal && <ModalComment />}
       {loading && <Loading />}
       <HeaderHome />
-      <ContentHome />
+      <div className="w-full h-[calc(100%-124px)]">
+        <ContentHome />
+      </div>
       <Footer />
     </div>
   );
