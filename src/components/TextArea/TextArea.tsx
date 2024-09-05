@@ -5,6 +5,7 @@ interface TextAreaProps {
   value: string;
   placeholder: string;
   height: string;
+  style?: string;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
@@ -12,6 +13,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   value,
   placeholder,
   height,
+  style,
 }) => {
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const newTextValue = event.target.value;
@@ -24,7 +26,7 @@ const TextArea: React.FC<TextAreaProps> = ({
       onChange={handleTextChange}
       placeholder={placeholder}
       style={{ height: height }}
-      className="w-full py-5 px-8 pt-2 pb-2 rounded-3xl border border-black border-solid font-secondary"
+      className={`w-full py-5 px-8 pt-2 pb-2 rounded-3xl border border-black border-solid font-secondary ${style}`}
     />
   );
 };
