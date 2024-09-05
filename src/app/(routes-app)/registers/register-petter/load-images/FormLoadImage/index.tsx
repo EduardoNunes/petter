@@ -148,7 +148,7 @@ export default function FormLoadImages() {
                 width={3000}
                 height={3000}
                 alt={`Imagem ${index + 1}`}
-                className="w-[140px] h-[100px] rounded-2xl"
+                className="object-cover w-[140px] h-[100px] rounded-2xl"
               />
               {selectedImageIndex === index && (
                 <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 h-24 bg-black opacity-50 rounded-2xl flex items-center justify-center">

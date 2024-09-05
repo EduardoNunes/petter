@@ -102,7 +102,7 @@ export default function AboutPetter() {
           <Header text="Fale sobre seu Petter" />
           <PetterColorful fontSize={"extraLarge"} />
         </div>
-        <div className="overflow-y-auto" style={{ height: "calc(100% - 172px)" }}>
+        <div className="overflow-y-auto" style={{ height: "calc(100% - 140px)" }}>
           <div>
             <div className="flex flex-col items-center font-secondary mb-2">
               <p className="font-secondary">
