@@ -2,13 +2,16 @@ import { useSelfContext } from "@/context/selfContext";
 import { useTimeLineContext } from "@/context/timeLineContext";
 import api from "@/server/api";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextArea from "../TextArea/TextArea";
 import "./animation.css";
 import { getSession } from "next-auth/react";
+import Loading from "../Loading/Loading";
+import MessageToast from "../Error/MessageToast";
+import { schemaPostComment } from "@/validation/schemaPostComment";
 
 export default function ModalComment() {
-  const { self } = useSelfContext();
+  const { self, loading, setLoading } = useSelfContext();
   const {
     setCommentsOpenModal,
     comments,
@@ -17,6 +20,11 @@ export default function ModalComment() {
   } = useTimeLineContext();
   const [animation, setAnimation] = useState("slide-in");
   const [commentAdd, setCommentAdd] = useState("");
+  const [toast, setToast] = useState("");
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const handleClickCloseModal = () => {
     setAnimation("slide-out");
@@ -32,6 +40,7 @@ export default function ModalComment() {
   const handleClickSendMessage = async () => {
     const session = await getSession();
     const token = session?.user.accessToken;
+    setLoading(true);
 
     if (!self.PetterInfo) {
       console.log("Petter que vai comentar não identificado.");
@@ -39,6 +48,13 @@ export default function ModalComment() {
     }
 
     try {
+      await schemaPostComment.validate(
+        {
+          commentAdd,
+        },
+        { abortEarly: false }
+      );
+
       const data = {
         userId: self.id,
         petterId: self.PetterInfo[0].id,
@@ -50,31 +66,33 @@ export default function ModalComment() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log("Comentário salvo com sucesso.");
-
       await handleClickShowComment(Number(timelineImageId), "timeline");
       setCommentAdd("");
-    } catch (error) {
-      console.log("ERRO AO TENTAR ENVIAR", error);
+    } catch (error: any) {
+      setLoading(false);
+      setToast(error.message);
     }
+    setLoading(false);
   };
 
   return (
     <div
-      className={`absolute top-0 left-0 z-10 flex flex-col w-[100%] h-[100%] px-8 bg-branco ${animation}`}
+      className={`absolute top-0 left-0 z-10 flex flex-col w-full h-full px-8 pb-2 bg-branco ${animation}`}
     >
-      <div className="flex w-full justify-end py-3">
+      {loading && <Loading />}
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
+      <div className="flex justify-end w-full h-12 py-3">
         <button onClick={handleClickCloseModal}>
           <Image
             src="/images/exit.png"
             width={28}
             height={28}
-            alt="Paw Love"
-            className=""
+            alt="Exit"
+            className="w-6"
           />
         </button>
       </div>
-      <div className="h-[80%] overflow-auto">
+      <div className="h-[calc(100%-96px)] overflow-auto">
         {comments &&
           comments.map((comment, index) => (
             <div key={index} className="p-2 mb-2 bg-verdePastel rounded-lg">
@@ -88,17 +106,20 @@ export default function ModalComment() {
                 />
                 <p className="text-medium">{comment.petterInfo.petterName}</p>
               </div>
-              <p className="font-secondary pl-8">{comment.commented}</p>
+              <p className="font-secondary pl-8 break-words">
+                {comment.commented}
+              </p>
             </div>
           ))}
       </div>
-      <div className="absolute bottom-12 w-[86%]">
-        <div className="relative">
+      <div className="w-full mt-2">
+        <div className="relative h-12">
           <TextArea
             onTextChange={handleTextChange}
             value={commentAdd}
             placeholder="Deixe seu comentário."
-            height="46px"
+            height="48px"
+            style=""
           />
           <button onClick={handleClickSendMessage}>
             <Image
