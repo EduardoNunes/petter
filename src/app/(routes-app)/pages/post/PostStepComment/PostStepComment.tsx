@@ -18,6 +18,7 @@ export default function PostStepComment() {
   const { getSelf, self, setLoading } = useSelfContext();
   const [commentText, setCommentText] = useState<string>("");
   const [toast, setToast] = useState("");
+  const [caracteres, setCaracteres] = useState(50);
 
   const router = useRouter();
 
@@ -27,7 +28,12 @@ export default function PostStepComment() {
   }, []);
 
   const handleTextChange = (text: string) => {
-    setCommentText(text);
+    if (text.length <= 50) {
+      setCommentText(text);
+      setCaracteres(50 - text.length);
+    } else {
+      setToast("Número máximo de caracteres atingido.");
+    }
   };
 
   async function handleClickSubmit(event: { preventDefault: () => void }) {

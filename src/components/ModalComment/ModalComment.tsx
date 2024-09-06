@@ -21,6 +21,7 @@ export default function ModalComment() {
   const [animation, setAnimation] = useState("slide-in");
   const [commentAdd, setCommentAdd] = useState("");
   const [toast, setToast] = useState("");
+  const [caracteres, setCaracteres] = useState(150);
 
   useEffect(() => {
     setLoading(false);
@@ -34,7 +35,12 @@ export default function ModalComment() {
   };
 
   const handleTextChange = (text: string) => {
-    setCommentAdd(text);
+    if (text.length <= 150) {
+      setCommentAdd(text);
+      setCaracteres(150 - text.length);
+    } else {
+      setToast("Número máximo de caracteres atingido.");
+    }
   };
 
   const handleClickSendMessage = async () => {

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 interface FooterCardProps {
   likesCount: number;
@@ -20,6 +20,8 @@ const FooterCard: React.FC<FooterCardProps> = ({
   handleClickLike,
   petterLoggedId,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleText = () => setIsExpanded(!isExpanded);
 
   return (
     <div className="flex flex-col mb-4">
@@ -53,7 +55,21 @@ const FooterCard: React.FC<FooterCardProps> = ({
           <p>{commentsCount}</p>
         </button>
       </div>
-      <p className="font-secondary">{descriptionCard}</p>
+      <div className="break-words overflow-hidden">
+        <p
+          className={`font-secondary text-smaller ${
+            isExpanded ? "line-clamp-none" : "line-clamp-2"
+          }`}
+        >
+          {descriptionCard}
+        </p>
+        <button
+          onClick={toggleText}
+          className="font-secondary text-smaller text-azulEscuroSombra"
+        >
+          {isExpanded ? "Ver menos" : "Ver mais..."}
+        </button>
+      </div>
     </div>
   );
 };
