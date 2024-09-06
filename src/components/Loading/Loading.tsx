@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Loading() {
   return (
-    <div className="absolute top-[50%] translate-x-[-50%] left-[50%] translate-y-[-50%] z-10">
+    <div className="absolute flex items-center justify-center h-full w-full top-0 left-0 z-10">
       <Image
         src="/giffs/load-dog.gif"
         height={142}

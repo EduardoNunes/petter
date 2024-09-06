@@ -25,7 +25,6 @@ interface PetterInfo {
 }
 
 export default function Card() {
-  const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
   const {
     handleClickLikeFunction,
     likesCount,
@@ -35,9 +34,12 @@ export default function Card() {
     handleClickShowComment,
     setTimelineImageId,
   } = useTimeLineContext();
-  const { setLoading} = useSelfContext();
+  const { setLoading } = useSelfContext();
+  const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
   const [toast, setToast] = useState("");
-  const [petterLoggedId, setPetterLoggedId] = useState<number | undefined>(undefined) ;
+  const [petterLoggedId, setPetterLoggedId] = useState<number | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     async function loadTimeline() {
@@ -45,7 +47,7 @@ export default function Card() {
       const token = session?.user.accessToken;
       const petterInfoId = session?.user.petterInfo as PetterInfo[];
 
-      setPetterLoggedId(petterInfoId[0].id)
+      setPetterLoggedId(petterInfoId[0].id);
 
       try {
         const response = await api.get("show-card-timeline/top-10-images", {
