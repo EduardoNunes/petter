@@ -1,3 +1,4 @@
+import { useTimeLineContext } from "@/context/timeLineContext";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -5,10 +6,8 @@ interface FooterCardProps {
   likesCount: number;
   commentsCount: number;
   descriptionCard: string;
-  likedByMe: Array<any> | undefined;
-  handleClickComment: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  handleClickLike: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  petterLoggedId: number | undefined;
+  likedByMe: boolean | undefined;
+  imageId: number;
 }
 
 const FooterCard: React.FC<FooterCardProps> = ({
@@ -16,26 +15,35 @@ const FooterCard: React.FC<FooterCardProps> = ({
   commentsCount,
   descriptionCard,
   likedByMe,
-  handleClickComment,
-  handleClickLike,
-  petterLoggedId,
+  imageId,
 }) => {
+  const {
+    handleClickLikeFunction,
+    handleClickShowComment,
+    setTimelineImageId,
+  } = useTimeLineContext();
   const [isExpanded, setIsExpanded] = useState(false);
+
   const toggleText = () => setIsExpanded(!isExpanded);
+
+  const handleClickComment =
+    (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      setTimelineImageId(id);
+      handleClickShowComment(id, "timeline");
+    };
 
   return (
     <div className="flex flex-col mb-4">
       <div className="flex items-center h-9 pl-2 pr-2 gap-3">
         <button
           className="flex items-center gap-3"
-          onClick={(e) => handleClickLike(e)}
+          onClick={() => handleClickLikeFunction(imageId, "timeline")}
         >
           <Image
-            src={`${
-              likedByMe?.some((item) => item.petterInfoId === petterLoggedId)
-                ? "/images/paw-love-pink.png"
-                : "/images/paw-love.png"
-            }`}
+            src={
+              likedByMe ? "/images/paw-love-pink.png" : "/images/paw-love.png"
+            }
             width={28}
             height={28}
             alt="Paw Love"
@@ -44,7 +52,7 @@ const FooterCard: React.FC<FooterCardProps> = ({
         </button>
         <button
           className="flex items-center gap-3"
-          onClick={(e) => handleClickComment(e)}
+          onClick={handleClickComment(imageId)}
         >
           <Image
             src="/images/comment.png"
@@ -65,7 +73,7 @@ const FooterCard: React.FC<FooterCardProps> = ({
         </p>
         <button
           onClick={toggleText}
-          className="font-secondary text-smaller text-azulEscuroSombra"
+          className="font-secondary font-semibold text-verySmaller text-sombra"
         >
           {isExpanded ? "Ver menos" : "Ver mais..."}
         </button>

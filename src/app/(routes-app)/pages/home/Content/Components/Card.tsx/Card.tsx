@@ -26,13 +26,10 @@ interface PetterInfo {
 
 export default function Card() {
   const {
-    handleClickLikeFunction,
     likesCount,
     likesCountId,
     commentsCount,
     likedByMe,
-    handleClickShowComment,
-    setTimelineImageId,
   } = useTimeLineContext();
   const { setLoading } = useSelfContext();
   const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
@@ -67,19 +64,6 @@ export default function Card() {
     loadTimeline();
   }, [likesCount, likesCountId, commentsCount, likedByMe]);
 
-  const handleClickLike =
-    (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      handleClickLikeFunction(id, "timeline");
-    };
-
-  const handleClickComment =
-    (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setTimelineImageId(id);
-      handleClickShowComment(id, "timeline");
-    };
-
   return (
     <div className="flex flex-col relative w-full h-full overflow-auto">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
@@ -102,13 +86,11 @@ export default function Card() {
                 }}
               />
               <FooterCard
-                likesCount={image.likesCount}
                 commentsCount={image.commentsCount}
                 descriptionCard={image.description}
-                handleClickLike={handleClickLike(image.id)}
-                handleClickComment={handleClickComment(image.id)}
-                likedByMe={image.Like || false}
-                petterLoggedId={petterLoggedId}
+                likesCount={image.likesCount}
+                imageId={image.id}
+                likedByMe={image.Like.some((item) => item.petterInfoId === petterLoggedId) || false}
               />
             </div>
           ))}
