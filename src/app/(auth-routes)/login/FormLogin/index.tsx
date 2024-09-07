@@ -4,7 +4,7 @@ import Button from "@/components/Button/Button";
 import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
-import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import redirectTo from "@/utils/RedirectTo";
 import { schemaLoginUser } from "@/validation/schemaLoginUser";
 import { signIn } from "next-auth/react";
@@ -14,7 +14,7 @@ import { useState } from "react";
 export default function FormLogin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
 
   const route = useRouter();
@@ -31,31 +31,32 @@ export default function FormLogin() {
     event.preventDefault();
     setLoading(true);
 
-    await schemaLoginUser.validate(
-      {
+    try {
+      await schemaLoginUser.validate({
         email,
         password,
-      },
-      { abortEarly: false }
-    );
+      });
 
-    const response = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+      const response = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-    redirectTo(route);
-
-    if (response?.error) {
-      setToast(response.error);
+      if (response?.error) {
+        setLoading(false);
+        setToast(response.error);
+      } else {
+        redirectTo(route);
+      }
+    } catch (validationError: any) {
       setLoading(false);
+      setToast(validationError.message);
     }
   };
 
   return (
-    <form className="flex flex-col justify-between h-full">
-      {loading && <Loading />}
+    <form className="flex flex-col justify-between h-full mb-2">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       <div>
         <div className="mb-3">
@@ -86,7 +87,7 @@ export default function FormLogin() {
       </div>
       <div className="w-full">
         <Button text="Entrar" type="internalButton" onClick={handleSubmit} />
-        <div className="flex items-center justify-center mt-[3%] mb-2 gap-1">
+        <div className="flex items-center justify-center mt-[3%] gap-1">
           <p className="text-center font-secondary">Não tem conta? </p>
           <button
             type="button"

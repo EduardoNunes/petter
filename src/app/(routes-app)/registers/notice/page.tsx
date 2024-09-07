@@ -7,6 +7,7 @@ import Header from "@/components/Header/Header";
 import { Label } from "@/components/Label/Label";
 import Loading from "@/components/Loading/Loading";
 import Petter from "@/components/Petter/PetterColorful";
+import { useSelfContext } from "@/context/selfContext";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -23,7 +24,7 @@ export default function Notice() {
     false,
   ]);
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useSelfContext();
 
   useEffect(() => {
     const dataInfos = async () => {

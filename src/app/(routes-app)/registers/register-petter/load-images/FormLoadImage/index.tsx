@@ -3,7 +3,7 @@
 import Button from "@/components/Button/Button";
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
-import Loading from "@/components/Loading/Loading";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { schemaRegisterPetterImage } from "@/validation/schemaRegisterPetterImages copy";
 import { getSession } from "next-auth/react";
@@ -17,7 +17,7 @@ interface PetterInfo {
 
 export default function FormLoadImages() {
   const [images, setImages] = useState<File[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null
@@ -27,6 +27,17 @@ export default function FormLoadImages() {
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
+    
+    if (images.length === 0) {
+      setLoading(false);
+      setToast("Carregue pelo menos uma imagem do Petter.");
+      return;
+    } else if (images.length > 20) {
+      setLoading(false);
+      setToast("Por enquanto o máximo de imagens permitidas são 20.");
+      return;
+    }
+
     const session = await getSession();
     const token = session?.user.accessToken;
     const petterInfo = session?.user.petterInfo as PetterInfo[];
@@ -34,16 +45,6 @@ export default function FormLoadImages() {
 
     try {
       const formData = new FormData();
-
-      if (images.length === 0) {
-        setLoading(false);
-        setToast("Carregue pelo menos uma imagem do Petter.");
-        return;
-      } else if (images.length > 20) {
-        setLoading(false);
-        setToast("Por enquanto o máximo de imagens permitidas são 20.");
-        return;
-      }
 
       for await (const image of images) {
         schemaRegisterPetterImage.validate(
@@ -116,7 +117,6 @@ export default function FormLoadImages() {
       style={{ height: "calc(100% - 216px)" }}
     >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
       <div className="flex flex-col items-center w-full overflow-auto">
         <label
           htmlFor="fileInput"
@@ -148,7 +148,7 @@ export default function FormLoadImages() {
                 width={3000}
                 height={3000}
                 alt={`Imagem ${index + 1}`}
-                className="w-[140px] h-[100px] rounded-2xl"
+                className="object-cover w-[140px] h-[100px] rounded-2xl"
               />
               {selectedImageIndex === index && (
                 <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 h-24 bg-black opacity-50 rounded-2xl flex items-center justify-center">
@@ -166,7 +166,7 @@ export default function FormLoadImages() {
           ))}
         </div>
       </div>
-      <div className="w-full my-2">
+      <div className="w-full mt-2">
         <Button text="Continuar" type="internalButton" />
       </div>
     </form>

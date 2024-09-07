@@ -11,6 +11,7 @@ interface ButtonProps {
   text: string;
   type: ButtonType;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 }
 
 const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
@@ -18,6 +19,7 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
   children,
   type,
   onClick,
+  disabled,
 }) => {
   return (
     <button
@@ -26,6 +28,7 @@ const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
       ${type === "internalButton" ? "bg-azulForteSombra" : ""}
       `}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
       {text}

@@ -5,13 +5,20 @@ import PetterColorful from "@/components/Petter/PetterColorful";
 import FormLoadImages from "./FormLoadImage";
 import { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
+import { useSelfContext } from "@/context/selfContext";
+import Loading from "@/components/Loading/Loading";
 
 interface PetterInfo {
   petterName: string;
 }
 
 export default function LoadImages() {
+  const { loading, setLoading } = useSelfContext();
   const [petterName, setPetterName] = useState("");
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     const dataInfos = async () => {
@@ -27,7 +34,8 @@ export default function LoadImages() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center w-[90%] h-[100vh]">
+    <div className="flex flex-col items-center w-[90%] h-[100vh] pb-2">
+      {loading && <Loading />}
       <div>
         <Header text={"Cadastro do Petter"} />
         <PetterColorful fontSize="extraLarge" />

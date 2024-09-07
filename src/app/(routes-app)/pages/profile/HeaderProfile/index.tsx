@@ -1,3 +1,4 @@
+import { useSelfContext } from "@/context/selfContext";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -7,18 +8,23 @@ interface HeaderProfileProps {
 }
 
 export default function HeaderProfile({ petterName }: HeaderProfileProps) {
+  const {loading, setLoading} = useSelfContext();
   const router = useRouter();
 
   async function logout() {
+    setLoading(true);
+
     await signOut({
       redirect: false,
     });
 
-    router.replace("/login");
+    setTimeout(() => {
+      router.replace("/login");
+    }, 2000);
   }
 
   return (
-    <div className="absolute top-2 flex items-center justify-between h-[7%] w-[90%]">
+    <div className="flex items-center justify-between h-[62px] w-full">
       <div>
         <h1 className="text-extraLarge1">{petterName}</h1>
       </div>

@@ -102,6 +102,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     type: "timeline" | "image"
   ): Promise<void> {
     setCommentsOpenModal(true);
+    setComments([])
 
     if (!self.PetterInfo) {
       console.log("Não identificamos o Petter logado.");
@@ -125,7 +126,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
       setComments(response.data);
       setCommentsCount(response.data.length);
     } catch (error) {
-      console.log("Eerro ao mostrar os comentários", error);
+      console.log("Erro ao mostrar os comentários", error);
     }
   }
 

@@ -3,12 +3,21 @@ import { usePostTimelineContext } from "@/context/postTimelineContext";
 import SelectedImage from "../SelectedImage/SelectedImage";
 import EnframeImages from "./EnframeImage/EnframeImages";
 import LoadGallery from "./LoadGalery/LoadGalery";
+import { useSelfContext } from "@/context/selfContext";
+import { useEffect } from "react";
+import Loading from "@/components/Loading/Loading";
 
 export default function PostStepSelectImage() {
   const { image } = usePostTimelineContext();
+  const { loading, setLoading } = useSelfContext();
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   return (
-    <div className="flex flex-col items-center h-full w-full">
+    <div className="flex flex-col items-center justify-between h-full w-full">
+      {loading && <Loading />}
       <Header
         text="Nova divulgação"
         showExit={true}
@@ -18,12 +27,9 @@ export default function PostStepSelectImage() {
 
       <SelectedImage />
 
-      <div className="w-full h-[40%] flex flex-col items-center overflow-auto pb-8">
-        <LoadGallery />
-      </div>
-      <div className="absolute bottom-[3%]">
-        <EnframeImages />
-      </div>
+      <LoadGallery />
+
+      <EnframeImages />
     </div>
   );
 }

@@ -1,15 +1,20 @@
 "use client";
 
 import Button from "@/components/Button/Button";
+import Loading from "@/components/Loading/Loading";
 import Petter from "@/components/Petter/PetterColorful";
+import { useSelfContext } from "@/context/selfContext";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import FormLogin from "./FormLogin";
-import { useState } from "react";
-import Loading from "@/components/Loading/Loading";
+import { useEffect } from "react";
 
 export default function Login() {
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useSelfContext();
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const handleClickGoogleLogin = () => {
     setLoading(true);
@@ -32,6 +37,7 @@ export default function Login() {
               text="Entrar com o Google"
               type="externalButton"
               onClick={handleClickGoogleLogin}
+              disabled={true}
             >
               <Image
                 src="/images/google.png"
@@ -42,7 +48,11 @@ export default function Login() {
             </Button>
           </div>
 
-          <Button text="Entrar com o Facebook" type="externalButton">
+          <Button
+            text="Entrar com o Facebook"
+            type="externalButton"
+            disabled={true}
+          >
             <Image
               src="/images/facebook.png"
               height={24}

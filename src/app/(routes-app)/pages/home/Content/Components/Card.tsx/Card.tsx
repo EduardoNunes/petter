@@ -1,14 +1,14 @@
 "use client";
 
-import FooterCard from "./FooterCard/FooterCard";
-import { useEffect, useState } from "react";
-import api from "@/server/api";
-import Image from "next/image";
-import { useTimeLineContext } from "@/context/timeLineContext";
-import { getSession } from "next-auth/react";
-import Loading from "@/components/Loading/Loading";
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
+import { useSelfContext } from "@/context/selfContext";
+import { useTimeLineContext } from "@/context/timeLineContext";
+import api from "@/server/api";
+import { getSession } from "next-auth/react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import FooterCard from "./FooterCard/FooterCard";
 
 interface ImageType {
   id: number;
@@ -25,19 +25,18 @@ interface PetterInfo {
 }
 
 export default function Card() {
-  const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
   const {
-    handleClickLikeFunction,
     likesCount,
     likesCountId,
     commentsCount,
     likedByMe,
-    handleClickShowComment,
-    setTimelineImageId,
   } = useTimeLineContext();
-  const [loading, setLoading] = useState(true);
+  const { setLoading } = useSelfContext();
+  const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
   const [toast, setToast] = useState("");
-  const [petterLoggedId, setPetterLoggedId] = useState<number | undefined>(undefined) ;
+  const [petterLoggedId, setPetterLoggedId] = useState<number | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     async function loadTimeline() {
@@ -45,7 +44,7 @@ export default function Card() {
       const token = session?.user.accessToken;
       const petterInfoId = session?.user.petterInfo as PetterInfo[];
 
-      setPetterLoggedId(petterInfoId[0].id)
+      setPetterLoggedId(petterInfoId[0].id);
 
       try {
         const response = await api.get("show-card-timeline/top-10-images", {
@@ -65,23 +64,9 @@ export default function Card() {
     loadTimeline();
   }, [likesCount, likesCountId, commentsCount, likedByMe]);
 
-  const handleClickLike =
-    (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      handleClickLikeFunction(id, "timeline");
-    };
-
-  const handleClickComment =
-    (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setTimelineImageId(id);
-      handleClickShowComment(id, "timeline");
-    };
-
   return (
     <div className="flex flex-col relative w-full h-full overflow-auto">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
       {!imageSrc || imageSrc.length === 0
         ? ""
         : imageSrc.map((image, index) => (
@@ -101,13 +86,11 @@ export default function Card() {
                 }}
               />
               <FooterCard
-                likesCount={image.likesCount}
                 commentsCount={image.commentsCount}
                 descriptionCard={image.description}
-                handleClickLike={handleClickLike(image.id)}
-                handleClickComment={handleClickComment(image.id)}
-                likedByMe={image.Like || false}
-                petterLoggedId={petterLoggedId}
+                likesCount={image.likesCount}
+                imageId={image.id}
+                likedByMe={image.Like.some((item) => item.petterInfoId === petterLoggedId) || false}
               />
             </div>
           ))}

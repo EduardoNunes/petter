@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./color-fonte.css";
 import Image from "next/image";
+import { useSelfContext } from "@/context/selfContext";
 
 interface PetterInfo {
   petterName: string;
@@ -15,10 +16,14 @@ interface PetterInfo {
 
 export default function Congratulations() {
   const [petterName, setPetterName] = useState("");
-  const [loading, setLoading] = useState(false);
+  const {loading, setLoading} = useSelfContext();
   const [profileImage, setProfileImage] = useState("");
 
   const router = useRouter();
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     const dataInfos = async () => {
@@ -40,31 +45,34 @@ export default function Congratulations() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start h-[50%]">
-      {loading && <Loading />}
-      <div className="colorful">
-        <p className="font-primary text-ultraLarge">Parabéns!</p>
+    <div className="flex flex-col justify-between h-full pb-2">
+      <div></div>
+      <div className="flex flex-col items-center">
+        {loading && <Loading />}
+        <div className="colorful">
+          <p className="font-primary text-ultraLarge">Parabéns!</p>
+        </div>
+        <Image
+          src={profileImage || "/images/paw.png"}
+          width={40}
+          height={40}
+          alt="Profile Image"
+          className="object-cover w-28 h-28 rounded-full border-lime-950 border-solid border-[3px] mb-8"
+        />
+        <p className="font-secondary font-bold text-center">
+          {`Seja muito bem vind@, ${petterName.split(" ")[0]}`}!
+        </p>
+        <p className="font-secondary font-bold text-center">
+          Agora você é um Petter de verdade!
+        </p>
+        <p className="font-secondary text-center">
+          <br />
+          Vamos conhecer o mundo dos <br />
+          Petters e fazer amigos?
+        </p>
       </div>
-      <Image
-        src={profileImage || "/images/paw.png"}
-        width={40}
-        height={40}
-        alt="Profile Image"
-        className="object-cover w-28 h-28 rounded-full border-lime-950 border-solid border-[3px] mb-8"
-      />
-      <p className="font-secondary font-bold">
-        {`Seja muito bem vind@, ${petterName.split(" ")[0]}`}!
-      </p>
-      <p className="font-secondary font-bold">
-        Agora você é um Petter de verdade!
-      </p>
-      <p className="font-secondary text-center">
-        <br />
-        Vamos conhecer o mundo dos <br />
-        Petters e fazer amigos?
-      </p>
 
-      <div className="absolute w-[90%] bottom-[3%]">
+      <div className="w-full">
         <div onClick={handleClickGoOn}>
           <Button text="Vamos lá!" type="internalButton" />
         </div>

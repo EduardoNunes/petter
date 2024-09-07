@@ -1,13 +1,12 @@
 "use client";
 
+import { useSelfContext } from "@/context/selfContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import Loading from "../Loading/Loading";
 
 export default function Footer() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const { setLoading} = useSelfContext();
 
   const handleClickGoHome = () => {
     if (window.location.pathname !== "/pages/home") {
@@ -31,8 +30,7 @@ export default function Footer() {
   };
 
   return (
-    <div className="absolute flex items-center justify-between bottom-0 h-[7%] w-[90%] pl-2 pr-2">
-      {loading && <Loading />}
+    <div className="flex items-center justify-between h-[62px] w-full">
       <button onClick={handleClickGoHome}>
         <Image
           src="/images/home.png"

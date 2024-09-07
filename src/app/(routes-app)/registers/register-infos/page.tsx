@@ -8,8 +8,11 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import FormUserRegisterData from "./FormRegisterDataUser";
+import { useSelfContext } from "@/context/selfContext";
+import Loading from "@/components/Loading/Loading";
 
 export default function RegisterUserInfos() {
+  const { loading, setLoading } = useSelfContext();
   const [tutorName, setTutorName] = useState("");
   const [email, setEmail] = useState("");
   const [userImage, setUserImage] = useState("");
@@ -18,6 +21,10 @@ export default function RegisterUserInfos() {
   const [name, setName] = useState("");
 
   const router = useRouter();
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     const dataInfos = async () => {
@@ -91,7 +98,8 @@ export default function RegisterUserInfos() {
   }
 
   return (
-    <div className="flex flex-col justify-start w-[90%] h-full">
+    <div className="flex flex-col justify-start w-[90%] h-full pb-2">
+      {loading && <Loading />}
       <div className="h-[173px]">
         <Header text="Cadastro do Tutor" />
         <div className="flex flex-col items-center">

@@ -22,6 +22,7 @@ interface SelfType {
     publicPlace?: string;
     uf?: string;
   }>;
+
   PetterInfo?: Array<{
     id: number;
     petterName?: string;
@@ -36,6 +37,8 @@ interface SelfContextType {
   self: SelfType;
   setSelf: (value: SelfType) => void;
   getSelf: () => Promise<void>;
+  loading: boolean;
+  setLoading: (value: boolean) => void;
 }
 
 const SelfContext = createContext<SelfContextType | null>(null);
@@ -46,6 +49,7 @@ interface SelfProviderProps {
 
 export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const [self, setSelf] = useState<SelfType>({});
+  const [loading, setLoading] = useState(false);
 
   async function getSelf() {
     const session = await getSession();
@@ -91,6 +95,8 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
     self,
     setSelf,
     getSelf,
+    loading,
+    setLoading,
   };
 
   return (

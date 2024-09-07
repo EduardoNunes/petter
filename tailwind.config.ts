@@ -12,6 +12,7 @@ const config: Config = {
         secondary: ["Helvetica"],
       },
       fontSize: {
+        verySmaller: "0.8rem",
         smaller: "0.875rem",
         small: "1rem",
         medium: "1.25rem",
@@ -39,6 +40,8 @@ const config: Config = {
         azulForteSombra: "#51BAD0",
         rosaForteSombra: "#D38CB4",
         brancoSombra: "#BEE6F2",
+
+        lightGray: "#DCDCDC",
       },
       dropShadow: {
         sombra: "0px 10px 1px rgba(116, 147, 100, 1)",

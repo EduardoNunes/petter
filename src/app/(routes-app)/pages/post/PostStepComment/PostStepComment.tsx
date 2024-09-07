@@ -9,12 +9,17 @@ import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
+import errorResponse from "@/components/Error/ErrorResponse";
+import MessageToast from "@/components/Error/MessageToast";
 
 export default function PostStepComment() {
   const { image } = usePostTimelineContext();
   const { handleToDecreaseCurrentStep } = useStepContext();
-  const { getSelf, self } = useSelfContext();
+  const { getSelf, self, setLoading } = useSelfContext();
   const [commentText, setCommentText] = useState<string>("");
+  const [toast, setToast] = useState("");
+  const [caracteres, setCaracteres] = useState(50);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -23,11 +28,17 @@ export default function PostStepComment() {
   }, []);
 
   const handleTextChange = (text: string) => {
-    setCommentText(text);
+    if (text.length <= 50) {
+      setCommentText(text);
+      setCaracteres(50 - text.length);
+    } else {
+      setToast("Número máximo de caracteres atingido.");
+    }
   };
 
   async function handleClickSubmit(event: { preventDefault: () => void }) {
     event.preventDefault();
+    setLoading(true);
 
     const session = await getSession();
     const token = session?.user.accessToken;
@@ -62,15 +73,17 @@ export default function PostStepComment() {
         handleToDecreaseCurrentStep();
       }, 1000);
 
-      console.log("Imagem postada na timeline");
       router.push("home");
-    } catch (error) {
-      console.error("ERROR", error);
+    } catch (error: any) {
+      const response = errorResponse(error);
+      setLoading(false);
+      setToast(response);
     }
   }
 
   return (
-    <>
+    <div className="flex flex-col justify-between h-full">
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
       <Header text="Nova divulgação" showArrow={true} showContinue={false} />
 
       {image && <SelectedImage />}
@@ -83,13 +96,13 @@ export default function PostStepComment() {
           height="30vh"
         />
       </div>
-      <div className="absolute w-[90%] bottom-[3%]">
+      <div className="w-full">
         <Button
           text={"Publicar"}
           type="internalButton"
           onClick={handleClickSubmit}
         />
       </div>
-    </>
+    </div>
   );
 }

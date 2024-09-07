@@ -8,10 +8,10 @@ export default function InfosUserRegisterCredentials() {
   const [loading, setLoading] = useState(false);
 
   const HandleClickGoogleRegister = () => {
-    setLoading(true)
-    localStorage.setItem("loggedBy", "google")
-    signIn("google", { callbackUrl: "/register-user/register-infos" })
-  }
+    setLoading(true);
+    localStorage.setItem("loggedBy", "google");
+    signIn("google", { callbackUrl: "/register-user/register-infos" });
+  };
 
   return (
     <div>
@@ -28,6 +28,7 @@ export default function InfosUserRegisterCredentials() {
           text="Cadastrar com o Google"
           type="externalButton"
           onClick={() => HandleClickGoogleRegister()}
+          disabled={true}
         >
           <Image
             src="/images/google.png"
@@ -38,7 +39,7 @@ export default function InfosUserRegisterCredentials() {
         </Button>
       </div>
 
-      <Button text="Cadastrar com o Facebook" type="externalButton">
+      <Button text="Cadastrar com o Facebook" type="externalButton" disabled={true}>
         <Image
           src="/images/facebook.png"
           height={24}
