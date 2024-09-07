@@ -23,6 +23,8 @@ const FooterCard: React.FC<FooterCardProps> = ({
     setTimelineImageId,
   } = useTimeLineContext();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isLiked, setIsLiked] = useState(likedByMe || false);
+  const [likeCount, setLikeCount] = useState(likesCount);
 
   const toggleText = () => setIsExpanded(!isExpanded);
 
@@ -33,22 +35,36 @@ const FooterCard: React.FC<FooterCardProps> = ({
       handleClickShowComment(id, "timeline");
     };
 
+  const handleLikeClick = async () => {
+    const newLikedStatus = !isLiked;
+    setIsLiked(newLikedStatus);
+    setLikeCount((prev) => (newLikedStatus ? prev + 1 : prev - 1));
+
+    try {
+      await handleClickLikeFunction(imageId, "timeline");
+    } catch (error) {
+      setIsLiked(likedByMe || false);
+      setLikeCount(likesCount);
+      console.error("Erro ao curtir a imagem:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col mb-4">
       <div className="flex items-center h-9 pl-2 pr-2 gap-3">
         <button
           className="flex items-center gap-3"
-          onClick={() => handleClickLikeFunction(imageId, "timeline")}
+          onClick={handleLikeClick}
         >
           <Image
             src={
-              likedByMe ? "/images/paw-love-pink.png" : "/images/paw-love.png"
+              isLiked ? "/images/paw-love-pink.png" : "/images/paw-love.png"
             }
             width={28}
             height={28}
             alt="Paw Love"
           />
-          <p>{likesCount}</p>
+          <p>{likeCount}</p>
         </button>
         <button
           className="flex items-center gap-3"
