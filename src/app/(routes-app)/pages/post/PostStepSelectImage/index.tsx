@@ -1,11 +1,10 @@
 import Header from "@/components/Header/Header";
+import Loading from "@/components/Loading/Loading";
 import { usePostTimelineContext } from "@/context/postTimelineContext";
-import SelectedImage from "../SelectedImage/SelectedImage";
-import EnframeImages from "./EnframeImage/EnframeImages";
-import LoadGallery from "./LoadGalery/LoadGalery";
 import { useSelfContext } from "@/context/selfContext";
 import { useEffect } from "react";
-import Loading from "@/components/Loading/Loading";
+import SelectedImage from "../SelectedImage/SelectedImage";
+import LoadGallery from "./LoadGalery/LoadGalery";
 
 export default function PostStepSelectImage() {
   const { image } = usePostTimelineContext();
@@ -24,12 +23,14 @@ export default function PostStepSelectImage() {
         routeToGo="home"
         showContinue={image ? true : false}
       />
+      <div className="w-full h-[calc(100%-80px)]">
+        <SelectedImage />
+      </div>
+      <div className="w-full mt-4">
+        <LoadGallery />
+      </div>
 
-      <SelectedImage />
-
-      <LoadGallery />
-
-      <EnframeImages />
+      {/*  <EnframeImages /> */}
     </div>
   );
 }

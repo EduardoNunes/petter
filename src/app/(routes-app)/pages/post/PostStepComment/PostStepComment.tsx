@@ -18,7 +18,6 @@ export default function PostStepComment() {
   const { getSelf, self, setLoading } = useSelfContext();
   const [commentText, setCommentText] = useState<string>("");
   const [toast, setToast] = useState("");
-  const [caracteres, setCaracteres] = useState(50);
 
   const router = useRouter();
 
@@ -28,9 +27,8 @@ export default function PostStepComment() {
   }, []);
 
   const handleTextChange = (text: string) => {
-    if (text.length <= 50) {
+    if (text.length <= 150) {
       setCommentText(text);
-      setCaracteres(50 - text.length);
     } else {
       setToast("Número máximo de caracteres atingido.");
     }
@@ -86,9 +84,9 @@ export default function PostStepComment() {
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       <Header text="Nova divulgação" showArrow={true} showContinue={false} />
 
-      {image && <SelectedImage />}
+      <div className="h-[calc(60%-80px)]">{image && <SelectedImage />}</div>
 
-      <div className="flex items-center w-full mb-4">
+      <div className="flex items-center max-h-[calc(40%-80px)] w-full">
         <TextArea
           value={commentText}
           onTextChange={handleTextChange}
