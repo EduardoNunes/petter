@@ -68,7 +68,7 @@ export default function Header({
       {showContinue && (
         <button
           onClick={handleToAddCurrentStep}
-          className="absolute right-0 font-secondary"
+          className="absolute font-bold right-0 font-secondary"
         >
           Continuar
         </button>

@@ -16,7 +16,7 @@ export default function PostStepSelectImage() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center h-full w-full">
+    <div className="flex flex-col items-center justify-between h-full w-full">
       {loading && <Loading />}
       <Header
         text="Nova divulgação"
@@ -27,12 +27,9 @@ export default function PostStepSelectImage() {
 
       <SelectedImage />
 
-      <div className="w-full h-[40%] flex flex-col items-center overflow-auto pb-8">
-        <LoadGallery />
-      </div>
-      <div className="mt-2">
-        <EnframeImages />
-      </div>
+      <LoadGallery />
+
+      <EnframeImages />
     </div>
   );
 }

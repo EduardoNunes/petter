@@ -1,55 +1,47 @@
 import MessageToast from "@/components/Error/MessageToast";
 import { usePostTimelineContext } from "@/context/postTimelineContext";
 import { useSelfContext } from "@/context/selfContext";
-import Image from "next/image";
 import { useState } from "react";
-import dataGalleryImagesTemp from "../../../../../../../public/dataTemp/dataGalleryTemp";
 
 export default function LoadGallery() {
   const { setImageURL, setImage } = usePostTimelineContext();
   const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
 
-  const handleImageClick = async (imageUrl: string) => {
-    setImageURL(imageUrl);
+  const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setLoading(true);
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
 
-    try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-
-      const file = new File([blob], imageUrl.split("/").pop() || "image", {
-        type: blob.type,
-      });
-
+      const imageUrl = URL.createObjectURL(file);
+      setImageURL(imageUrl);
       setImage(file);
-    } catch (error: any) {
-      setLoading(false);
-      setToast(error);
     }
     setLoading(false);
   };
 
   return (
-    <div className="grid grid-cols-4 gap-4 mt-8">
+    <div className="w-full mt-8">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {dataGalleryImagesTemp.map((item, index) => (
-        <div
-          key={index}
-          className="relative aspect-w-1 aspect-h-1 cursor-pointer w-[18vw] h-[18vw]"
-          onClick={() => handleImageClick(item.image)}
+      <div className="flex mt-6">
+        <label
+          htmlFor="fileInput"
+          className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-4"
         >
-          <Image
-            src={item.image}
-            alt=""
-            fill
-            className="rounded-sm object-cover"
-            sizes="(max-width: 200px) 18vw, 18vw"
-            priority={index === 0}
-            quality={50}
+          <span className="flex items-center h-10 font-secondary font-bold">
+            Selecionar imagem.
+          </span>
+          <input
+            id="fileInput"
+            type="file"
+            className="hidden"
+            name="images"
+            onChange={uploadImage}
+            accept=".jpg, .jpeg, .png"
           />
-        </div>
-      ))}
+        </label>
+      </div>
     </div>
   );
 }

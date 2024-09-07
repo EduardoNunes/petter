@@ -40,6 +40,8 @@ const config: Config = {
         azulForteSombra: "#51BAD0",
         rosaForteSombra: "#D38CB4",
         brancoSombra: "#BEE6F2",
+
+        lightGray: "#DCDCDC",
       },
       dropShadow: {
         sombra: "0px 10px 1px rgba(116, 147, 100, 1)",

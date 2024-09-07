@@ -22,7 +22,7 @@ export default function FormRegisterPetter() {
   const [petterBirth, setPetterBirth] = useState("");
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [profileUrl, setProfileUrl] = useState("");
-  const { loading, setLoading } = useSelfContext();
+  const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
 
   const route = useRouter();

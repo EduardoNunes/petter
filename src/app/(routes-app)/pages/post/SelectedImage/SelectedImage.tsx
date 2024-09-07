@@ -7,7 +7,7 @@ export default function SelectedImage() {
   const { imageURL } = usePostTimelineContext();
 
   return (
-    <div className="flex items-center h-[50%] w-full mb-4 bg-slate-500">
+    <div className="flex items-center h-[70%] w-full mb-4 bg-lightGray">
       {imageURL && (
         <Image
           src={imageURL}
