@@ -27,6 +27,17 @@ export default function FormLoadImages() {
 
   async function onSubmit(event: SyntheticEvent) {
     event.preventDefault();
+    
+    if (images.length === 0) {
+      setLoading(false);
+      setToast("Carregue pelo menos uma imagem do Petter.");
+      return;
+    } else if (images.length > 20) {
+      setLoading(false);
+      setToast("Por enquanto o máximo de imagens permitidas são 20.");
+      return;
+    }
+
     const session = await getSession();
     const token = session?.user.accessToken;
     const petterInfo = session?.user.petterInfo as PetterInfo[];
@@ -34,16 +45,6 @@ export default function FormLoadImages() {
 
     try {
       const formData = new FormData();
-
-      if (images.length === 0) {
-        setLoading(false);
-        setToast("Carregue pelo menos uma imagem do Petter.");
-        return;
-      } else if (images.length > 20) {
-        setLoading(false);
-        setToast("Por enquanto o máximo de imagens permitidas são 20.");
-        return;
-      }
 
       for await (const image of images) {
         schemaRegisterPetterImage.validate(
