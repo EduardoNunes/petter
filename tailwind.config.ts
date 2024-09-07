@@ -12,6 +12,7 @@ const config: Config = {
         secondary: ["Helvetica"],
       },
       fontSize: {
+        verySmaller: "0.8rem",
         smaller: "0.875rem",
         small: "1rem",
         medium: "1.25rem",

@@ -18,12 +18,11 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
   const [toast, setToast] = useState("");
 
   useEffect(() => {
-    setLoading(true);
-
     async function loadImagesProfile() {
       const session = await getSession();
       const token = session?.user.accessToken;
-
+      setLoading(true);
+      
       try {
         const response = await api.get(
           `show-images-profile/top-20-images?petterId=${petterId}`,
