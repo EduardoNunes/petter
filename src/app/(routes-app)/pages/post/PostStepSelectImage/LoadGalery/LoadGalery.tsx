@@ -22,12 +22,12 @@ export default function LoadGallery() {
   };
 
   return (
-    <div className="w-full mt-8">
+    <div className="w-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      <div className="flex mt-6">
+      <div className="flex">
         <label
           htmlFor="fileInput"
-          className="flex items-center justify-center w-full cursor-pointer h-10 rounded-3xl bg-azulPalido mb-4"
+          className="flex items-center justify-center w-full h-10 cursor-pointer rounded-3xl bg-azulPalido"
         >
           <span className="flex items-center h-10 font-secondary font-bold">
             Selecionar imagem.
