@@ -20,7 +20,7 @@ export default function HeaderProfile({ petterName }: HeaderProfileProps) {
 
     setTimeout(() => {
       router.replace("/login");
-    }, 3000);
+    }, 2000);
   }
 
   return (

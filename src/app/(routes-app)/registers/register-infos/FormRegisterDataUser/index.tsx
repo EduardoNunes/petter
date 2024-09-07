@@ -119,6 +119,11 @@ export default function FormUserRegisterData() {
     const newCep = event.target.value;
     if (newCep.length <= 9) {
       setCep(formatCep(newCep));
+      setNeighborhood("");
+      setDdd("");
+      setLocality("");
+      setPublicPlace("");
+      setUf("");
     }
   };
 
