@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function Footer() {
   const router = useRouter();
-  const { setLoading} = useSelfContext();
+  const { setLoading, setIsUser } = useSelfContext();
 
   const handleClickGoHome = () => {
     if (window.location.pathname !== "/pages/home") {
@@ -25,6 +25,7 @@ export default function Footer() {
   const handleClickGoProfile = () => {
     if (window.location.pathname !== "/pages/profile") {
       setLoading(true);
+      setIsUser(true);
       router.push("/pages/profile");
     }
   };

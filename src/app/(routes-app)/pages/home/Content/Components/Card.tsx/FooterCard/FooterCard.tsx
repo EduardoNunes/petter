@@ -1,3 +1,4 @@
+import { useSelfContext } from "@/context/selfContext";
 import { useTimeLineContext } from "@/context/timeLineContext";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -22,6 +23,7 @@ const FooterCard: React.FC<FooterCardProps> = ({
     handleClickShowComment,
     setTimelineImageId,
   } = useTimeLineContext();
+  const {setLoading} = useSelfContext();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(likedByMe || false);
   const [likeCount, setLikeCount] = useState(likesCount);
@@ -31,6 +33,7 @@ const FooterCard: React.FC<FooterCardProps> = ({
   const handleClickComment =
     (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
+      setLoading(true);
       setTimelineImageId(id);
       handleClickShowComment(id, "timeline");
     };

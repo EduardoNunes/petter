@@ -1,3 +1,4 @@
+import { HomeProvider } from "@/context/homeContext";
 import { TimeLineProvider } from "@/context/timeLineContext";
 
 export default function RootLayout({
@@ -7,7 +8,9 @@ export default function RootLayout({
 }) {
   return (
     <div className="flex justify-center items-center h-[100vh] w-[100vw]">
-      <TimeLineProvider>{children}</TimeLineProvider>
+      <TimeLineProvider>
+        <HomeProvider>{children}</HomeProvider>
+      </TimeLineProvider>
     </div>
   );
 }

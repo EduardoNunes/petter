@@ -1,14 +1,14 @@
 import { useSelfContext } from "@/context/selfContext";
 import { useTimeLineContext } from "@/context/timeLineContext";
 import api from "@/server/api";
+import { schemaPostComment } from "@/validation/schemaPostComment";
+import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import TextArea from "../TextArea/TextArea";
-import "./animation.css";
-import { getSession } from "next-auth/react";
-import Loading from "../Loading/Loading";
-import MessageToast from "../Error/MessageToast";
-import { schemaPostComment } from "@/validation/schemaPostComment";
+import MessageToast from "../../Error/MessageToast";
+import Loading from "../../Loading/Loading";
+import TextArea from "../../TextArea/TextArea";
+import "../animation.css";
 
 export default function ModalComment() {
   const { self, loading, setLoading } = useSelfContext();
@@ -21,7 +21,6 @@ export default function ModalComment() {
   const [animation, setAnimation] = useState("slide-in");
   const [commentAdd, setCommentAdd] = useState("");
   const [toast, setToast] = useState("");
-  const [caracteres, setCaracteres] = useState(150);
 
   useEffect(() => {
     setLoading(false);
@@ -37,7 +36,6 @@ export default function ModalComment() {
   const handleTextChange = (text: string) => {
     if (text.length <= 150) {
       setCommentAdd(text);
-      setCaracteres(150 - text.length);
     } else {
       setToast("Número máximo de caracteres atingido.");
     }

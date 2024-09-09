@@ -3,37 +3,65 @@
 import Footer from "@/components/Footer/Footer";
 import { useSelfContext } from "@/context/selfContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import GalleryProfile from "./GalleryProfile";
 import HeaderProfile from "./HeaderProfile";
 import InfosProfile from "./InfosProfile";
 import Loading from "@/components/Loading/Loading";
+import api from "@/server/api";
+import { getSession } from "next-auth/react";
+import MessageToast from "@/components/Error/MessageToast";
 
 export default function Profile() {
-  const { self, getSelf, loading, setLoading } = useSelfContext();
+  const { self, getSelf, loading, setLoading, isUser, visitantProfile } =
+    useSelfContext();
+  const [toast, setToast] = useState("");
+  const [petterInfo, setPetterInfo] = useState<any>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    getSelf();
+  }, []);
+
+  useEffect(() => {
+    if (isUser) {
+      setPetterInfo(self.PetterInfo && self.PetterInfo[0]);
+    }
+    if (!isUser) {
+      setPetterInfo(visitantProfile);
+    }
+    setLoading(false);
+  }, [self]);
+
+  async function loadProfileVisitant() {
+    const session = await getSession();
+    const token = session?.user.accessToken;
+
+    try {
+      const response = await api.get(`/petter-profile-page?petterId=2`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setPetterInfo(response.data);
+    } catch (error: any) {
+      setLoading(false);
+      setToast(error);
+    }
+  }
 
   const handleClickGoEditProfile = () => {
     setLoading(true);
     router.push("edit-profile");
   };
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    getSelf();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const petterInfo = self.PetterInfo && self.PetterInfo[0];
-
   return (
     <div className="flex flex-col w-[90%] h-full">
+      {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
       <div className="h-[327px] w-full">
-        <HeaderProfile petterName={petterInfo?.petterName || ""} />
+        <HeaderProfile
+          petterName={petterInfo?.petterName.split(" ")[0] || ""}
+        />
         <InfosProfile
           profileImage={petterInfo?.profileImage || ""}
           petterKind={petterInfo?.petterKind || ""}
@@ -44,6 +72,7 @@ export default function Profile() {
         </h1>
         <button
           className="font-secondary text-smaller bg-azulPalido text-black py-1 px-3 rounded-lg mb-3"
+          hidden={!isUser}
           onClick={handleClickGoEditProfile}
         >
           Editar Perfil
