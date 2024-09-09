@@ -1,16 +1,14 @@
 "use client";
 
+import MessageToast from "@/components/Error/MessageToast";
 import Footer from "@/components/Footer/Footer";
+import Loading from "@/components/Loading/Loading";
 import { useSelfContext } from "@/context/selfContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import GalleryProfile from "./GalleryProfile";
 import HeaderProfile from "./HeaderProfile";
 import InfosProfile from "./InfosProfile";
-import Loading from "@/components/Loading/Loading";
-import api from "@/server/api";
-import { getSession } from "next-auth/react";
-import MessageToast from "@/components/Error/MessageToast";
 
 export default function Profile() {
   const { self, getSelf, loading, setLoading, isUser, visitantProfile } =
@@ -31,29 +29,12 @@ export default function Profile() {
       setPetterInfo(visitantProfile);
     }
     setLoading(false);
-  }, [self]);
-
-  async function loadProfileVisitant() {
-    const session = await getSession();
-    const token = session?.user.accessToken;
-
-    try {
-      const response = await api.get(`/petter-profile-page?petterId=2`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      setPetterInfo(response.data);
-    } catch (error: any) {
-      setLoading(false);
-      setToast(error);
-    }
-  }
+  }, [self, isUser]);
 
   const handleClickGoEditProfile = () => {
     setLoading(true);
     router.push("edit-profile");
   };
-
   return (
     <div className="flex flex-col w-[90%] h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}

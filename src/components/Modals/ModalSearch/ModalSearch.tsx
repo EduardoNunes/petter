@@ -31,6 +31,12 @@ export default function ModalSearch() {
 
   async function onChange(event: ChangeEvent<HTMLInputElement>) {
     const petterName = event.target.value;
+
+    if (petterName === "") {
+      setFound([])
+      return;
+    }
+
     setLoading(true);
     const session = await getSession();
     const token = session?.user.accessToken;
@@ -51,7 +57,7 @@ export default function ModalSearch() {
 
   async function handleOpenProfile(petterId: number) {
     setLoading(true);
-    
+
     if (self.PetterInfo && petterId === self.PetterInfo[0].id) {
       setIsUser(true);
     } else {
