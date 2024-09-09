@@ -49,7 +49,7 @@ interface TimeLineProviderProps {
 export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   children,
 }) => {
-  const { self } = useSelfContext();
+  const { self, setLoading } = useSelfContext();
 
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
   const [likesCountId, setLikesCountId] = useState<number | undefined>(
@@ -102,6 +102,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     type: "timeline" | "image"
   ): Promise<void> {
     setCommentsOpenModal(true);
+    setLoading(true)
     setComments([])
 
     if (!self.PetterInfo) {
@@ -125,8 +126,10 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
 
       setComments(response.data);
       setCommentsCount(response.data.length);
+      setLoading(false)
     } catch (error) {
       console.log("Erro ao mostrar os comentários", error);
+      setLoading(false)
     }
   }
 
@@ -165,3 +168,4 @@ export const useTimeLineContext = (): TimeLineContextType => {
   }
   return context;
 };
+

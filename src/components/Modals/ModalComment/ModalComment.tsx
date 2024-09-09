@@ -22,10 +22,6 @@ export default function ModalComment() {
   const [commentAdd, setCommentAdd] = useState("");
   const [toast, setToast] = useState("");
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
   const handleClickCloseModal = () => {
     setAnimation("slide-out");
     setTimeout(() => {

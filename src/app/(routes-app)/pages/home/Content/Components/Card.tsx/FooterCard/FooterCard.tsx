@@ -33,7 +33,6 @@ const FooterCard: React.FC<FooterCardProps> = ({
   const handleClickComment =
     (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      setLoading(true);
       setTimelineImageId(id);
       handleClickShowComment(id, "timeline");
     };
