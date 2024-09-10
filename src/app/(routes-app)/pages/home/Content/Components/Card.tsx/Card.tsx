@@ -9,8 +9,10 @@ import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import FooterCard from "./FooterCard/FooterCard";
+import HeaderCard from "./HeaderCard/HeaderCard";
 
 interface ImageType {
+  petterInfo: any;
   id: number;
   url: string;
   description: string;
@@ -50,7 +52,6 @@ export default function Card() {
         const response = await api.get("show-card-timeline/top-10-images", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
         const images = response.data.top10ImagesWithCounts;
 
         setImageSrc(images);
@@ -65,12 +66,13 @@ export default function Card() {
   }, [likesCount, likesCountId, commentsCount, likedByMe]);
 
   return (
-    <div className="flex flex-col relative w-full h-full overflow-auto">
+    <div className="flex flex-col w-full h-full overflow-auto">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {!imageSrc || imageSrc.length === 0
         ? ""
         : imageSrc.map((image, index) => (
             <div key={index} className="relative w-full h-auto">
+              <HeaderCard petterInfo={image.petterInfo} />
               <Image
                 src={image.url}
                 width={200}
@@ -81,8 +83,6 @@ export default function Card() {
                   width: "100%",
                   height: "auto",
                   objectFit: "cover",
-                  top: 0,
-                  left: 0,
                 }}
               />
               <FooterCard
