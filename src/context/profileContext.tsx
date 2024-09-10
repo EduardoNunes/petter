@@ -5,6 +5,10 @@ import React, { ReactNode, createContext, useContext, useState } from "react";
 interface ProfileContextType {
   numberImagesGallery: number;
   setNumberImagesGallery: (value: number) => void;
+  showImage: boolean; 
+  setShowImage: (value: boolean) => void;
+  imageSelected: string; 
+  setImageSelected: (value: string) => void;
 }
 
 const ProfileContext = createContext<ProfileContextType | null>(null);
@@ -17,10 +21,16 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   children,
 }) => {
   const [numberImagesGallery, setNumberImagesGallery] = useState(0);
+  const [showImage, setShowImage] = useState(false);
+  const [imageSelected, setImageSelected] = useState("");
 
   const contextValue: ProfileContextType = {
     numberImagesGallery,
     setNumberImagesGallery,
+    showImage, 
+    setShowImage,
+    imageSelected, 
+    setImageSelected,
   };
 
   return (

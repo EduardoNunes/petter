@@ -9,10 +9,13 @@ import { useEffect, useState } from "react";
 import GalleryProfile from "./GalleryProfile";
 import HeaderProfile from "./HeaderProfile";
 import InfosProfile from "./InfosProfile";
+import { useProfileContext } from "@/context/profileContext";
+import ShowImageModal from "../../../../components/Modals/ShowImageModal/ShowImageModal";
 
 export default function Profile() {
   const { self, getSelf, loading, setLoading, isUser, visitantProfile } =
     useSelfContext();
+  const { showImage } = useProfileContext();
   const [toast, setToast] = useState("");
   const [petterInfo, setPetterInfo] = useState<any>(null);
   const router = useRouter();
@@ -39,6 +42,7 @@ export default function Profile() {
     <div className="flex flex-col w-[90%] h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {loading && <Loading />}
+      {showImage && <ShowImageModal />}
       <div className="h-[327px] w-full">
         <HeaderProfile
           petterName={petterInfo?.petterName.split(" ")[0] || ""}

@@ -12,9 +12,10 @@ interface GalleryProfileProps {
 }
 
 export default function GalleryProfile({ petterId }: GalleryProfileProps) {
-  const { setNumberImagesGallery } = useProfileContext();
+  const { setNumberImagesGallery, setShowImage, setImageSelected } =
+    useProfileContext();
   const [imageSrc, setImageSrc] = useState<string[]>([]);
-  const {loading, setLoading} = useSelfContext();
+  const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
       const session = await getSession();
       const token = session?.user.accessToken;
       setLoading(true);
-      
+
       try {
         const response = await api.get(
           `show-images-profile/top-20-images?petterId=${petterId}`,
@@ -43,13 +44,23 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
     loadImagesProfile();
   }, [petterId, setNumberImagesGallery]);
 
+  function openImage(image: string) {
+    setLoading(true);
+    setImageSelected(image);
+    setShowImage(true);
+  }
+
   return (
     <div className="grid grid-cols-3 gap-1">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {imageSrc.map((image, index) => (
-        <div key={index} className="relative w-[29.5vw] h-[29.5vw]">
+        <div
+          key={index}
+          className="relative w-[29.5vw] h-[29.5vw]"
+          onClick={() => openImage(image)}
+        >
           <Image
-            src={image}
+            src={image.split(" ")[1]}
             alt={`${index}`}
             fill
             className="rounded-sm object-cover"
