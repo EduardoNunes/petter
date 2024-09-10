@@ -1,20 +1,19 @@
-import { ChangeEvent, useState } from "react";
-import "../animation.css";
-import Image from "next/image";
-import { useHomeContext } from "@/context/homeContext";
-import Input from "@/components/Input/Input";
-import api from "@/server/api";
-import { getSession } from "next-auth/react";
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
+import Input from "@/components/Input/Input";
 import Loading from "@/components/Loading/Loading";
+import { useHomeContext } from "@/context/homeContext";
 import { useSelfContext } from "@/context/selfContext";
+import api from "@/server/api";
+import { getSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ChangeEvent, useState } from "react";
+import "../animation.css";
 
 export default function ModalSearch() {
-  const { setIsOpenSearch } = useHomeContext();
-  const { self, loading, setLoading, setIsUser, setVisitantProfile } =
-    useSelfContext();
+  const { setIsOpenSearch, handleOpenProfile } = useHomeContext();
+  const { loading, setLoading } = useSelfContext();
   const [animation, setAnimation] = useState("slide-in");
   const [found, setFound] = useState<any[]>([]);
   const [toast, setToast] = useState("");
@@ -33,7 +32,7 @@ export default function ModalSearch() {
     const petterName = event.target.value;
 
     if (petterName === "") {
-      setFound([])
+      setFound([]);
       return;
     }
 
@@ -53,35 +52,6 @@ export default function ModalSearch() {
       setToast(response);
     }
     setLoading(false);
-  }
-
-  async function handleOpenProfile(petterId: number) {
-    setLoading(true);
-
-    if (self.PetterInfo && petterId === self.PetterInfo[0].id) {
-      setIsUser(true);
-    } else {
-      setIsUser(false);
-    }
-
-    const session = await getSession();
-    const token = session?.user.accessToken;
-
-    try {
-      const response = await api.get(
-        `petter-profile-page?petterId=${petterId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      setVisitantProfile(response.data);
-      router.push("/pages/profile");
-    } catch (error: any) {
-      setLoading(false);
-      const response = errorResponse(error);
-      setToast(response);
-    }
   }
 
   return (

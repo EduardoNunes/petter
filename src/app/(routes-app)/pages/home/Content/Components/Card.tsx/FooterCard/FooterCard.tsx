@@ -23,7 +23,6 @@ const FooterCard: React.FC<FooterCardProps> = ({
     handleClickShowComment,
     setTimelineImageId,
   } = useTimeLineContext();
-  const {setLoading} = useSelfContext();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(likedByMe || false);
   const [likeCount, setLikeCount] = useState(likesCount);
@@ -54,14 +53,9 @@ const FooterCard: React.FC<FooterCardProps> = ({
   return (
     <div className="flex flex-col mb-4">
       <div className="flex items-center h-9 pl-2 pr-2 gap-3">
-        <button
-          className="flex items-center gap-3"
-          onClick={handleLikeClick}
-        >
+        <button className="flex items-center gap-3" onClick={handleLikeClick}>
           <Image
-            src={
-              isLiked ? "/images/paw-love-pink.png" : "/images/paw-love.png"
-            }
+            src={isLiked ? "/images/paw-love-pink.png" : "/images/paw-love.png"}
             width={28}
             height={28}
             alt="Paw Love"

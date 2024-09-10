@@ -3,7 +3,7 @@ import { useHomeContext } from "@/context/homeContext";
 import Image from "next/image";
 
 export default function HeaderHome() {
-  const { isOpenSearch, setIsOpenSearch } = useHomeContext();
+  const { setIsOpenSearch } = useHomeContext();
 
   function handleOpenSearch() {
     setIsOpenSearch(true);

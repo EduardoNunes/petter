@@ -4,7 +4,7 @@ import api from "@/server/api";
 import { schemaPostComment } from "@/validation/schemaPostComment";
 import { getSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MessageToast from "../../Error/MessageToast";
 import Loading from "../../Loading/Loading";
 import TextArea from "../../TextArea/TextArea";
