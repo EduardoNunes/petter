@@ -18,16 +18,18 @@ export default function HeaderCard({ petterInfo }: HeaderCardProps) {
 
   return (
     <div
-      className="absolute flex items-center justify-between top-1 right-1 w-[30%] pl-4 gap-2 truncate rounded-full bg-branco/30"
+      className="absolute flex items-center justify-between top-1 right-1 w-[32%] pl-4 gap-2 truncate rounded-full bg-branco/30"
       onClick={() => handleOpenProfile(petterInfo.id)}
     >
-      <h1
-        className="text-small truncate"
-        style={{ textShadow: "0px 0px 6px rgba(255, 255, 255, 1)" }}
-        title={petterInfo.petterName}
-      >
-        {petterInfo.petterName}
-      </h1>
+      <div className="w-[calc(100%-40px)] text-center">
+        <h1
+          className="text-small truncate"
+          style={{ textShadow: "0px 0px 6px rgba(255, 255, 255, 1)" }}
+          title={petterInfo.petterName}
+        >
+          {petterInfo.petterName}
+        </h1>
+      </div>
       <Image
         src={petterInfo.profileImage}
         width={32}

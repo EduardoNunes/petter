@@ -5,7 +5,7 @@ import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { getSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 
 interface GalleryProfileProps {
   petterId: number;
@@ -14,35 +14,46 @@ interface GalleryProfileProps {
 export default function GalleryProfile({ petterId }: GalleryProfileProps) {
   const { setNumberImagesGallery, setShowImage, setImageSelected } =
     useProfileContext();
+  const { setLoading, visitantProfile, isUser } = useSelfContext();
   const [imageSrc, setImageSrc] = useState<string[]>([]);
-  const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
 
   useEffect(() => {
-    async function loadImagesProfile() {
-      const session = await getSession();
-      const token = session?.user.accessToken;
-      setLoading(true);
-
-      try {
-        const response = await api.get(
-          `show-images-profile/top-20-images?petterId=${petterId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        setImageSrc(response.data);
-        setNumberImagesGallery(response.data.length);
-      } catch (error: any) {
-        setLoading(false);
-        setToast(error);
-      }
-      setLoading(false);
+    if (isUser) {
+      loadImagesProfile();
+    } else {
+      const invertOrdImages = visitantProfile.PetterImages.sort(
+        (a: { id: number }, b: { id: number }) => b.id - a.id
+      );
+      setImageSrc(
+        invertOrdImages.map(
+          (item: { id: string; url: string }) => `${item.id} ${item.url}`
+        )
+      );
     }
-
-    loadImagesProfile();
   }, [petterId, setNumberImagesGallery]);
+
+  async function loadImagesProfile() {
+    const session = await getSession();
+    const token = session?.user.accessToken;
+    setLoading(true);
+
+    try {
+      const response = await api.get(
+        `show-images-profile/top-20-images?petterId=${petterId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setImageSrc(response.data);
+      setNumberImagesGallery(response.data.length);
+    } catch (error: any) {
+      setLoading(false);
+      setToast(error);
+    }
+    setLoading(false);
+  }
 
   function openImage(image: string) {
     setLoading(true);
@@ -53,7 +64,7 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
   return (
     <div className="grid grid-cols-3 gap-1">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {imageSrc.map((image, index) => (
+      {imageSrc.map((image: string, index: Key | null | undefined) => (
         <div
           key={index}
           className="relative w-[29.5vw] h-[29.5vw]"

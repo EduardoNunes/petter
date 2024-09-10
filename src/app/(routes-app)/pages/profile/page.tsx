@@ -38,6 +38,7 @@ export default function Profile() {
     setLoading(true);
     router.push("edit-profile");
   };
+
   return (
     <div className="flex flex-col w-[90%] h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}

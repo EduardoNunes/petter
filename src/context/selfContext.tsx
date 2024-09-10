@@ -5,6 +5,7 @@ import { getSession } from "next-auth/react";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
 interface SelfType {
+  [x: string]: any;
   id?: number;
   name?: string;
   email?: string;
