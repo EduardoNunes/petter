@@ -15,7 +15,8 @@ import ShowImageModal from "../../../../components/Modals/ShowImageModal/ShowIma
 export default function Profile() {
   const { self, getSelf, loading, setLoading, isUser, visitantProfile } =
     useSelfContext();
-  const { showImage } = useProfileContext();
+  const { showImage, visitantSelected, loadPetterVisitantInfos } =
+    useProfileContext();
   const [toast, setToast] = useState("");
   const [petterInfo, setPetterInfo] = useState<any>(null);
   const router = useRouter();
@@ -29,10 +30,14 @@ export default function Profile() {
       setPetterInfo(self.PetterInfo && self.PetterInfo[0]);
     }
     if (!isUser) {
-      setPetterInfo(visitantProfile);
+      setLoading(false);
+      loadPetterVisitantInfos(visitantProfile);
     }
-    setLoading(false);
   }, [self, isUser]);
+
+  useEffect(() => {
+    setPetterInfo(visitantSelected);
+  }, [visitantSelected]);
 
   const handleClickGoEditProfile = () => {
     setLoading(true);
@@ -64,7 +69,7 @@ export default function Profile() {
           Editar Perfil
         </button>
       </div>
-      <div className="overflow-auto h-[calc(100%-389px)]">
+      <div className="h-[calc(100%-389px)]">
         {self.PetterInfo && (
           <GalleryProfile petterId={(petterInfo && petterInfo.id) || 0} />
         )}

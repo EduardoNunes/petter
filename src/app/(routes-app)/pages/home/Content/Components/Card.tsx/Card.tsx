@@ -3,7 +3,6 @@
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
 import { useSelfContext } from "@/context/selfContext";
-import { useTimeLineContext } from "@/context/timeLineContext";
 import api from "@/server/api";
 import { getSession } from "next-auth/react";
 import Image from "next/image";
@@ -27,20 +26,16 @@ interface PetterInfo {
 }
 
 export default function Card() {
-  const { likesCount, likesCountId, commentsCount, likedByMe } =
-    useTimeLineContext();
   const { setLoading } = useSelfContext();
   const [imageSrc, setImageSrc] = useState<ImageType[]>([]);
   const [toast, setToast] = useState("");
-  const [petterLoggedId, setPetterLoggedId] = useState<number | undefined>(
-    undefined
-  );
+  const [petterLoggedId, setPetterLoggedId] = useState<number | undefined>(undefined);
   const scrollableDivRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     loadTimeline(page);
-  }, [page, likesCount, likesCountId, commentsCount, likedByMe]);
+  }, [page]);
 
   const loadTimeline = async (newPage: number) => {
     const session = await getSession();
@@ -48,7 +43,7 @@ export default function Card() {
     const petterInfoId = session?.user.petterInfo as PetterInfo[];
 
     setPetterLoggedId(petterInfoId[0].id);
-    console.log("CHAMOU");
+
     try {
       const response = await api.get(
         `show-card-timeline/images?page=${newPage}`,
@@ -56,8 +51,8 @@ export default function Card() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
       const images = response.data.imagesWithCounts;
-      console.log("IMAGES", images);
       setImageSrc((prevImages) => [...prevImages, ...images]);
     } catch (error: any) {
       const response = errorResponse(error);

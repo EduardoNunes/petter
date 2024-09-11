@@ -1,5 +1,8 @@
-import { useHomeContext } from "@/context/homeContext";
+import { useSelfContext } from "@/context/selfContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+
 
 interface HeaderCardProps {
   petterInfo: {
@@ -14,7 +17,22 @@ interface HeaderCardProps {
 }
 
 export default function HeaderCard({ petterInfo }: HeaderCardProps) {
-  const { handleOpenProfile } = useHomeContext();
+  const { setLoading, setIsUser, self, setVisitantProfile } =
+    useSelfContext();
+  const router = useRouter();
+
+  async function handleOpenProfile(petterId: number) {
+    setLoading(true);
+
+    if (self.PetterInfo && petterId === self.PetterInfo[0].id) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+      setVisitantProfile(petterId);
+    }
+
+    router.push("/pages/profile");
+  }
 
   return (
     <div

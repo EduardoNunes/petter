@@ -42,8 +42,8 @@ interface SelfContextType {
   setLoading: (value: boolean) => void;
   isUser: boolean;
   setIsUser: (value: boolean) => void;
-  visitantProfile: SelfType;
-  setVisitantProfile: (value: SelfType) => void;
+  visitantProfile: number;
+  setVisitantProfile: (value: number) => void;
 }
 
 const SelfContext = createContext<SelfContextType | null>(null);
@@ -56,7 +56,7 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const [self, setSelf] = useState<SelfType>({});
   const [loading, setLoading] = useState(false);
   const [isUser, setIsUser] = useState(true);
-  const [visitantProfile, setVisitantProfile] = useState<SelfType>({});
+  const [visitantProfile, setVisitantProfile] = useState(0);
 
   async function getSelf() {
     const session = await getSession();

@@ -12,8 +12,9 @@ import { ChangeEvent, useState } from "react";
 import "../animation.css";
 
 export default function ModalSearch() {
-  const { setIsOpenSearch, handleOpenProfile } = useHomeContext();
-  const { loading, setLoading } = useSelfContext();
+  const { setIsOpenSearch } = useHomeContext();
+  const { loading, setLoading, self, setIsUser, setVisitantProfile } =
+    useSelfContext();
   const [animation, setAnimation] = useState("slide-in");
   const [found, setFound] = useState<any[]>([]);
   const [toast, setToast] = useState("");
@@ -28,7 +29,7 @@ export default function ModalSearch() {
     }, 300);
   }
 
-  async function onChange(event: ChangeEvent<HTMLInputElement>) {
+  async function handleLoadUsers(event: ChangeEvent<HTMLInputElement>) {
     const petterName = event.target.value;
 
     if (petterName === "") {
@@ -54,6 +55,19 @@ export default function ModalSearch() {
     setLoading(false);
   }
 
+  async function handleOpenProfile(petterId: number) {
+    setLoading(true);
+
+    if (self.PetterInfo && petterId === self.PetterInfo[0].id) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+      setVisitantProfile(petterId);
+    }
+
+    router.push("/pages/profile");
+  }
+
   return (
     <div
       className={`absolute top-0 left-0 z-10 flex flex-col w-full h-full px-8 py-2 bg-branco ${animation}`}
@@ -69,7 +83,7 @@ export default function ModalSearch() {
             name="search"
             autoComplete="search"
             style="mb-0 pl-10 pr-4"
-            onChange={onChange}
+            onChange={handleLoadUsers}
           />
           <Image
             src="/images/search.png"

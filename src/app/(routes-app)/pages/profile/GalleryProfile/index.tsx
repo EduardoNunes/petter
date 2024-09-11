@@ -1,59 +1,28 @@
 import MessageToast from "@/components/Error/MessageToast";
-import Loading from "@/components/Loading/Loading";
 import { useProfileContext } from "@/context/profileContext";
 import { useSelfContext } from "@/context/selfContext";
-import api from "@/server/api";
-import { getSession } from "next-auth/react";
 import Image from "next/image";
-import { Key, useEffect, useState } from "react";
+import { Key, useEffect, useRef, useState } from "react";
 
 interface GalleryProfileProps {
   petterId: number;
 }
 
 export default function GalleryProfile({ petterId }: GalleryProfileProps) {
-  const { setNumberImagesGallery, setShowImage, setImageSelected } =
+  const { setShowImage, setImageSelected, loadImagesProfile, imageSrc } =
     useProfileContext();
   const { setLoading, visitantProfile, isUser } = useSelfContext();
-  const [imageSrc, setImageSrc] = useState<string[]>([]);
   const [toast, setToast] = useState("");
+  const scrollableDivRef = useRef<HTMLDivElement>(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (isUser) {
-      loadImagesProfile();
+      loadImagesProfile(petterId, page);
     } else {
-      const invertOrdImages = visitantProfile.PetterImages.sort(
-        (a: { id: number }, b: { id: number }) => b.id - a.id
-      );
-      setImageSrc(
-        invertOrdImages.map(
-          (item: { id: string; url: string }) => `${item.id} ${item.url}`
-        )
-      );
+      loadImagesProfile(visitantProfile, page);
     }
-  }, [petterId, setNumberImagesGallery]);
-
-  async function loadImagesProfile() {
-    const session = await getSession();
-    const token = session?.user.accessToken;
-    setLoading(true);
-
-    try {
-      const response = await api.get(
-        `show-images-profile/top-20-images?petterId=${petterId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      setImageSrc(response.data);
-      setNumberImagesGallery(response.data.length);
-    } catch (error: any) {
-      setLoading(false);
-      setToast(error);
-    }
-    setLoading(false);
-  }
+  }, [page, petterId]);
 
   function openImage(image: string) {
     setLoading(true);
@@ -61,8 +30,38 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
     setShowImage(true);
   }
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollableDivRef.current) {
+        const scrollDiv = scrollableDivRef.current;
+        let isBottom =
+          scrollDiv.scrollTop + scrollDiv.clientHeight >=
+          scrollDiv.scrollHeight;
+
+        if (isBottom) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      }
+    };
+
+    const divElement = scrollableDivRef.current;
+
+    if (divElement) {
+      divElement.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (divElement) {
+        divElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [scrollableDivRef]);
+
   return (
-    <div className="grid grid-cols-3 gap-1">
+    <div
+      className="h-full grid grid-cols-3 gap-1 overflow-y-auto"
+      ref={scrollableDivRef}
+    >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {imageSrc.map((image: string, index: Key | null | undefined) => (
         <div
