@@ -55,7 +55,7 @@ export default function FormUserRegisterCredentials() {
       console.log("Informações registradas com sucesso");
 
       setToast(
-        "Cadastro realizado com sucesso. Direcionando para página de login."
+        "Cadastro realizado com sucesso. Direcionando para a tela de login."
       );
 
       setTimeout(() => {
