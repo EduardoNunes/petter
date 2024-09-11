@@ -1,7 +1,6 @@
-import { useSelfContext } from "@/context/selfContext";
 import { useTimeLineContext } from "@/context/timeLineContext";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface FooterCardProps {
   likesCount: number;
@@ -22,12 +21,21 @@ const FooterCard: React.FC<FooterCardProps> = ({
     handleClickLikeFunction,
     handleClickShowComment,
     setTimelineImageId,
+    updateCommentsCount,
+    updateCommentCountId,
   } = useTimeLineContext();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(likedByMe || false);
   const [likeCount, setLikeCount] = useState(likesCount);
+  const [commentCount, setCommentCount] = useState(commentsCount);
 
   const toggleText = () => setIsExpanded(!isExpanded);
+
+  useEffect(() => {
+    if (updateCommentsCount && updateCommentCountId === imageId) {
+      setCommentCount(updateCommentsCount);
+    }
+  }, [updateCommentsCount, updateCommentCountId]);
 
   const handleClickComment =
     (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -72,7 +80,7 @@ const FooterCard: React.FC<FooterCardProps> = ({
             height={28}
             alt="Baalon comment"
           />
-          <p>{commentsCount}</p>
+          <p>{commentCount}</p>
         </button>
       </div>
       <div className="break-words overflow-hidden">

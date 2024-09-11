@@ -14,9 +14,11 @@ export default function ModalComment() {
   const { self, loading, setLoading } = useSelfContext();
   const {
     setCommentsOpenModal,
+    setUpdateCommentsCount,
     comments,
     timelineImageId,
     handleClickShowComment,
+    setUpdateCommentCountId,
   } = useTimeLineContext();
   const [animation, setAnimation] = useState("slide-in");
   const [commentAdd, setCommentAdd] = useState("");
@@ -62,9 +64,12 @@ export default function ModalComment() {
         timelineId: timelineImageId,
       };
 
-      await api.post("comment-post-timeline", data, {
+      const response = await api.post("comment-post-timeline", data, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      setUpdateCommentCountId(response.data.response.timelineId);
+      setUpdateCommentsCount(response.data.commentsCount);
 
       await handleClickShowComment(Number(timelineImageId), "timeline");
       setCommentAdd("");
