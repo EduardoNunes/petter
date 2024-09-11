@@ -23,12 +23,10 @@ export default function Footer() {
   };
 
   const handleClickGoProfile = () => {
-
     if (window.location.pathname !== "/pages/profile") {
       setLoading(true);
       setIsUser(true);
       router.push("/pages/profile");
-
     } else if (window.location.pathname === "/pages/profile" && !isUser) {
       setIsUser(true);
       router.refresh();
