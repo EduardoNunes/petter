@@ -29,7 +29,7 @@ export default function Footer() {
       router.push("/pages/profile");
     } else if (window.location.pathname === "/pages/profile" && !isUser) {
       setIsUser(true);
-      router.refresh();
+      window.location.reload()
     }
   };
 

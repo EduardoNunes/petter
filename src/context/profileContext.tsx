@@ -34,11 +34,17 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   const [showImage, setShowImage] = useState(false);
   const [imageSelected, setImageSelected] = useState("");
   const [imageSrc, setImageSrc] = useState<string[]>([]);
-  const [visitantSelected, setVisitantSelected] = useState<any>(null); 
+  const [visitantSelected, setVisitantSelected] = useState<any>(null);
+  const [previousPetterId, setPreviousPetterId] = useState<number | null>(null);
 
   const loadImagesProfile = async (petterId: number, page: number) => {
     const session = await getSession();
     const token = session?.user.accessToken;
+
+    if (petterId !== previousPetterId) {
+      setImageSrc([]);
+      setPreviousPetterId(petterId);
+    }
 
     try {
       const response = await api.get(
