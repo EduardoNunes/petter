@@ -38,10 +38,10 @@ const FooterCard: React.FC<FooterCardProps> = ({
   }, [updateCommentsCount, updateCommentCountId]);
 
   const handleClickComment =
-    (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    (imageId: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      setTimelineImageId(id);
-      handleClickShowComment(id, "timeline");
+      setTimelineImageId(imageId);
+      handleClickShowComment(imageId, "timeline", 1);
     };
 
   const handleLikeClick = async () => {

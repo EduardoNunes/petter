@@ -4,7 +4,7 @@ import api from "@/server/api";
 import { schemaPostComment } from "@/validation/schemaPostComment";
 import { getSession } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MessageToast from "../../Error/MessageToast";
 import Loading from "../../Loading/Loading";
 import TextArea from "../../TextArea/TextArea";
@@ -23,6 +23,8 @@ export default function ModalComment() {
   const [animation, setAnimation] = useState("slide-in");
   const [commentAdd, setCommentAdd] = useState("");
   const [toast, setToast] = useState("");
+  const scrollableDivRef = useRef<HTMLDivElement>(null);
+  const [page, setPage] = useState(1);
 
   const handleClickCloseModal = () => {
     setAnimation("slide-out");
@@ -43,6 +45,7 @@ export default function ModalComment() {
     const session = await getSession();
     const token = session?.user.accessToken;
     setLoading(true);
+    setPage(1);
 
     if (!self.PetterInfo) {
       console.log("Petter que vai comentar não identificado.");
@@ -71,7 +74,7 @@ export default function ModalComment() {
       setUpdateCommentCountId(response.data.response.timelineId);
       setUpdateCommentsCount(response.data.commentsCount);
 
-      await handleClickShowComment(Number(timelineImageId), "timeline");
+      await handleClickShowComment(Number(timelineImageId), "timeline", page);
       setCommentAdd("");
     } catch (error: any) {
       setLoading(false);
@@ -80,9 +83,42 @@ export default function ModalComment() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollableDivRef.current) {
+        const scrollDiv = scrollableDivRef.current;
+        let isBottom =
+          scrollDiv.scrollTop + scrollDiv.clientHeight >=
+          scrollDiv.scrollHeight;
+
+        if (isBottom) {
+          console.log("ISBOTTOM");
+          setPage((prevPage) => prevPage + 1);
+        }
+      }
+    };
+
+    const divElement = scrollableDivRef.current;
+
+    if (divElement) {
+      divElement.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (divElement) {
+        divElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    handleClickShowComment(Number(timelineImageId), "timeline", page);
+  }, [page]);
+  console.log("PAGE", page);
+
   return (
     <div
-      className={`absolute top-0 left-0 z-10 flex flex-col w-full h-full px-8 pb-2 bg-branco ${animation}`}
+      className={`absolute flex flex-col w-full h-full top-0 left-0 z-10 px-8 pb-2 bg-branco ${animation}`}
     >
       {loading && <Loading />}
       {toast && <MessageToast textError={toast} setToast={setToast} />}
@@ -97,7 +133,7 @@ export default function ModalComment() {
           />
         </button>
       </div>
-      <div className="h-[calc(100%-96px)] overflow-auto">
+      <div className="h-[calc(100%-96px)] overflow-auto" ref={scrollableDivRef}>
         {comments &&
           comments.map((comment, index) => (
             <div key={index} className="p-2 mb-2 bg-verdePastel rounded-lg">

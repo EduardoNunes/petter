@@ -36,7 +36,8 @@ interface TimeLineContextType {
 
   handleClickShowComment: (
     id: number,
-    type: "timeline" | "image"
+    type: "timeline" | "image",
+    page: number
   ) => Promise<void>;
 
   comments: Comment[];
@@ -101,17 +102,21 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
 
   async function handleClickShowComment(
     id: number,
-    type: "timeline" | "image"
+    type: "timeline" | "image",
+    page: number
   ): Promise<void> {
     setCommentsOpenModal(true);
     setLoading(true);
-    setComments([]);
+    
+    if (page === 1) {
+      setComments([]);
+    }
 
     if (!self.PetterInfo) {
       console.log("Não identificamos o Petter logado.");
       return;
     }
-
+    console.log("ENTRIU");
     try {
       const session = await getSession();
       const token = session?.user.accessToken;
@@ -119,6 +124,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
         userId: self.id,
         petterInfoId: self.PetterInfo[0].id,
         [type === "timeline" ? "timelineId" : "imageId"]: id,
+        page: page,
       };
 
       const response = await api.get("comment-post-timeline", {
@@ -126,7 +132,9 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
         params,
       });
 
-      setComments(response.data);
+      const comments = response.data;
+
+      setComments((prevComments) => [...prevComments, ...comments]);
       setLoading(false);
     } catch (error) {
       console.log("Erro ao mostrar os comentários", error);
