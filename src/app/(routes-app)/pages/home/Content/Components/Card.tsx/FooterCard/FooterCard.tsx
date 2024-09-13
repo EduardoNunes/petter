@@ -19,7 +19,6 @@ const FooterCard: React.FC<FooterCardProps> = ({
 }) => {
   const {
     handleClickLikeFunction,
-    handleClickShowComment,
     setTimelineImageId,
     updateCommentsCount,
     updateCommentCountId,
