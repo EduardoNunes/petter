@@ -5,6 +5,7 @@ import { getSession } from "next-auth/react";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
 interface SelfType {
+  [x: string]: any;
   id?: number;
   name?: string;
   email?: string;
@@ -39,6 +40,10 @@ interface SelfContextType {
   getSelf: () => Promise<void>;
   loading: boolean;
   setLoading: (value: boolean) => void;
+  isUser: boolean;
+  setIsUser: (value: boolean) => void;
+  visitantProfile: number;
+  setVisitantProfile: (value: number) => void;
 }
 
 const SelfContext = createContext<SelfContextType | null>(null);
@@ -50,6 +55,8 @@ interface SelfProviderProps {
 export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const [self, setSelf] = useState<SelfType>({});
   const [loading, setLoading] = useState(false);
+  const [isUser, setIsUser] = useState(true);
+  const [visitantProfile, setVisitantProfile] = useState(0);
 
   async function getSelf() {
     const session = await getSession();
@@ -97,6 +104,10 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
     getSelf,
     loading,
     setLoading,
+    isUser,
+    setIsUser,
+    visitantProfile,
+    setVisitantProfile,
   };
 
   return (

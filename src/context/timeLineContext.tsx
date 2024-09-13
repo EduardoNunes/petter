@@ -16,11 +16,17 @@ interface TimeLineContextType {
   setLikesCount: (value: number) => void;
   setLikesCountId: (value: number) => void;
   setLikedByMe: (value: boolean) => void;
-  setCommentsCount: (value: number) => void;
+  setUpdateCommentsCount: (value: number) => void;
   timelineImageId: number | undefined;
   setTimelineImageId: (value: number | undefined) => void;
   commentsOpenModal: boolean;
   setCommentsOpenModal: (value: boolean) => void;
+  updateCommentCountId: number | undefined;
+  setUpdateCommentCountId: (value: number | undefined) => void;
+  timelineOrGallery: "timeline" | "image";
+  setTimelineOrGallery: (value: "timeline" | "image") => void;
+  imageGalleryId: number | undefined; 
+  setImageGalleryId: (value: number | undefined) => void;
 
   handleClickLikeFunction: (
     id: number,
@@ -30,11 +36,12 @@ interface TimeLineContextType {
   likesCount: number | undefined;
   likesCountId: number | undefined;
   likedByMe: boolean | undefined;
-  commentsCount: number | undefined;
+  updateCommentsCount: number | undefined;
 
   handleClickShowComment: (
     id: number,
-    type: "timeline" | "image"
+    type: "timeline" | "image",
+    page: number
   ) => Promise<void>;
 
   comments: Comment[];
@@ -49,23 +56,17 @@ interface TimeLineProviderProps {
 export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
   children,
 }) => {
-  const { self } = useSelfContext();
-
+  const { self, setLoading } = useSelfContext();
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
-  const [likesCountId, setLikesCountId] = useState<number | undefined>(
-    undefined
-  );
-  const [likedByMe, setLikedByMe] = useState<boolean | undefined>(
-    undefined
-  );
-  const [commentsCount, setCommentsCount] = useState<number | undefined>(
-    undefined
-  );
+  const [likesCountId, setLikesCountId] = useState<number | undefined>(undefined);
+  const [likedByMe, setLikedByMe] = useState<boolean | undefined>(undefined);
+  const [updateCommentsCount, setUpdateCommentsCount] = useState<number | undefined>(undefined);
   const [commentsOpenModal, setCommentsOpenModal] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]);
-  const [timelineImageId, setTimelineImageId] = useState<number | undefined>(
-    undefined
-  );
+  const [timelineImageId, setTimelineImageId] = useState<number | undefined>(undefined);
+  const [imageGalleryId, setImageGalleryId] = useState<number | undefined>(undefined);
+  const [updateCommentCountId, setUpdateCommentCountId] = useState<number | undefined>(undefined);
+  const [timelineOrGallery, setTimelineOrGallery] = useState<"timeline" | "image">("timeline");
 
   async function handleClickLikeFunction(
     id: number,
@@ -88,7 +89,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
       const response = await api.post("like-post-timeline", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      
+
       setLikesCount(response.data.likeCount);
       setLikesCountId(response.data.like.id);
       setLikedByMe(response.data.like.liked);
@@ -99,11 +100,12 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
 
   async function handleClickShowComment(
     id: number,
-    type: "timeline" | "image"
+    type: "timeline" | "image",
+    page: number
   ): Promise<void> {
-    setCommentsOpenModal(true);
-    setComments([])
-
+    if (page === 1) {
+      setComments([]);
+    }
     if (!self.PetterInfo) {
       console.log("Não identificamos o Petter logado.");
       return;
@@ -116,22 +118,25 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
         userId: self.id,
         petterInfoId: self.PetterInfo[0].id,
         [type === "timeline" ? "timelineId" : "imageId"]: id,
+        page: page,
       };
-
+      
       const response = await api.get("comment-post-timeline", {
         headers: { Authorization: `Bearer ${token}` },
         params,
       });
 
-      setComments(response.data);
-      setCommentsCount(response.data.length);
+      const comments = response.data;
+
+      setComments((prevComments) => [...prevComments, ...comments]);
+      setLoading(false);
     } catch (error) {
       console.log("Erro ao mostrar os comentários", error);
+      setLoading(false);
     }
   }
 
   const contextValue = {
-
     handleClickLikeFunction,
     comments,
     likesCount,
@@ -140,13 +145,19 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     setLikesCountId,
     likedByMe,
     setLikedByMe,
-    commentsCount,
-    setCommentsCount,
+    updateCommentsCount,
+    setUpdateCommentsCount,
     handleClickShowComment,
     commentsOpenModal,
     setCommentsOpenModal,
     timelineImageId,
     setTimelineImageId,
+    updateCommentCountId,
+    setUpdateCommentCountId,
+    timelineOrGallery, 
+    setTimelineOrGallery,
+    imageGalleryId, 
+    setImageGalleryId,
   };
 
   return (
