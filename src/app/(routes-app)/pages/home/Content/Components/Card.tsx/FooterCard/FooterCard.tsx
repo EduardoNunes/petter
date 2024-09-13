@@ -23,6 +23,8 @@ const FooterCard: React.FC<FooterCardProps> = ({
     setTimelineImageId,
     updateCommentsCount,
     updateCommentCountId,
+    setTimelineOrGallery,
+    setCommentsOpenModal
   } = useTimeLineContext();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(likedByMe || false);
@@ -40,8 +42,9 @@ const FooterCard: React.FC<FooterCardProps> = ({
   const handleClickComment =
     (imageId: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
+      setTimelineOrGallery("timeline");
       setTimelineImageId(imageId);
-      handleClickShowComment(imageId, "timeline", 1);
+      setCommentsOpenModal(true);
     };
 
   const handleLikeClick = async () => {

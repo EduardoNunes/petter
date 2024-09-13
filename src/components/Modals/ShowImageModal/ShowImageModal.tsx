@@ -6,10 +6,11 @@ import { useSelfContext } from "@/context/selfContext";
 import { useTimeLineContext } from "@/context/timeLineContext";
 import api from "@/server/api";
 import { getSession } from "next-auth/react";
+import ModalComment from "../ModalComment/ModalComment";
 
 interface PetterInfo {
   id: number;
-  profileImage: string; 
+  profileImage: string;
 }
 
 interface UserSession {
@@ -22,10 +23,18 @@ interface UserSession {
 export default function ShowImageModal() {
   const { setLoading } = useSelfContext();
   const { imageSelected, setShowImage } = useProfileContext();
-  const { handleClickLikeFunction, likesCount } = useTimeLineContext();
+  const {
+    handleClickLikeFunction,
+    likesCount,
+    commentsOpenModal,
+    setCommentsOpenModal,
+    setTimelineOrGallery,
+    setImageGalleryId,
+  } = useTimeLineContext();
   const [animation, setAnimation] = useState("slide-in");
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likesCount);
+  const [commentsCount, setCommentsCount] = useState();
 
   useEffect(() => {
     async function getImageData() {
@@ -48,7 +57,8 @@ export default function ShowImageModal() {
           }
         );
 
-        const items = response.data;
+        const items = response.data.likes;
+        setCommentsCount(response.data.commentCount);
 
         const petterLoggedId = session.user.petterInfo?.length
           ? session.user.petterInfo[0].id
@@ -63,7 +73,6 @@ export default function ShowImageModal() {
 
         setIsLiked(isImageLikedByMe);
         setLikeCount(items.length);
-
       } catch (error) {
         console.error("Erro ao carregar os dados da imagem", error);
       }
@@ -78,6 +87,13 @@ export default function ShowImageModal() {
       setShowImage(false);
     }, 300);
   };
+
+  function handleClickComment() {
+    setTimelineOrGallery("image");
+    setLoading(true);
+    setCommentsOpenModal(true);
+    setImageGalleryId(Number(imageSelected.split(" ")[0]));
+  }
 
   const handleLikeClick = async () => {
     const newLikedStatus = !isLiked;
@@ -99,7 +115,8 @@ export default function ShowImageModal() {
     <div
       className={`absolute flex flex-col justify-between top-0 left-0 h-full w-full z-10 bg-lightGray ${animation}`}
     >
-      <div className="flex justify-center w-full h-full max-h-[calc(100%-40px)]">
+      {commentsOpenModal && <ModalComment />}
+      <div className="flex flex-col justify-center items-center w-full h-full max-h-[calc(100%-40px)]">
         <Image
           src={imageSelected.split(" ")[1]}
           width={400}
@@ -109,17 +126,33 @@ export default function ShowImageModal() {
           onLoad={() => setLoading(false)}
           priority
         />
+        <div className="flex w-[90%] mt-2 gap-3">
+          <button className="flex items-center gap-2" onClick={handleLikeClick}>
+            <Image
+              src={
+                isLiked ? "/images/paw-love-pink.png" : "/images/paw-love.png"
+              }
+              width={28}
+              height={28}
+              alt="Paw Love"
+            />
+            <p>{likeCount}</p>
+          </button>
+          <button
+            className="flex items-center gap-2"
+            onClick={handleClickComment}
+          >
+            <Image
+              src="/images/comment.png"
+              width={28}
+              height={28}
+              alt="Baalon comment"
+            />
+            <p>{commentsCount}</p>
+          </button>
+        </div>
       </div>
       <div className="flex justify-center w-full h-12 py-3">
-        <button className="flex items-center gap-3" onClick={handleLikeClick}>
-          <Image
-            src={isLiked ? "/images/paw-love-pink.png" : "/images/paw-love.png"}
-            width={28}
-            height={28}
-            alt="Paw Love"
-          />
-          <p>{likeCount}</p>
-        </button>
         <button onClick={handleClickCloseModal}>
           <Image
             src="/images/exit.png"
@@ -129,6 +162,7 @@ export default function ShowImageModal() {
             className="w-6"
           />
         </button>
+        <div> </div>
       </div>
     </div>
   );

@@ -19,6 +19,8 @@ export default function ModalComment() {
     timelineImageId,
     handleClickShowComment,
     setUpdateCommentCountId,
+    timelineOrGallery,
+    imageGalleryId,
   } = useTimeLineContext();
   const [animation, setAnimation] = useState("slide-in");
   const [commentAdd, setCommentAdd] = useState("");
@@ -60,12 +62,22 @@ export default function ModalComment() {
         { abortEarly: false }
       );
 
-      const data = {
-        userId: self.id,
-        petterId: self.PetterInfo[0].id,
-        commented: commentAdd,
-        timelineId: timelineImageId,
-      };
+      let data;
+      if (timelineOrGallery === "image") {
+        data = {
+          userId: self.id,
+          petterId: self.PetterInfo[0].id,
+          commented: commentAdd,
+          imageId: imageGalleryId,
+        };
+      } else {
+        data = {
+          userId: self.id,
+          petterId: self.PetterInfo[0].id,
+          commented: commentAdd,
+          timelineId: timelineImageId,
+        };
+      }
 
       const response = await api.post("comment-post-timeline", data, {
         headers: { Authorization: `Bearer ${token}` },
@@ -74,7 +86,7 @@ export default function ModalComment() {
       setUpdateCommentCountId(response.data.response.timelineId);
       setUpdateCommentsCount(response.data.commentsCount);
 
-      await handleClickShowComment(Number(timelineImageId), "timeline", page);
+      await handleClickShowComment(Number(timelineImageId || imageGalleryId), timelineOrGallery, page);
       setCommentAdd("");
     } catch (error: any) {
       setLoading(false);
@@ -92,7 +104,6 @@ export default function ModalComment() {
           scrollDiv.scrollHeight;
 
         if (isBottom) {
-          console.log("ISBOTTOM");
           setPage((prevPage) => prevPage + 1);
         }
       }
@@ -112,9 +123,8 @@ export default function ModalComment() {
   }, []);
 
   useEffect(() => {
-    handleClickShowComment(Number(timelineImageId), "timeline", page);
+    handleClickShowComment(Number(timelineImageId || imageGalleryId), timelineOrGallery, page);
   }, [page]);
-  console.log("PAGE", page);
 
   return (
     <div

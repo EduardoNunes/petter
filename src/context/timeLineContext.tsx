@@ -23,6 +23,10 @@ interface TimeLineContextType {
   setCommentsOpenModal: (value: boolean) => void;
   updateCommentCountId: number | undefined;
   setUpdateCommentCountId: (value: number | undefined) => void;
+  timelineOrGallery: "timeline" | "image";
+  setTimelineOrGallery: (value: "timeline" | "image") => void;
+  imageGalleryId: number | undefined; 
+  setImageGalleryId: (value: number | undefined) => void;
 
   handleClickLikeFunction: (
     id: number,
@@ -54,21 +58,15 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
 }) => {
   const { self, setLoading } = useSelfContext();
   const [likesCount, setLikesCount] = useState<number | undefined>(undefined);
-  const [likesCountId, setLikesCountId] = useState<number | undefined>(
-    undefined
-  );
+  const [likesCountId, setLikesCountId] = useState<number | undefined>(undefined);
   const [likedByMe, setLikedByMe] = useState<boolean | undefined>(undefined);
-  const [updateCommentsCount, setUpdateCommentsCount] = useState<
-    number | undefined
-  >(undefined);
+  const [updateCommentsCount, setUpdateCommentsCount] = useState<number | undefined>(undefined);
   const [commentsOpenModal, setCommentsOpenModal] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]);
-  const [timelineImageId, setTimelineImageId] = useState<number | undefined>(
-    undefined
-  );
-  const [updateCommentCountId, setUpdateCommentCountId] = useState<
-    number | undefined
-  >(undefined);
+  const [timelineImageId, setTimelineImageId] = useState<number | undefined>(undefined);
+  const [imageGalleryId, setImageGalleryId] = useState<number | undefined>(undefined);
+  const [updateCommentCountId, setUpdateCommentCountId] = useState<number | undefined>(undefined);
+  const [timelineOrGallery, setTimelineOrGallery] = useState<"timeline" | "image">("timeline");
 
   async function handleClickLikeFunction(
     id: number,
@@ -105,13 +103,9 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     type: "timeline" | "image",
     page: number
   ): Promise<void> {
-    setCommentsOpenModal(true);
-    setLoading(true);
-    
     if (page === 1) {
       setComments([]);
     }
-
     if (!self.PetterInfo) {
       console.log("Não identificamos o Petter logado.");
       return;
@@ -126,7 +120,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
         [type === "timeline" ? "timelineId" : "imageId"]: id,
         page: page,
       };
-
+      
       const response = await api.get("comment-post-timeline", {
         headers: { Authorization: `Bearer ${token}` },
         params,
@@ -160,6 +154,10 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
     setTimelineImageId,
     updateCommentCountId,
     setUpdateCommentCountId,
+    timelineOrGallery, 
+    setTimelineOrGallery,
+    imageGalleryId, 
+    setImageGalleryId,
   };
 
   return (
