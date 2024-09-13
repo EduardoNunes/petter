@@ -116,7 +116,7 @@ export const TimeLineProvider: React.FC<TimeLineProviderProps> = ({
       console.log("Não identificamos o Petter logado.");
       return;
     }
-    console.log("ENTRIU");
+
     try {
       const session = await getSession();
       const token = session?.user.accessToken;

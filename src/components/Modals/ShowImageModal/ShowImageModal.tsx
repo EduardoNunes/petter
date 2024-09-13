@@ -1,19 +1,98 @@
 import { useProfileContext } from "@/context/profileContext";
 import Image from "next/image";
 import "../animation.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelfContext } from "@/context/selfContext";
+import { useTimeLineContext } from "@/context/timeLineContext";
+import api from "@/server/api";
+import { getSession } from "next-auth/react";
+
+interface PetterInfo {
+  id: number;
+  profileImage: string; 
+}
+
+interface UserSession {
+  user: {
+    accessToken?: string;
+    petterInfo?: PetterInfo[];
+  };
+}
 
 export default function ShowImageModal() {
   const { setLoading } = useSelfContext();
   const { imageSelected, setShowImage } = useProfileContext();
+  const { handleClickLikeFunction, likesCount } = useTimeLineContext();
   const [animation, setAnimation] = useState("slide-in");
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(likesCount);
+
+  useEffect(() => {
+    async function getImageData() {
+      try {
+        const session: UserSession | null = await getSession();
+
+        if (!session?.user?.accessToken) {
+          console.log("Token não encontrado, usuário não autenticado.");
+          return;
+        }
+
+        const token = session.user.accessToken;
+
+        const response = await api.get(
+          `show-images-profile/petter-gallery-likes?petterImageId=${
+            imageSelected.split(" ")[0]
+          }`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const items = response.data;
+
+        const petterLoggedId = session.user.petterInfo?.length
+          ? session.user.petterInfo[0].id
+          : null;
+
+        const isImageLikedByMe = petterLoggedId
+          ? items.some(
+              (item: { petterInfoId: number }) =>
+                item.petterInfoId === petterLoggedId
+            )
+          : false;
+
+        setIsLiked(isImageLikedByMe);
+        setLikeCount(items.length);
+
+      } catch (error) {
+        console.error("Erro ao carregar os dados da imagem", error);
+      }
+    }
+
+    getImageData();
+  }, [imageSelected]);
 
   const handleClickCloseModal = () => {
     setAnimation("slide-out");
     setTimeout(() => {
       setShowImage(false);
     }, 300);
+  };
+
+  const handleLikeClick = async () => {
+    const newLikedStatus = !isLiked;
+    setIsLiked(newLikedStatus);
+    setLikeCount((prev = 0) => (newLikedStatus ? prev + 1 : prev - 1));
+
+    try {
+      await handleClickLikeFunction(
+        Number(imageSelected.split(" ")[0]),
+        "image"
+      );
+    } catch (error) {
+      setLikeCount(likesCount);
+      console.error("Erro ao curtir a imagem:", error);
+    }
   };
 
   return (
@@ -29,10 +108,18 @@ export default function ShowImageModal() {
           className="object-scale-down"
           onLoad={() => setLoading(false)}
           priority
-
         />
       </div>
       <div className="flex justify-center w-full h-12 py-3">
+        <button className="flex items-center gap-3" onClick={handleLikeClick}>
+          <Image
+            src={isLiked ? "/images/paw-love-pink.png" : "/images/paw-love.png"}
+            width={28}
+            height={28}
+            alt="Paw Love"
+          />
+          <p>{likeCount}</p>
+        </button>
         <button onClick={handleClickCloseModal}>
           <Image
             src="/images/exit.png"
