@@ -153,7 +153,7 @@ export default function ModalComment() {
                   width={42}
                   height={42}
                   alt="Comentário"
-                  className="rounded-full border-azulEscuroSombra border-solid border-[2px]"
+                  className="object-cover w-8 h-8 rounded-full border-azulEscuroSombra border-solid border-[2px]"
                 />
                 <p className="text-medium">{comment.petterInfo.petterName}</p>
               </div>
