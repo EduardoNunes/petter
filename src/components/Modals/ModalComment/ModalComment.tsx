@@ -83,10 +83,18 @@ export default function ModalComment() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setUpdateCommentCountId(response.data.response.timelineId);
-      setUpdateCommentsCount(response.data.commentsCount);
+      if (timelineOrGallery === "image") {
+        setUpdateCommentCountId(response.data.response.imageGalleryId);
+      } else {
+        setUpdateCommentCountId(response.data.response.timelineId);
+      }
 
-      await handleClickShowComment(Number(timelineImageId || imageGalleryId), timelineOrGallery, page);
+      setUpdateCommentsCount(response.data.commentsCount);
+      await handleClickShowComment(
+        Number(timelineImageId || imageGalleryId),
+        timelineOrGallery,
+        page
+      );
       setCommentAdd("");
     } catch (error: any) {
       setLoading(false);
@@ -123,7 +131,11 @@ export default function ModalComment() {
   }, []);
 
   useEffect(() => {
-    handleClickShowComment(Number(timelineImageId || imageGalleryId), timelineOrGallery, page);
+    handleClickShowComment(
+      Number(timelineImageId || imageGalleryId),
+      timelineOrGallery,
+      page
+    );
   }, [page]);
 
   return (

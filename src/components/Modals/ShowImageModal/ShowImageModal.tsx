@@ -30,11 +30,19 @@ export default function ShowImageModal() {
     setCommentsOpenModal,
     setTimelineOrGallery,
     setImageGalleryId,
+    updateCommentsCount,
   } = useTimeLineContext();
   const [animation, setAnimation] = useState("slide-in");
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likesCount);
-  const [commentsCount, setCommentsCount] = useState();
+  const [commentsCount, setCommentsCount] = useState<number | undefined>(
+    undefined
+  );
+
+  
+  useEffect(() => {
+    setCommentsCount(updateCommentsCount);
+  }, [updateCommentsCount]);
 
   useEffect(() => {
     async function getImageData() {
