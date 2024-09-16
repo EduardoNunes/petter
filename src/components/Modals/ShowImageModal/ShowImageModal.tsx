@@ -113,20 +113,22 @@ export default function ShowImageModal() {
 
   return (
     <div
-      className={`absolute flex flex-col justify-between top-0 left-0 h-full w-full z-10 bg-lightGray ${animation}`}
+      className={`absolute flex flex-col justify-between items-center top-0 left-0 h-full w-full z-10 bg-lightGray ${animation}`}
     >
       {commentsOpenModal && <ModalComment />}
-      <div className="flex flex-col justify-center items-center w-full h-full max-h-[calc(100%-40px)]">
+      <div className="flex flex-col justify-center items-center w-full h-[calc(100%-48px)]">
         <Image
           src={imageSelected.split(" ")[1]}
           width={400}
           height={400}
           alt="Image Selected"
-          className="object-scale-down"
+          className="object-contain h-full"
           onLoad={() => setLoading(false)}
           priority
         />
-        <div className="flex w-[90%] mt-2 gap-3">
+      </div>
+      <div className="flex justify-center w-[90%] h-12 py-3">
+        <div className="flex w-1/3 gap-2">
           <button className="flex items-center gap-2" onClick={handleLikeClick}>
             <Image
               src={
@@ -151,18 +153,18 @@ export default function ShowImageModal() {
             <p>{commentsCount}</p>
           </button>
         </div>
-      </div>
-      <div className="flex justify-center w-full h-12 py-3">
-        <button onClick={handleClickCloseModal}>
-          <Image
-            src="/images/exit.png"
-            width={28}
-            height={28}
-            alt="Exit"
-            className="w-6"
-          />
-        </button>
-        <div> </div>
+        <div className="flex justify-center w-1/3">
+          <button onClick={handleClickCloseModal}>
+            <Image
+              src="/images/exit.png"
+              width={28}
+              height={28}
+              alt="Exit"
+              className="w-6"
+            />
+          </button>
+        </div>
+        <div className="w-1/3"></div>
       </div>
     </div>
   );

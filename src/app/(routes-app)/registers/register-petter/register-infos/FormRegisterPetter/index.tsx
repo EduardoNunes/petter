@@ -4,7 +4,6 @@ import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
 import Input from "@/components/Input/Input";
 import { Label } from "@/components/Label/Label";
-import Loading from "@/components/Loading/Loading";
 import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { schemaRegisterPetterInfos } from "@/validation/schemaRegisterPetterInfos";
