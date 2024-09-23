@@ -26,7 +26,7 @@ const TextArea: React.FC<TextAreaProps> = ({
       onChange={handleTextChange}
       placeholder={placeholder}
       style={{ height: height }}
-      className={`w-full py-5 px-8 pt-2 pb-2 rounded-3xl border border-black border-solid font-secondary ${style}`}
+      className={`w-full py-5 px-6 pt-2 pb-2 rounded-3xl border border-black border-solid font-secondary ${style}`}
     />
   );
 };
