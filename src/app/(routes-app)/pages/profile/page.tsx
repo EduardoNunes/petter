@@ -31,7 +31,6 @@ export default function Profile() {
   const [followings, setFollowings] = useState(0);
   const [followers, setFollowers] = useState(0);
   const [imageArrow, setImageArrow] = useState("/images/proibited.png");
-  const [arrowIndication, setArrowIndication] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -57,11 +56,6 @@ export default function Profile() {
       const session = await getSession();
       const token = session?.user.accessToken;
 
-      if (!token) {
-        console.log("Não tem token aqui");
-        return;
-      }
-
       if (!self.id || !self.PetterInfo) {
         console.error("User ID or Petter ID is missing");
         return;
@@ -75,9 +69,7 @@ export default function Profile() {
         const response = await api.get(
           "/follow-unfollow/follower-and-followed/",
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
             params: { petterId: petterId, petterUserId: self.PetterInfo[0].id },
           }
         );
@@ -89,16 +81,12 @@ export default function Profile() {
 
         if (response.data.isFollowed && response.data.isFollower) {
           setImageArrow("/images/trade.png");
-          setArrowIndication("Vocês se seguem.");
         } else if (response.data.isFollower) {
           setImageArrow("/images/arrow-left.png");
-          setArrowIndication("Este Petter te segue.");
         } else if (response.data.isFollowed) {
           setImageArrow("/images/arrow-right.png");
-          setArrowIndication("Você segue este Petter.");
         } else {
           setImageArrow("/images/proibited.png");
-          setArrowIndication("Ninguém se segue.");
         }
       } catch (error) {
         console.log(error);
@@ -106,17 +94,23 @@ export default function Profile() {
     }
 
     getFollowerAndFollowed();
-  }, [handleFollow]);
-
-  /* const handleClickGoEditProfile = () => {
-    setLoading(true);
-    router.push("edit-profile");
-  }; */
+  }, []);
 
   async function handleFollow() {
     const session = await getSession();
     const token = session?.user.accessToken;
     const newIsFollow = !isFollowing;
+
+    if (newIsFollow && isFollower) {
+      setImageArrow("/images/trade.png");
+    } else if (isFollower) {
+      setImageArrow("/images/arrow-left.png");
+    } else if (newIsFollow) {
+      setImageArrow("/images/arrow-right.png");
+    } else {
+      setImageArrow("/images/proibited.png");
+    }
+
     setIsFollowing(newIsFollow);
     setFollowers((prev) => (newIsFollow ? prev + 1 : prev - 1));
 
@@ -161,20 +155,12 @@ export default function Profile() {
           <div className="flex items-center justify-center gap-2">
             <h2 className="text-medium">{numberImagesGallery}</h2>
           </div>
-          {/*           <button
-            className="font-secondary text-smaller bg-azulPalido text-black py-1 px-3 rounded-lg"
-            hidden={!isUser}
-            onClick={handleClickGoEditProfile}
-          >
-            Editar Perfil
-          </button> */}
           <div className="flex items-center gap-3">
             <Image
               src={imageArrow}
               width={20}
               height={20}
               alt="Profile Image"
-              title={arrowIndication}
               hidden={isUser}
               className="object-cover w-[20px] h-[20px]"
             />
