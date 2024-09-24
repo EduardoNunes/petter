@@ -57,6 +57,11 @@ export default function Profile() {
       const session = await getSession();
       const token = session?.user.accessToken;
 
+      if (!token) {
+        console.log("Não tem token aqui");
+        return;
+      }
+
       if (!self.id || !self.PetterInfo) {
         console.error("User ID or Petter ID is missing");
         return;
@@ -68,11 +73,12 @@ export default function Profile() {
 
       try {
         const response = await api.get(
-          `follow-unfollow/follower-and-followed?petterId=${petterId}&petterUserId=${self.PetterInfo[0].id}`,
+          "/follow-unfollow/follower-and-followed/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            params: { petterId: petterId, petterUserId: self.PetterInfo[0].id },
           }
         );
 
@@ -94,7 +100,9 @@ export default function Profile() {
           setImageArrow("/images/proibited.png");
           setArrowIndication("Ninguém se segue.");
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     getFollowerAndFollowed();
