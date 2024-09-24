@@ -122,7 +122,7 @@ export default function Profile() {
 
     try {
       await api.post(
-        "follow-unfollow/follow",
+        "/follow-unfollow/follow",
         {
           followerId: self?.PetterInfo?.[0]?.id,
           followedId: visitantProfile,
