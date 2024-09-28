@@ -24,7 +24,7 @@ export const nextAuthOptions: NextAuthOptions = {
       async authorize(credentials) {
         try {
           const response = await fetch(
-            "https://api-petter-back.onrender.com/auth/login",
+            "https://petter-back.onrender.com/auth/login",
             {
               /* const response = await fetch("http://localhost:3001/auth/login", { */
               method: "POST",
@@ -65,7 +65,7 @@ export const nextAuthOptions: NextAuthOptions = {
       if (token.user) {
         try {
           const response = await fetch(
-            `https://api-petter-back.onrender.com/auth/user/${
+            `https://petter-back.onrender.com/auth/user/${
               (token.user as User).id
             }`,
             /* `http://localhost:3001/auth/user/${(token.user as User).id}`, */
