@@ -1,8 +1,8 @@
 "use client";
 
 import { StepProvider } from "@/context/useStepContext";
-import { SessionProvider } from "next-auth/react";
-import { ReactNode } from "react";
+import { SessionProvider, signOut } from "next-auth/react";
+import { ReactNode, useEffect } from "react";
 
 interface PrivateLayoutProps {
   children: ReactNode;
@@ -13,6 +13,16 @@ export default function PrivateLayout({
   children,
   session,
 }: PrivateLayoutProps) {
+
+  useEffect(() => {
+    if (session) {
+      if (session.user && session.user?.message === "Usuário não encontrado") {
+        signOut({ redirect: true, callbackUrl: "/login" });
+        return;
+      }
+    }
+  }, []);
+
   return (
     <SessionProvider session={session}>
       <div className="flex justify-center items-center h-[100vh] w-[100vw]">

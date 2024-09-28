@@ -9,6 +9,9 @@ export default async function ProtectedRoutesLayout({
   children: ReactNode;
 }) {
   const session = await getServerAuthSession();
+  if (!session) {
+    return <PrivateLayout session={session}>{children}</PrivateLayout>;
+  }
 
   if (session) {
     if (!session.user.userInfo) {
