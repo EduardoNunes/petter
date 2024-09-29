@@ -23,29 +23,26 @@ export const nextAuthOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const response = await fetch(
-            "https://petter-back.onrender.com/auth/login",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                email: credentials?.email,
-                password: credentials?.password,
-              }),
-            }
-          );
+          const response = await fetch("https://petter-back.onrender.com/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: credentials?.email,
+              password: credentials?.password,
+            }),
+          });
 
           const user = await response.json();
 
           if (user && response.ok) {
             return user;
           } else {
-            throw new Error(user.message || "Erro ao fazer login");
+            throw new Error(user.message || 'Erro ao fazer login');
           }
         } catch (error: any) {
           errorResponse(error);
           console.error("Deu ruim aqui:", error.message);
-          throw new Error(error.message || "Erro ao fazer login");
+          throw new Error(error.message || 'Erro ao fazer login');
         }
       },
     }),
@@ -64,10 +61,7 @@ export const nextAuthOptions: NextAuthOptions = {
       if (token.user) {
         try {
           const response = await fetch(
-            `https://petter-back.onrender.com/auth/user/${
-              (token.user as User).id
-            }`,
-
+            `https://petter-back.onrender.com/auth/user/${(token.user as User).id}`,
             {
               method: "GET",
               headers: {
@@ -82,6 +76,7 @@ export const nextAuthOptions: NextAuthOptions = {
             ...updatedUser,
             accessToken: (token.user as User).accessToken,
           };
+          
         } catch (error) {
           console.error("Error fetching updated user data:", error);
           session.user = token.user as any;
