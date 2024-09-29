@@ -8,13 +8,19 @@ interface HeaderProfileProps {
 }
 
 export default function HeaderProfile({ petterName }: HeaderProfileProps) {
-  const { loading, setLoading } = useSelfContext();
+  const {loading, setLoading} = useSelfContext();
   const router = useRouter();
 
   async function logout() {
     setLoading(true);
 
-    signOut({ redirect: true, callbackUrl: "/login" });
+    await signOut({
+      redirect: false,
+    });
+
+    setTimeout(() => {
+      router.replace("/login");
+    }, 2000);
   }
 
   return (

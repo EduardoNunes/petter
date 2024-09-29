@@ -2,6 +2,7 @@
 
 import { StepProvider } from "@/context/useStepContext";
 import { SessionProvider, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 
 interface PrivateLayoutProps {
@@ -13,11 +14,22 @@ export default function PrivateLayout({
   children,
   session,
 }: PrivateLayoutProps) {
+  const router = useRouter();
+
+  async function logout() {
+    await signOut({
+      redirect: false,
+    });
+
+    setTimeout(() => {
+      router.replace("/login");
+    }, 2000);
+  }
 
   useEffect(() => {
     if (session) {
       if (session.user && session.user?.message === "Usuário não encontrado") {
-        signOut({ redirect: true, callbackUrl: "/login" });
+        logout();
         return;
       }
     }
