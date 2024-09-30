@@ -5,6 +5,8 @@ import { getSession } from "next-auth/react";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 import { useSelfContext } from "./selfContext";
 
+const ProfileContext = createContext<ProfileContextType | null>(null);
+
 interface ProfileContextType {
   numberImagesGallery: number;
   setNumberImagesGallery: (value: number) => void;
@@ -19,8 +21,6 @@ interface ProfileContextType {
   visitantSelected: any; 
   setVisitantSelected: (value: any) => void; 
 }
-
-const ProfileContext = createContext<ProfileContextType | null>(null);
 
 interface ProfileProviderProps {
   children: ReactNode;
@@ -62,7 +62,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
     }
   };
 
-  const loadPetterVisitantInfos = async (petterId: number) => {
+  async function loadPetterVisitantInfos(petterId: number) {
     const session = await getSession();
     const token = session?.user.accessToken;
 
@@ -73,11 +73,11 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
 
       setVisitantSelected(response.data);
       setLoading(false);
+      return response.data;
     } catch (error: any) {
       console.log("DEU RUIM", error);
     }
   };
-
 
   const contextValue: ProfileContextType = {
     numberImagesGallery,

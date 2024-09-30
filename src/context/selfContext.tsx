@@ -2,6 +2,7 @@
 
 import api from "@/server/api";
 import SelfType from "@/types/self-types";
+import ProfileContextType from "@/types/visitant-profile-types";
 import { getSession } from "next-auth/react";
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
@@ -29,7 +30,7 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const [isUser, setIsUser] = useState(true);
   const [visitantProfile, setVisitantProfile] = useState(0);
 
-  async function getSelf(): Promise<SelfType | undefined> {
+  async function getSelf(): Promise<ProfileContextType | undefined> {
     const session = await getSession();
     const user = session?.user;
 
