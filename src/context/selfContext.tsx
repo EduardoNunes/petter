@@ -1,43 +1,14 @@
 "use client";
 
 import api from "@/server/api";
+import SelfType from "@/types/self-types";
 import { getSession } from "next-auth/react";
 import React, { ReactNode, createContext, useContext, useState } from "react";
-
-interface SelfType {
-  [x: string]: any;
-  id?: number;
-  name?: string;
-  email?: string;
-  profileImage?: string;
-  loggedBy?: string;
-  UserInfo?: Array<{
-    id: number;
-    date?: string;
-    gender?: string;
-    phone?: string;
-    cep?: string;
-    neighborhood?: string;
-    ddd?: string;
-    locality?: string;
-    publicPlace?: string;
-    uf?: string;
-  }>;
-
-  PetterInfo?: Array<{
-    id: number;
-    petterName?: string;
-    petterKind?: string;
-    petterBreed?: string;
-    profileImage?: string;
-    descriptionBio?: string;
-  }>;
-}
 
 interface SelfContextType {
   self: SelfType;
   setSelf: (value: SelfType) => void;
-  getSelf: () => Promise<void>;
+  getSelf: () => Promise<SelfType | undefined>;
   loading: boolean;
   setLoading: (value: boolean) => void;
   isUser: boolean;
@@ -58,7 +29,7 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
   const [isUser, setIsUser] = useState(true);
   const [visitantProfile, setVisitantProfile] = useState(0);
 
-  async function getSelf() {
+  async function getSelf(): Promise<SelfType | undefined> {
     const session = await getSession();
     const user = session?.user;
 
@@ -92,7 +63,7 @@ export const SelfProvider: React.FC<SelfProviderProps> = ({ children }) => {
         PetterInfo,
       });
 
-      setSelf(response.data);
+      return response.data;
     } catch (error) {
       console.error("ERROR", error);
     }
