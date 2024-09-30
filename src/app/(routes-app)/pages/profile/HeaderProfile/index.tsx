@@ -18,9 +18,7 @@ export default function HeaderProfile({ petterName }: HeaderProfileProps) {
       redirect: false,
     });
 
-    setTimeout(() => {
-      router.replace("/login");
-    }, 2000);
+      router.push("/login");
   }
 
   return (
