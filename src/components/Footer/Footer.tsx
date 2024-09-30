@@ -23,13 +23,16 @@ export default function Footer() {
   };
 
   const handleClickGoProfile = () => {
-    if (window.location.pathname !== "/pages/profile") {
+    if (window.location.pathname !== "/pages/user-profile") {
       setLoading(true);
       setIsUser(true);
-      router.push("/pages/profile");
-    } else if (window.location.pathname === "/pages/profile" && !isUser) {
+      router.push("/pages/user-profile");
+    } else if (
+      window.location.pathname === "/pages/user-profile" &&
+      !isUser
+    ) {
       setIsUser(true);
-      window.location.reload()
+      router.push("/pages/visitant-profile");
     }
   };
 

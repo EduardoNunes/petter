@@ -26,12 +26,12 @@ export default function HeaderCard({ petterInfo }: HeaderCardProps) {
 
     if (self.PetterInfo && petterId === self.PetterInfo[0].id) {
       setIsUser(true);
+      router.push("/pages/user-profile");
     } else {
       setIsUser(false);
       setVisitantProfile(petterId);
+      router.push("/pages/visitant-profile");
     }
-
-    router.push("/pages/profile");
   }
 
   return (

@@ -3,21 +3,20 @@
 import MessageToast from "@/components/Error/MessageToast";
 import Footer from "@/components/Footer/Footer";
 import Loading from "@/components/Loading/Loading";
-import { useSelfContext } from "@/context/selfContext";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import GalleryProfile from "./GalleryProfile";
-import HeaderProfile from "./HeaderProfile";
-import InfosProfile from "./InfosProfile";
 import { useProfileContext } from "@/context/profileContext";
-import ShowImageModal from "../../../../components/Modals/ShowImageModal/ShowImageModal";
-import Image from "next/image";
+import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { getSession } from "next-auth/react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import ShowImageModal from "../../../../components/Modals/ShowImageModal/ShowImageModal";
+import HeaderProfile from "./HeaderProfile";
+import InfosProfile from "./InfosProfile";
+import GalleryProfile from "./GalleryProfile";
 
-export default function Profile() {
-  const { self, getSelf, loading, setLoading, isUser, visitantProfile } =
-    useSelfContext();
+
+export default function visitantProfile() {
+  const { self, getSelf, isUser, visitantProfile } = useSelfContext();
   const {
     showImage,
     visitantSelected,
@@ -31,20 +30,11 @@ export default function Profile() {
   const [followings, setFollowings] = useState(0);
   const [followers, setFollowers] = useState(0);
   const [imageArrow, setImageArrow] = useState("/images/proibited.png");
-  const router = useRouter();
+
+  console.log("DATA AQUI", visitantProfile, visitantSelected);
 
   useEffect(() => {
-    getSelf();
-  }, []);
-
-  useEffect(() => {
-    if (isUser) {
-      setPetterInfo(self.PetterInfo && self.PetterInfo[0]);
-    }
-    if (!isUser) {
-      setLoading(false);
-      loadPetterVisitantInfos(visitantProfile);
-    }
+    loadPetterVisitantInfos(visitantProfile);
   }, [self, isUser]);
 
   useEffect(() => {
@@ -57,20 +47,16 @@ export default function Profile() {
       const token = session?.user.accessToken;
 
       if (!self.id || !self.PetterInfo) {
-        console.error("User ID or Petter ID is missing");
+        console.error("Falta user Id ou Petter ID");
         return;
       }
-
-      const petterId = isUser
-        ? self.PetterInfo && self.PetterInfo[0].id
-        : visitantProfile;
 
       try {
         const response = await api.get(
           "/follow-unfollow/follower-and-followed/",
           {
             headers: { Authorization: `Bearer ${token}` },
-            params: { petterId: petterId, petterUserId: self.PetterInfo[0].id },
+            params: { petterId: visitantProfile, petterUserId: self.PetterInfo[0].id },
           }
         );
 
@@ -135,7 +121,7 @@ export default function Profile() {
   return (
     <div className="flex flex-col w-[90%] h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
+      {/*  {isLoading && <Loading />} */}
       {showImage && <ShowImageModal />}
       <div className="h-[327px] w-full">
         <HeaderProfile
