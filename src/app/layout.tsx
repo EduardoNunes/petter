@@ -1,5 +1,10 @@
+"use client"
+
 import { SelfProvider } from "@/context/selfContext";
 import "./globals.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -7,12 +12,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SelfProvider>
-      <html lang="pt-br">
-        <body className="flex justify-center items-center h-[100vh]">
-          {children}
-        </body>
-      </html>
-    </SelfProvider>
+    <QueryClientProvider client={queryClient}>
+      <SelfProvider>
+        <html lang="pt-br">
+          <body className="flex justify-center items-center h-[100vh]">
+            {children}
+          </body>
+        </html>
+      </SelfProvider>
+    </QueryClientProvider>
   );
 }
