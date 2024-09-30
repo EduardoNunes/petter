@@ -44,9 +44,9 @@ export default function ModalComment() {
   };
 
   const handleClickSendMessage = async () => {
+    setLoading(true);
     const session = await getSession();
     const token = session?.user.accessToken;
-    setLoading(true);
     setPage(1);
 
     if (!self.PetterInfo) {
