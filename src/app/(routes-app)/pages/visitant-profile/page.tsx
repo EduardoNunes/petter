@@ -2,6 +2,7 @@
 
 import MessageToast from "@/components/Error/MessageToast";
 import Footer from "@/components/Footer/Footer";
+
 import Loading from "@/components/Loading/Loading";
 import { useProfileContext } from "@/context/profileContext";
 import { useSelfContext } from "@/context/selfContext";
@@ -10,13 +11,12 @@ import { getSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import ShowImageModal from "../../../../components/Modals/ShowImageModal/ShowImageModal";
-import HeaderProfile from "./HeaderProfile";
-import InfosProfile from "./InfosProfile";
-import GalleryProfile from "./GalleryProfile";
-
+import HeaderProfile from "@/components/HeaderProfile";
+import InfosProfile from "@/components/InfosProfile";
+import GalleryProfile from "@/components/GalleryProfile";
 
 export default function visitantProfile() {
-  const { self, getSelf, isUser, visitantProfile } = useSelfContext();
+  const { self, visitantProfile, loading, setLoading } = useSelfContext();
   const {
     showImage,
     visitantSelected,
@@ -31,17 +31,16 @@ export default function visitantProfile() {
   const [followers, setFollowers] = useState(0);
   const [imageArrow, setImageArrow] = useState("/images/proibited.png");
 
-  console.log("DATA AQUI", visitantProfile, visitantSelected);
-
   useEffect(() => {
     loadPetterVisitantInfos(visitantProfile);
-  }, [self, isUser]);
+  }, []);
 
   useEffect(() => {
     setPetterInfo(visitantSelected);
   }, [visitantSelected]);
 
   useEffect(() => {
+    setLoading(true);
     async function getFollowerAndFollowed() {
       const session = await getSession();
       const token = session?.user.accessToken;
@@ -56,7 +55,10 @@ export default function visitantProfile() {
           "/follow-unfollow/follower-and-followed/",
           {
             headers: { Authorization: `Bearer ${token}` },
-            params: { petterId: visitantProfile, petterUserId: self.PetterInfo[0].id },
+            params: {
+              petterId: visitantProfile,
+              petterUserId: self.PetterInfo[0].id,
+            },
           }
         );
 
@@ -77,14 +79,13 @@ export default function visitantProfile() {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     }
 
     getFollowerAndFollowed();
   }, []);
 
   async function handleFollow() {
-    const session = await getSession();
-    const token = session?.user.accessToken;
     const newIsFollow = !isFollowing;
 
     if (newIsFollow && isFollower) {
@@ -99,6 +100,9 @@ export default function visitantProfile() {
 
     setIsFollowing(newIsFollow);
     setFollowers((prev) => (newIsFollow ? prev + 1 : prev - 1));
+
+    const session = await getSession();
+    const token = session?.user.accessToken;
 
     try {
       await api.post(
@@ -121,7 +125,7 @@ export default function visitantProfile() {
   return (
     <div className="flex flex-col w-[90%] h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {/*  {isLoading && <Loading />} */}
+      {loading && <Loading />}
       {showImage && <ShowImageModal />}
       <div className="h-[327px] w-full">
         <HeaderProfile
@@ -147,12 +151,10 @@ export default function visitantProfile() {
               width={20}
               height={20}
               alt="Profile Image"
-              hidden={isUser}
               className="object-cover w-[20px] h-[20px]"
             />
             <button
               className="font-secondary text-smaller"
-              hidden={isUser}
               onClick={handleFollow}
             >
               <Image
