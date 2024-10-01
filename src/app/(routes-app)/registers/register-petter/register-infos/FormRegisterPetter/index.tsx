@@ -152,9 +152,7 @@ export default function FormRegisterPetter() {
             onChange={(event) => setPetterBreed(event.target.value)}
           />
         </div>
-        <Label labelHtmlFor="petter-gender">
-          Gênero do Petter.
-        </Label>
+        <Label labelHtmlFor="petter-gender">Gênero do Petter.</Label>
         <div className="flex w-full justify-around mb-4">
           <label className="flex items-center gap-2">
             <input

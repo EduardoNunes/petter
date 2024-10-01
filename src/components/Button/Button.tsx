@@ -2,10 +2,7 @@ import React from "react";
 
 type ButtonType =
   | "externalButton"
-  | "internalButton"
-  | "tertiary"
-  | "quaternary"
-  | "quinary";
+  | "internalButton";
 
 interface ButtonProps {
   text: string;

@@ -14,6 +14,9 @@ export const schemaRegisterPetterInfos = yup.object().shape({
   petterName: yup.string().required("O nome é obrigatório."),
   petterKind: yup.string().required("O tipo do Petter é obrigatório."),
   petterBreed: yup.string().required("A raça é obrigatória."),
+  petterGender: yup
+    .string()
+    .required('Selecine um gênero ou selecione "Não sei"'),
   petterBirth: yup
     .string()
     .required('Se não souber a data, marque a opção "Não sei a data."')
