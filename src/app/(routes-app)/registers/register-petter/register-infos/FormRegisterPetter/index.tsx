@@ -138,7 +138,7 @@ export default function FormRegisterPetter() {
             onChange={(event) => setPetterKind(event.target.value)}
           />
         </div>
-        <div className="mb-3">
+        <div className="mb-4">
           <Label labelHtmlFor="petter-breed">Raça</Label>
           <Input
             text="Ex: Labrador, Golden, Siamês."
@@ -148,6 +148,38 @@ export default function FormRegisterPetter() {
             autoComplete="text"
             onChange={(event) => setPetterBreed(event.target.value)}
           />
+        </div>
+        <Label labelHtmlFor="petter-gender">
+          Selecione o gênero do Petter.
+        </Label>
+        <div className="flex w-full justify-around mb-4">
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="gender"
+              value="Macho"
+              style={{ width: "16px", height: "16px" }}
+            />
+            <p className="font-secondary">Macho</p>
+          </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="gender"
+              value="Fêmea"
+              style={{ width: "16px", height: "16px" }}
+            />
+            <p className="font-secondary">Fêmea</p>
+          </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="gender"
+              value="Não sei"
+              style={{ width: "16px", height: "16px" }}
+            />
+            <p className="font-secondary">Não sei</p>
+          </label>
         </div>
         <div className="flex mb-2">
           <div

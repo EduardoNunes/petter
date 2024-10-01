@@ -21,8 +21,10 @@ interface SelfType {
     PetterInfo?: Array<{
         id: number;
         petterName?: string;
+        petterBirth?: string;
         petterKind?: string;
         petterBreed?: string;
+        petterGender?: string;
         profileImage?: string;
         descriptionBio?: string;
     }>;
