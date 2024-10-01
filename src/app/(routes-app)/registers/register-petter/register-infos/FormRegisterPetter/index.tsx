@@ -19,6 +19,7 @@ export default function FormRegisterPetter() {
   const [petterKind, setPetterKind] = useState("");
   const [petterBreed, setPetterBreed] = useState("");
   const [petterBirth, setPetterBirth] = useState("");
+  const [petterGender, setPetterGender] = useState("");
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [profileUrl, setProfileUrl] = useState("");
   const { setLoading } = useSelfContext();
@@ -53,6 +54,7 @@ export default function FormRegisterPetter() {
           petterKind,
           petterBreed,
           petterBirth,
+          petterGender,
           profileImageFile,
         },
         { abortEarly: false }
@@ -63,6 +65,7 @@ export default function FormRegisterPetter() {
       formData.append("petterKind", petterKind);
       formData.append("petterBreed", petterBreed);
       formData.append("petterBirth", petterBirth);
+      formData.append("petterGender", petterGender);
 
       if (profileImageFile) {
         formData.append("profileImageFile", profileImageFile);
@@ -150,7 +153,7 @@ export default function FormRegisterPetter() {
           />
         </div>
         <Label labelHtmlFor="petter-gender">
-          Selecione o gênero do Petter.
+          Gênero do Petter.
         </Label>
         <div className="flex w-full justify-around mb-4">
           <label className="flex items-center gap-2">
@@ -158,6 +161,8 @@ export default function FormRegisterPetter() {
               type="radio"
               name="gender"
               value="Macho"
+              onChange={(event) => setPetterGender(event.target.value)}
+              checked={petterGender === "Macho"}
               style={{ width: "16px", height: "16px" }}
             />
             <p className="font-secondary">Macho</p>
@@ -167,6 +172,8 @@ export default function FormRegisterPetter() {
               type="radio"
               name="gender"
               value="Fêmea"
+              onChange={(event) => setPetterGender(event.target.value)}
+              checked={petterGender === "Fêmea"}
               style={{ width: "16px", height: "16px" }}
             />
             <p className="font-secondary">Fêmea</p>
@@ -176,6 +183,8 @@ export default function FormRegisterPetter() {
               type="radio"
               name="gender"
               value="Não sei"
+              onChange={(event) => setPetterGender(event.target.value)}
+              checked={petterGender === "Não sei"}
               style={{ width: "16px", height: "16px" }}
             />
             <p className="font-secondary">Não sei</p>
