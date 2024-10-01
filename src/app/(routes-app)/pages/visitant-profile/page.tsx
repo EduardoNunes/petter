@@ -130,6 +130,7 @@ export default function visitantProfile() {
       <div className="h-[327px] w-full">
         <HeaderProfile
           petterName={petterInfo?.petterName.split(" ")[0] || ""}
+          isUser={false}
         />
         <InfosProfile
           profileImage={petterInfo?.profileImage || ""}

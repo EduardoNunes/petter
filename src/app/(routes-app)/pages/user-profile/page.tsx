@@ -69,6 +69,7 @@ export default function UserProfile() {
       <div className="h-[327px] w-full">
         <HeaderProfile
           petterName={petterInfo?.petterName.split(" ")[0] || ""}
+          isUser={true}
         />
         <InfosProfile
           profileImage={petterInfo?.profileImage || ""}
