@@ -2,7 +2,6 @@ import { useSelfContext } from "@/context/selfContext";
 import { useStepContext } from "@/context/useStepContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
 
 interface HeaderProps {
   showExit?: boolean;
@@ -42,7 +41,6 @@ export default function Header({
           className="absolute left-0 cursor-pointer"
           onClick={handleClickGoTo}
         >
-          {" "}
           <Image
             src="/images/exit.png"
             width={12}

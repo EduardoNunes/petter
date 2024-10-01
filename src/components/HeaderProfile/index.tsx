@@ -1,24 +1,18 @@
-import { useSelfContext } from "@/context/selfContext";
-import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import HamburgerProfile from "../Modals/HamburgerProfile/HamburgerProfile";
 
 interface HeaderProfileProps {
   petterName: string;
 }
 
 export default function HeaderProfile({ petterName }: HeaderProfileProps) {
-  const {loading, setLoading} = useSelfContext();
+  const [isOpenHamburger, setIsOpenHamburger] = useState(false);
   const router = useRouter();
 
-  async function logout() {
-    setLoading(true);
-
-    await signOut({
-      redirect: false,
-    });
-
-      router.push("/login");
+  async function handleOpenHamburger() {
+    setIsOpenHamburger(!isOpenHamburger);
   }
 
   return (
@@ -34,22 +28,18 @@ export default function HeaderProfile({ petterName }: HeaderProfileProps) {
           alt="Home"
           className="h-auto w-auto"
         />
-        <Image
-          src="/images/menu-hamburguer.png"
-          width={39}
-          height={39}
-          alt="Home"
-          className="h-auto w-auto"
-        />
-        <button onClick={logout}>
-          <Image
-            src="/images/logout.png"
-            width={32}
-            height={32}
-            alt="Logout"
-            className="h-auto w-auto"
-          />
-        </button>
+        <div className="relative">
+          <button onClick={handleOpenHamburger}>
+            <Image
+              src="/images/menu-hamburguer.png"
+              width={39}
+              height={39}
+              alt="Home"
+              className="h-auto w-auto"
+            />
+          </button>
+          {isOpenHamburger && <HamburgerProfile />}
+        </div>
       </div>
     </div>
   );
