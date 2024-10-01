@@ -11,6 +11,7 @@ import { useSelfContext } from "@/context/selfContext";
 import api from "@/server/api";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import ShowImageModal from "../../../../components/Modals/ShowImageModal/ShowImageModal";
 
 export default function UserProfile() {
@@ -21,32 +22,35 @@ export default function UserProfile() {
   const [followings, setFollowings] = useState(0);
   const [followers, setFollowers] = useState(0);
 
-  useEffect(() => {
-    getSelf();
-  }, []);
+  const { data } = useQuery("self", getSelf);
+
+  console.log("DATA AQUI", data);
 
   useEffect(() => {
-    setPetterInfo(self.PetterInfo && self.PetterInfo[0]);
-  }, [self]);
+    setPetterInfo(data?.PetterInfo && data?.PetterInfo[0]);
+  }, [data]);
 
   useEffect(() => {
     async function getFollowerAndFollowed() {
       const session = await getSession();
       const token = session?.user.accessToken;
 
-      if (!self.id || !self.PetterInfo) {
+      if (!data?.id || !data?.PetterInfo) {
         console.error("User ID or Petter ID is missing");
         return;
       }
 
-      const petterId = self.PetterInfo && self.PetterInfo[0].id;
+      const petterId = data?.PetterInfo && data?.PetterInfo[0].id;
 
       try {
         const response = await api.get(
           "/follow-unfollow/follower-and-followed/",
           {
             headers: { Authorization: `Bearer ${token}` },
-            params: { petterId: petterId, petterUserId: self.PetterInfo[0].id },
+            params: {
+              petterId: petterId,
+              petterUserId: data?.PetterInfo[0].id,
+            },
           }
         );
 
