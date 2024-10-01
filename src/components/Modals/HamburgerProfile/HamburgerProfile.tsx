@@ -7,17 +7,22 @@ const styleLi =
   "flex items-center px-2 h-9 w-full font-secondary gap-2 border-b border-gray-300";
 
 export default function HamburgerProfile() {
-  const { loading, setLoading } = useSelfContext();
+  const { setLoading } = useSelfContext();
   const router = useRouter();
 
   async function logout() {
     setLoading(true);
 
-    await signOut({
+    const result = await signOut({
       redirect: false,
     });
 
-    router.push("/login");
+    if (result?.url) {
+      router.push("/login");
+    } else {
+      setLoading(false);
+      console.log("Erro ao desconectar");
+    }
   }
 
   async function editProfile() {
