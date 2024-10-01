@@ -2,7 +2,6 @@
 
 import MessageToast from "@/components/Error/MessageToast";
 import Footer from "@/components/Footer/Footer";
-
 import Loading from "@/components/Loading/Loading";
 import { useProfileContext } from "@/context/profileContext";
 import { useSelfContext } from "@/context/selfContext";
@@ -14,30 +13,27 @@ import ShowImageModal from "../../../../components/Modals/ShowImageModal/ShowIma
 import HeaderProfile from "@/components/HeaderProfile";
 import InfosProfile from "@/components/InfosProfile";
 import GalleryProfile from "@/components/GalleryProfile";
+import { useQuery } from "react-query";
 
 export default function visitantProfile() {
-  const { self, visitantProfile, loading, setLoading } = useSelfContext();
-  const {
-    showImage,
-    visitantSelected,
-    loadPetterVisitantInfos,
-    numberImagesGallery,
-  } = useProfileContext();
+  const { self, visitantProfile, setLoading } = useSelfContext();
+  const { showImage, loadPetterVisitantInfos, numberImagesGallery } =
+    useProfileContext();
   const [toast, setToast] = useState("");
-  const [petterInfo, setPetterInfo] = useState<any>(null);
+  const [petterVisitantInfo, setPetterVisitantInfo] = useState<any>(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isFollower, setIsFollower] = useState(false);
   const [followings, setFollowings] = useState(0);
   const [followers, setFollowers] = useState(0);
   const [imageArrow, setImageArrow] = useState("/images/proibited.png");
 
-  useEffect(() => {
-    loadPetterVisitantInfos(visitantProfile);
-  }, []);
+  const { data, isLoading } = useQuery(["visitantProfile", visitantProfile], () =>
+    loadPetterVisitantInfos(visitantProfile)
+  );
 
   useEffect(() => {
-    setPetterInfo(visitantSelected);
-  }, [visitantSelected]);
+    setPetterVisitantInfo(data);
+  }, [data]);
 
   useEffect(() => {
     setLoading(true);
@@ -125,22 +121,22 @@ export default function visitantProfile() {
   return (
     <div className="flex flex-col w-[90%] h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
+      {isLoading && <Loading />}
       {showImage && <ShowImageModal />}
       <div className="h-[327px] w-full">
         <HeaderProfile
-          petterName={petterInfo?.petterName.split(" ")[0] || ""}
+          petterName={petterVisitantInfo?.petterName.split(" ")[0] || ""}
           isUser={false}
         />
         <InfosProfile
-          profileImage={petterInfo?.profileImage || ""}
-          petterKind={petterInfo?.petterKind || ""}
-          petterBreed={petterInfo?.petterBreed || ""}
+          profileImage={petterVisitantInfo?.profileImage || ""}
+          petterKind={petterVisitantInfo?.petterKind || ""}
+          petterBreed={petterVisitantInfo?.petterBreed || ""}
           followings={followings}
           followers={followers}
         />
         <h1 className="w-full h-28 my-2 font-secondary break-words overflow-y-auto">
-          {petterInfo?.descriptionBio || ""}
+          {petterVisitantInfo?.descriptionBio || ""}
         </h1>
         <div className="flex w-full justify-between items-center">
           <div className="flex items-center justify-center gap-2">
@@ -173,7 +169,9 @@ export default function visitantProfile() {
       </div>
       <div className="h-[calc(100%-389px)]">
         {self.PetterInfo && (
-          <GalleryProfile petterId={(petterInfo && petterInfo.id) || 0} />
+          <GalleryProfile
+            petterId={(petterVisitantInfo && petterVisitantInfo.id) || 0}
+          />
         )}
       </div>
       <Footer />

@@ -15,16 +15,14 @@ import { useQuery } from "react-query";
 import ShowImageModal from "../../../../components/Modals/ShowImageModal/ShowImageModal";
 
 export default function UserProfile() {
-  const { self, getSelf, loading, setLoading } = useSelfContext();
+  const { self, getSelf, setLoading } = useSelfContext();
   const { showImage, numberImagesGallery } = useProfileContext();
   const [toast, setToast] = useState("");
   const [petterInfo, setPetterInfo] = useState<any>(null);
   const [followings, setFollowings] = useState(0);
   const [followers, setFollowers] = useState(0);
 
-  const { data } = useQuery("self", getSelf);
-
-  console.log("DATA AQUI", data);
+  const { data, isLoading } = useQuery("self", getSelf);
 
   useEffect(() => {
     setPetterInfo(data?.PetterInfo && data?.PetterInfo[0]);
@@ -32,6 +30,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     async function getFollowerAndFollowed() {
+      setLoading(true);
       const session = await getSession();
       const token = session?.user.accessToken;
 
@@ -68,7 +67,7 @@ export default function UserProfile() {
   return (
     <div className="flex flex-col w-[90%] h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
-      {loading && <Loading />}
+      {isLoading && <Loading />}
       {showImage && <ShowImageModal />}
       <div className="h-[327px] w-full">
         <HeaderProfile
