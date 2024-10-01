@@ -23,7 +23,7 @@ export default function EditProfilePetter() {
           <Image
             src={
               (data && data.PetterInfo && data?.PetterInfo[0].profileImage) ||
-              ""
+              "/images/paw.png"
             }
             width={150}
             height={150}
