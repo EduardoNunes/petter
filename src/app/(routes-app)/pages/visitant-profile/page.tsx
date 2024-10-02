@@ -14,6 +14,7 @@ import HeaderProfile from "@/components/HeaderProfile";
 import InfosProfile from "@/components/InfosProfile";
 import GalleryProfile from "@/components/GalleryProfile";
 import { useQuery } from "react-query";
+import MaleOrFemale from "@/components/MaleOrFemale/MaleOrFemale";
 
 export default function visitantProfile() {
   const { self, visitantProfile, setLoading } = useSelfContext();
@@ -27,8 +28,9 @@ export default function visitantProfile() {
   const [followers, setFollowers] = useState(0);
   const [imageArrow, setImageArrow] = useState("/images/proibited.png");
 
-  const { data, isLoading } = useQuery(["visitantProfile", visitantProfile], () =>
-    loadPetterVisitantInfos(visitantProfile)
+  const { data, isLoading } = useQuery(
+    ["visitantProfile", visitantProfile],
+    () => loadPetterVisitantInfos(visitantProfile)
   );
 
   useEffect(() => {
@@ -140,6 +142,7 @@ export default function visitantProfile() {
         </h1>
         <div className="flex w-full justify-between items-center">
           <div className="flex items-center justify-center gap-2">
+            <MaleOrFemale gender={petterVisitantInfo?.petterGender} />
             <h2 className="text-medium">{numberImagesGallery}</h2>
           </div>
           <div className="flex items-center gap-3">

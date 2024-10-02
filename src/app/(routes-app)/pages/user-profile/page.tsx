@@ -13,6 +13,8 @@ import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import ShowImageModal from "../../../../components/Modals/ShowImageModal/ShowImageModal";
+import Image from "next/image";
+import MaleOrFemale from "@/components/MaleOrFemale/MaleOrFemale";
 
 export default function UserProfile() {
   const { self, getSelf, setLoading } = useSelfContext();
@@ -86,6 +88,7 @@ export default function UserProfile() {
         </h1>
         <div className="flex w-full justify-between items-center">
           <div className="flex items-center justify-center gap-2">
+            <MaleOrFemale gender={petterInfo?.petterGender} />
             <h2 className="text-medium">{numberImagesGallery}</h2>
           </div>
         </div>
