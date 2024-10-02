@@ -21,10 +21,17 @@ interface PetterInfo {
   petterKind?: string;
   petterBreed?: string;
   petterGender?: string;
+  profileImageFile?: File | string;
   descriptionBio?: string;
 }
 
-export default function EditProfileForm() {
+interface EditProfileFormProps {
+  profileImageFile: File | null;
+}
+
+export default function EditProfileForm({
+  profileImageFile,
+}: EditProfileFormProps) {
   const { getSelf } = useSelfContext();
   const { data } = useQuery("self", getSelf);
   const [isLoading, setIsLoading] = useState(false);
@@ -70,9 +77,13 @@ export default function EditProfileForm() {
 
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+
     const session = await getSession();
     const user = session?.user.id;
     const token = session?.user.accessToken;
+
+    const sendFormData = new FormData();
 
     try {
       await schemaEditPetterInfos.validate(
@@ -86,15 +97,27 @@ export default function EditProfileForm() {
         { abortEarly: false }
       );
 
+      sendFormData.append("petterName", formData.petterName || "");
+      sendFormData.append("petterKind", formData.petterKind || "");
+      sendFormData.append("petterBreed", formData.petterBreed || "");
+      sendFormData.append("petterBirth", formData.petterBirth || "");
+      sendFormData.append("petterGender", formData.petterGender || "");
+
+      if (profileImageFile) {
+        sendFormData.append("profileImageFile", profileImageFile);
+      }
+
       await api.patch(
         `/petter-infos/${user}/${data?.PetterInfo?.[0]?.id}/edit-profile-petter`,
-        { ...formData },
+        sendFormData,
         {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }
       );
+
       console.log("Informações atualizadas com sucesso!");
       router.push("/pages/user-profile");
     } catch (error: any) {
