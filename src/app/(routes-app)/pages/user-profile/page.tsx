@@ -111,7 +111,7 @@ export default function UserProfile() {
           </button>
         </div>
       </div>
-      <div className="h-[calc(100%-389px)]">
+      <div className="h-[calc(100%-389px)] overflow-y-auto">
         {self.PetterInfo && (
           <GalleryProfile petterId={(petterInfo && petterInfo.id) || 0} />
         )}

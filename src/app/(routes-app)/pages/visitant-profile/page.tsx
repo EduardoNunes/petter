@@ -170,7 +170,7 @@ export default function visitantProfile() {
           </div>
         </div>
       </div>
-      <div className="h-[calc(100%-389px)]">
+      <div className="h-[calc(100%-389px)] overflow-y-auto">
         {self.PetterInfo && (
           <GalleryProfile
             petterId={(petterVisitantInfo && petterVisitantInfo.id) || 0}
