@@ -21,7 +21,7 @@ export default function MaleOrFemale({ gender }: MaleOrFemaleProps) {
   return (
     <div>
       <Image
-        src={imageSrc}
+        src={imageSrc || "/images/male-female.png"}
         width={32}
         height={32}
         alt="Gender Image"

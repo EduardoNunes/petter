@@ -1,5 +1,6 @@
 "use client";
 
+import { usePostImageContext } from "@/context/postImageContext";
 import { useSelfContext } from "@/context/selfContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -7,6 +8,7 @@ import { useRouter } from "next/navigation";
 export default function Footer() {
   const router = useRouter();
   const { setLoading, setIsUser, isUser } = useSelfContext();
+  const { setTimelineOrGallery } = usePostImageContext();
 
   const handleClickGoHome = () => {
     if (window.location.pathname !== "/pages/home") {
@@ -18,6 +20,7 @@ export default function Footer() {
   const handleClickGoPost = () => {
     if (window.location.pathname !== "/pages/post") {
       setLoading(true);
+      setTimelineOrGallery("timeline");
       router.push("/pages/post");
     }
   };
@@ -27,10 +30,7 @@ export default function Footer() {
       setLoading(true);
       setIsUser(true);
       router.push("/pages/user-profile");
-    } else if (
-      window.location.pathname === "/pages/user-profile" &&
-      !isUser
-    ) {
+    } else if (window.location.pathname === "/pages/user-profile" && !isUser) {
       setIsUser(true);
       router.push("/pages/visitant-profile");
     }

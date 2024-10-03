@@ -1,7 +1,6 @@
 import Button from "@/components/Button/Button";
 import Header from "@/components/Header/Header";
 import TextArea from "@/components/TextArea/TextArea";
-import { usePostTimelineContext } from "@/context/postTimelineContext";
 import { useSelfContext } from "@/context/selfContext";
 import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
@@ -11,9 +10,11 @@ import { useEffect, useState } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
+import { usePostImageContext } from "@/context/postImageContext";
 
 export default function PostStepComment() {
-  const { image } = usePostTimelineContext();
+  const { image, timelineOrGallery, setImage, setImageURL } =
+    usePostImageContext();
   const { handleToDecreaseCurrentStep } = useStepContext();
   const { getSelf, self, setLoading } = useSelfContext();
   const [commentText, setCommentText] = useState<string>("");
@@ -23,7 +24,6 @@ export default function PostStepComment() {
 
   useEffect(() => {
     getSelf();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTextChange = (text: string) => {
@@ -53,29 +53,43 @@ export default function PostStepComment() {
       formData.append("petterId", self.PetterInfo[0].id.toString());
 
       if (image) {
-        formData.append("image", image);
+        formData.append("imagesFile", image);
       } else {
         console.error("Invalid image type:", image);
       }
 
       formData.append("description", commentText);
 
-      await api.post("petter-image-timeline", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      console.log("FOMRDATA", formData);
+
+      await api.post(
+        `/petter-register-images/petter-image-${timelineOrGallery}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setTimeout(() => {
         handleToDecreaseCurrentStep();
       }, 1000);
 
-      router.push("home");
+      if (timelineOrGallery === "timeline") {
+        router.push("home");
+      } else if (timelineOrGallery === "gallery") {
+        router.push("user-profile");
+      }
     } catch (error: any) {
       const response = errorResponse(error);
       setLoading(false);
       setToast(response);
+
+    } finally {
+      setImageURL("");
+      setImage(undefined);
     }
   }
 
