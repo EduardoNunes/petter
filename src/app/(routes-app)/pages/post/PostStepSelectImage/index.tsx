@@ -25,7 +25,7 @@ export default function PostStepSelectImage() {
         routeToGo="home"
         showContinue={image ? true : false}
       />
-      <div className="w-full h-[calc(100%-80px)]">
+      <div className="w-full h-[calc(100%-96px)]">
         <SelectedImage />
       </div>
       <div className="w-full mt-4">
