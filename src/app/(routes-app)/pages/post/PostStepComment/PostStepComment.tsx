@@ -6,7 +6,7 @@ import { useStepContext } from "@/context/useStepContext";
 import api from "@/server/api";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
