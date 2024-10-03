@@ -1,3 +1,4 @@
+import { usePostImageContext } from "@/context/postImageContext";
 import { useSelfContext } from "@/context/selfContext";
 import { useStepContext } from "@/context/useStepContext";
 import Image from "next/image";
@@ -16,22 +17,20 @@ export default function Header({
   text,
   showArrow = false,
   showContinue = false,
-  routeToGo,
 }: HeaderProps) {
   const { handleToDecreaseCurrentStep, handleToAddCurrentStep } =
     useStepContext();
   const { loading, setLoading } = useSelfContext();
+  const { setImage, setImageURL } = usePostImageContext();
   const router = useRouter();
 
   const handleClickGoTo = () => {
     setLoading(true);
 
-    router.push(`${routeToGo}`);
-    const pic = localStorage.getItem("SelectedPic");
+    router.back();
 
-    if (pic) {
-      localStorage.removeItem("SelectedPic");
-    }
+    setImageURL("");
+    setImage(undefined);
   };
 
   return (

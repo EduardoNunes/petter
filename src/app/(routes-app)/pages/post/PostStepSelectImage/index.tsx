@@ -1,13 +1,13 @@
 import Header from "@/components/Header/Header";
 import Loading from "@/components/Loading/Loading";
-import { usePostTimelineContext } from "@/context/postTimelineContext";
 import { useSelfContext } from "@/context/selfContext";
 import { useEffect } from "react";
 import SelectedImage from "../SelectedImage/SelectedImage";
 import LoadGallery from "./LoadGalery/LoadGalery";
+import { usePostImageContext } from "@/context/postImageContext";
 
 export default function PostStepSelectImage() {
-  const { image } = usePostTimelineContext();
+  const { image } = usePostImageContext();
   const { loading, setLoading } = useSelfContext();
 
   useEffect(() => {
@@ -29,8 +29,6 @@ export default function PostStepSelectImage() {
       <div className="w-full mt-4">
         <LoadGallery />
       </div>
-
-      {/*  <EnframeImages /> */}
     </div>
   );
 }

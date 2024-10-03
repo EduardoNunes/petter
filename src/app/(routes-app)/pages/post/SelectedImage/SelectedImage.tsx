@@ -1,8 +1,8 @@
-import { usePostTimelineContext } from "@/context/postTimelineContext";
+import { usePostImageContext } from "@/context/postImageContext";
 import Image from "next/image";
 
 export default function SelectedImage() {
-  const { imageURL } = usePostTimelineContext();
+  const { imageURL } = usePostImageContext();
 
   return (
     <div className="flex items-center w-full h-full bg-lightGray">

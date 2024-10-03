@@ -19,14 +19,7 @@ export default function HeaderProfile({ petterName, isUser }: HeaderProfileProps
       <div>
         <h1 className="text-extraLarge1">{petterName}</h1>
       </div>
-      <div className={`flex h-8 gap-2 ${!isUser && "hidden"}`}>
-        <Image
-          src="/images/add.png"
-          width={32}
-          height={32}
-          alt="Home"
-          className="h-auto w-auto"
-        />
+      <div className={`flex h-8 gap-2 ${!isUser && "hidden"}`}>      
         <div className={`relative ${!isUser && "hidden"}`}>
           <button onClick={handleOpenHamburger}>
             <Image

@@ -1,10 +1,11 @@
 import MessageToast from "@/components/Error/MessageToast";
-import { usePostTimelineContext } from "@/context/postTimelineContext";
+import { usePostImageContext } from "@/context/postImageContext";
+
 import { useSelfContext } from "@/context/selfContext";
 import { useState } from "react";
 
 export default function LoadGallery() {
-  const { setImageURL, setImage } = usePostTimelineContext();
+  const { setImageURL, setImage } = usePostImageContext();
   const { setLoading } = useSelfContext();
   const [toast, setToast] = useState("");
 
