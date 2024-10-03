@@ -1,5 +1,4 @@
 import { ProfileProvider } from "@/context/profileContext";
-import { TimeLineProvider } from "@/context/timeLineContext";
 import { ReactNode } from "react";
 
 export default async function ProfileLayout({
@@ -7,9 +6,5 @@ export default async function ProfileLayout({
 }: {
   children: ReactNode;
 }) {
-  return (
-    <ProfileProvider>
-      <TimeLineProvider>{children}</TimeLineProvider>
-    </ProfileProvider>
-  );
+  return <ProfileProvider>{children}</ProfileProvider>;
 }

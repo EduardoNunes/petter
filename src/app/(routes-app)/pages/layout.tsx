@@ -1,6 +1,7 @@
+import { PostImageProvider } from "@/context/postImageContext";
+import { TimeLineProvider } from "@/context/timeLineContext";
 import { getServerAuthSession } from "@/utils/auth";
 import { redirect } from "next/navigation";
-import { describe } from "node:test";
 import { ReactNode } from "react";
 
 export default async function PagesLayout({
@@ -22,5 +23,9 @@ export default async function PagesLayout({
     return redirect("/registers/register-petter/load-images");
   }
 
-  return children;
+  return (
+    <TimeLineProvider>
+      <PostImageProvider>{children}</PostImageProvider>
+    </TimeLineProvider>
+  );
 }
