@@ -16,6 +16,8 @@ interface ProfileContextType {
   setImageSelected: (value: string) => void;
   imageSrc: string[];
   setImageSrc: (value: string[]) => void;
+  imageDescription: string;
+  setImageDescription: (value: string) => void;
   loadImagesProfile: (petterId: number, newPage: number) => Promise<void>;
   loadPetterVisitantInfos: (petterId: number) => Promise<void>;
   visitantSelected: any; 
@@ -34,6 +36,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   const [showImage, setShowImage] = useState(false);
   const [imageSelected, setImageSelected] = useState("");
   const [imageSrc, setImageSrc] = useState<string[]>([]);
+  const [imageDescription, setImageDescription] = useState("");
   const [visitantSelected, setVisitantSelected] = useState<any>(null);
   const [previousPetterId, setPreviousPetterId] = useState<number | null>(null);
 
@@ -88,6 +91,8 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
     setImageSelected,
     imageSrc,
     setImageSrc,
+    imageDescription, 
+    setImageDescription,
     loadImagesProfile,
     loadPetterVisitantInfos,
     visitantSelected,

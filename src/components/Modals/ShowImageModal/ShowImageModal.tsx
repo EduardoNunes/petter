@@ -32,6 +32,7 @@ export default function ShowImageModal() {
     setImageGalleryId,
     updateCommentsCount,
   } = useTimeLineContext();
+  const [isExpanded, setIsExpanded] = useState(false);
   const [animation, setAnimation] = useState("slide-in");
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likesCount);
@@ -39,10 +40,11 @@ export default function ShowImageModal() {
     undefined
   );
 
-  
   useEffect(() => {
     setCommentsCount(updateCommentsCount);
   }, [updateCommentsCount]);
+
+  const toggleText = () => setIsExpanded(!isExpanded);
 
   useEffect(() => {
     async function getImageData() {
@@ -121,10 +123,10 @@ export default function ShowImageModal() {
 
   return (
     <div
-      className={`absolute flex flex-col justify-between items-center top-0 left-0 h-full w-full z-10 bg-lightGray ${animation}`}
+      className={`absolute flex flex-col justify-between items-center top-0 left-0 h-full w-full z-10 bg-branco ${animation}`}
     >
       {commentsOpenModal && <ModalComment />}
-      <div className="flex flex-col justify-center items-center w-full h-[calc(100%-48px)]">
+      <div className="flex flex-col justify-center items-center w-full h-[calc(100%-210px)]">
         <Image
           src={imageSelected.split(" ")[1]}
           width={400}
@@ -135,44 +137,64 @@ export default function ShowImageModal() {
           priority
         />
       </div>
-      <div className="flex justify-center w-[90%] h-12 py-3">
-        <div className="flex w-1/3 gap-2">
-          <button className="flex items-center gap-2" onClick={handleLikeClick}>
-            <Image
-              src={
-                isLiked ? "/images/paw-love-pink.png" : "/images/paw-love.png"
-              }
-              width={28}
-              height={28}
-              alt="Paw Love"
-            />
-            <p>{likeCount}</p>
-          </button>
-          <button
-            className="flex items-center gap-2"
-            onClick={handleClickComment}
+      <div className="w-[90%]">
+        <div className="w-full ">
+          <p
+            className={`font-secondary text-smaller break-words hyphens-auto ${
+              isExpanded ? "line-clamp-none" : "line-clamp-2"
+            }`}
           >
-            <Image
-              src="/images/comment.png"
-              width={28}
-              height={28}
-              alt="Baalon comment"
-            />
-            <p>{commentsCount}</p>
-          </button>
+            {imageSelected.split(" ").slice(2).join(" ")}
+          </p>
         </div>
-        <div className="flex justify-center w-1/3">
-          <button onClick={handleClickCloseModal}>
-            <Image
-              src="/images/exit.png"
-              width={28}
-              height={28}
-              alt="Exit"
-              className="w-6"
-            />
-          </button>
+        <button
+          onClick={toggleText}
+          className="text-start w-full font-secondary font-semibold text-verySmaller text-sombra"
+        >
+          {isExpanded ? "Ver menos" : "Ver mais..."}
+        </button>
+        <div className="flex justify-center w-[90%] h-12 py-3">
+          <div className="flex w-1/3 gap-2">
+            <button
+              className="flex items-center gap-2"
+              onClick={handleLikeClick}
+            >
+              <Image
+                src={
+                  isLiked ? "/images/paw-love-pink.png" : "/images/paw-love.png"
+                }
+                width={28}
+                height={28}
+                alt="Paw Love"
+              />
+              <p>{likeCount}</p>
+            </button>
+            <button
+              className="flex items-center gap-2"
+              onClick={handleClickComment}
+            >
+              <Image
+                src="/images/comment.png"
+                width={28}
+                height={28}
+                alt="Baalon comment"
+              />
+              <p>{commentsCount}</p>
+            </button>
+          </div>
+          <div className="flex justify-center w-1/3">
+            <button onClick={handleClickCloseModal}>
+              <Image
+                src="/images/exit.png"
+                width={28}
+                height={28}
+                alt="Exit"
+                className="w-6"
+              />
+            </button>
+          </div>
+          <div className="w-1/3"></div>
         </div>
-        <div className="w-1/3"></div>
       </div>
     </div>
   );
