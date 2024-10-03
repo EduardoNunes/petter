@@ -7,7 +7,7 @@ import LoadGallery from "./LoadGalery/LoadGalery";
 import { usePostImageContext } from "@/context/postImageContext";
 
 export default function PostStepSelectImage() {
-  const { image } = usePostImageContext();
+  const { image, timelineOrGallery } = usePostImageContext();
   const { loading, setLoading } = useSelfContext();
 
   useEffect(() => {
@@ -18,7 +18,9 @@ export default function PostStepSelectImage() {
     <div className="flex flex-col items-center justify-between h-full w-full">
       {loading && <Loading />}
       <Header
-        text="Nova divulgação"
+        text={`Divulgar na ${
+          timelineOrGallery === "timeline" ? "timeline" : "galeria"
+        }`}
         showExit={true}
         routeToGo="home"
         showContinue={image ? true : false}

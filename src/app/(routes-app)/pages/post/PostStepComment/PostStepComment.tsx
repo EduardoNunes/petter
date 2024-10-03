@@ -97,7 +97,13 @@ export default function PostStepComment() {
     <div className="flex flex-col justify-between h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
       {isLoading && <Loading />}
-      <Header text="Nova divulgação" showArrow={true} showContinue={false} />
+      <Header
+        text={`Divulgar na ${
+          timelineOrGallery === "timeline" ? "timeline" : "galeria"
+        }`}
+        showArrow={true}
+        showContinue={false}
+      />
 
       <div className="h-[calc(60%-80px)]">{image && <SelectedImage />}</div>
       <p>{caracteres}</p>

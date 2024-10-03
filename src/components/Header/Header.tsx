@@ -20,7 +20,7 @@ export default function Header({
 }: HeaderProps) {
   const { handleToDecreaseCurrentStep, handleToAddCurrentStep } =
     useStepContext();
-  const { loading, setLoading } = useSelfContext();
+  const { setLoading } = useSelfContext();
   const { setImage, setImageURL } = usePostImageContext();
   const router = useRouter();
 
