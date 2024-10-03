@@ -11,24 +11,26 @@ import SelectedImage from "../SelectedImage/SelectedImage";
 import errorResponse from "@/components/Error/ErrorResponse";
 import MessageToast from "@/components/Error/MessageToast";
 import { usePostImageContext } from "@/context/postImageContext";
+import { useQuery } from "react-query";
+import Loading from "@/components/Loading/Loading";
 
 export default function PostStepComment() {
   const { image, timelineOrGallery, setImage, setImageURL } =
     usePostImageContext();
   const { handleToDecreaseCurrentStep } = useStepContext();
-  const { getSelf, self, setLoading } = useSelfContext();
+  const { getSelf, setLoading } = useSelfContext();
   const [commentText, setCommentText] = useState<string>("");
   const [toast, setToast] = useState("");
+  const [caracteres, setCaracteres] = useState(150)
 
   const router = useRouter();
 
-  useEffect(() => {
-    getSelf();
-  }, []);
+  const { data, isLoading } = useQuery("self", getSelf);
 
   const handleTextChange = (text: string) => {
     if (text.length <= 150) {
       setCommentText(text);
+      setCaracteres(150 - text.length);
     } else {
       setToast("Número máximo de caracteres atingido.");
     }
@@ -41,7 +43,7 @@ export default function PostStepComment() {
     const session = await getSession();
     const token = session?.user.accessToken;
 
-    if (!self.id || !self.PetterInfo) {
+    if (!data?.id || !data?.PetterInfo) {
       console.error("User ID or Petter ID is missing");
       return;
     }
@@ -49,8 +51,8 @@ export default function PostStepComment() {
     try {
       const formData = new FormData();
 
-      formData.append("userId", self.id.toString());
-      formData.append("petterId", self.PetterInfo[0].id.toString());
+      formData.append("userId", data?.id.toString());
+      formData.append("petterId", data?.PetterInfo[0].id.toString());
 
       if (image) {
         formData.append("imagesFile", image);
@@ -86,7 +88,6 @@ export default function PostStepComment() {
       const response = errorResponse(error);
       setLoading(false);
       setToast(response);
-
     } finally {
       setImageURL("");
       setImage(undefined);
@@ -96,10 +97,11 @@ export default function PostStepComment() {
   return (
     <div className="flex flex-col justify-between h-full">
       {toast && <MessageToast textError={toast} setToast={setToast} />}
+      {isLoading && <Loading />}
       <Header text="Nova divulgação" showArrow={true} showContinue={false} />
 
       <div className="h-[calc(60%-80px)]">{image && <SelectedImage />}</div>
-
+      <p>{caracteres}</p>
       <div className="flex items-center max-h-[calc(40%-80px)] w-full">
         <TextArea
           value={commentText}
