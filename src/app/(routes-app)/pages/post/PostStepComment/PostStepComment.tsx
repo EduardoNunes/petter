@@ -21,7 +21,7 @@ export default function PostStepComment() {
   const { getSelf, setLoading } = useSelfContext();
   const [commentText, setCommentText] = useState<string>("");
   const [toast, setToast] = useState("");
-  const [caracteres, setCaracteres] = useState(150)
+  const [caracteres, setCaracteres] = useState(150);
 
   const router = useRouter();
 
@@ -44,7 +44,7 @@ export default function PostStepComment() {
     const token = session?.user.accessToken;
 
     if (!data?.id || !data?.PetterInfo) {
-      console.error("User ID or Petter ID is missing");
+      setToast("Algo errado com o usuário ou com o petter");
       return;
     }
 
@@ -57,12 +57,11 @@ export default function PostStepComment() {
       if (image) {
         formData.append("imagesFile", image);
       } else {
-        console.error("Invalid image type:", image);
+        setToast("Imagem inválida:");
+        return;
       }
 
       formData.append("description", commentText);
-
-      console.log("FOMRDATA", formData);
 
       await api.post(
         `/petter-register-images/petter-image-${timelineOrGallery}`,
