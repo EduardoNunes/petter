@@ -23,7 +23,7 @@ export const PostImageProvider: React.FC<PostImageProviderProps> = ({
   const [image, setImage] = useState<File | undefined>(undefined);
   const [imageURL, setImageURL] = useState("");
   const [timelineOrGallery, setTimelineOrGallery] = useState("");
-  console.log("CONTEXT", timelineOrGallery)
+
   const contextValue: PostImageContextType = {
     image,
     setImage,
