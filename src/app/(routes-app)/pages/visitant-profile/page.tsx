@@ -16,7 +16,7 @@ import GalleryProfile from "@/components/GalleryProfile";
 import { useQuery } from "react-query";
 import MaleOrFemale from "@/components/MaleOrFemale/MaleOrFemale";
 
-export default function visitantProfile() {
+export default function VisitantProfile() {
   const { self, visitantProfile, setLoading } = useSelfContext();
   const { showImage, loadPetterVisitantInfos, numberImagesGallery } =
     useProfileContext();
