@@ -24,10 +24,10 @@ export default function HeaderProfile({ petterName, isUser }: HeaderProfileProps
           <button onClick={handleOpenHamburger}>
             <Image
               src="/images/menu-hamburguer.png"
-              width={39}
-              height={39}
+              width={32}
+              height={32}
               alt="Home"
-              className="h-auto w-auto"
+              className="w-8"
             />
           </button>
           {isOpenHamburger && <HamburgerProfile />}
