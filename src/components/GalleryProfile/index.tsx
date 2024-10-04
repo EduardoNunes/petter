@@ -59,7 +59,7 @@ export default function GalleryProfile({ petterId }: GalleryProfileProps) {
 
   return (
     <div
-      className="grid grid-cols-3 gap-1"
+      className="h-full grid grid-cols-3 gap-1 overflow-y-auto"
       ref={scrollableDivRef}
     >
       {toast && <MessageToast textError={toast} setToast={setToast} />}
