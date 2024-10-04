@@ -20,8 +20,8 @@ export default function InfosProfile({
       <div className="relative min-w-24 h-24 ">
         <Image
           src={profileImage || "/images/paw.png"}
-          width={40}
-          height={40}
+          width={96}
+          height={96}
           alt="Profile Image"
           priority={true}
           className="object-cover w-24 h-24 rounded-full border-lime-950 border-solid border-[3px]"
