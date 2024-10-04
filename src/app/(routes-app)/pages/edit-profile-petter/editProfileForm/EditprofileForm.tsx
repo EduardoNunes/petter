@@ -102,6 +102,7 @@ export default function EditProfileForm({
       sendFormData.append("petterBreed", formData.petterBreed || "");
       sendFormData.append("petterBirth", formData.petterBirth || "");
       sendFormData.append("petterGender", formData.petterGender || "");
+      sendFormData.append("descriptionBio", formData.descriptionBio || "");
 
       if (profileImageFile) {
         sendFormData.append("profileImageFile", profileImageFile);
